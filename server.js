@@ -4,7 +4,7 @@ const path = require("path");
 const superagent = require('superagent');
 const Bot = require('messenger-bot');
 
-const apiAiCOnfig = require('./api.ai.config');
+const apiAiConfig = require('./api.ai.config');
 
 const app = express();
 
@@ -34,13 +34,13 @@ bot.on('message', (payload, reply) => {
 	const lang = 'en';
 	const sessionId = payload.sender.id;
 
-	console.log('[MSGIN] ${query}');
+	console.log(`[MSGIN] ${query}`);
 
   bot.getProfile(payload.sender.id, (err, profile) => {
     if (err) { throw err; }
-		const postAddress = `${apiAiCOnfig.BASE_URL}${apiAiCOnfig.RESOURCES.QUERY}`;
+		const postAddress = `${apiAiConfig.BASE_URL}${apiAiConfig.RESOURCES.QUERY}`;
 		const postData = { query, lang, sessionId };
-		const postHeaderAuthorization = `Bearer ${config[process.env.APIAI_CLIENT_TOKEN]}`;
+		const postHeaderAuthorization = `Bearer ${process.env.APIAI_CLIENT_TOKEN}`;
 		console.log(`[API.AI] POST ${postAddress}`);
 		console.log(`[API.AI] Authorization ${postHeaderAuthorization}`);
 		console.log(postData);
