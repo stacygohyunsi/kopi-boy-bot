@@ -22,11 +22,11 @@ const config = {
 let bot = new Bot(config[process.env.NODE_ENV]);
 
 bot.on('error', (err) => {
-  console.log(err.message)
+  console.log(err.message);
 });
 
 bot.on('message', (payload, reply) => {
-  let text = payload.message.text
+  let text = payload.message.text;
 
   bot.getProfile(payload.sender.id, (err, profile) => {
     if (err) throw err
