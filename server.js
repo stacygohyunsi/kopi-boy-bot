@@ -1,7 +1,11 @@
 const express = require('express');
 const http = require('http');
 const path = require("path");
+const superagent = require('superagent');
 const Bot = require('messenger-bot');
+
+const apiAiConfig = require('./api.ai.config');
+
 const app = express();
 
 /** CONFIG */
@@ -19,23 +23,53 @@ const config = {
   },
 }
 
-let bot = new Bot(config[process.env.NODE_ENV]);
+const bot = new Bot(config[process.env.NODE_ENV]);
 
 bot.on('error', (err) => {
   console.log(err.message);
 });
 
 bot.on('message', (payload, reply) => {
-  let text = payload.message.text;
+  const query = payload.message.text;
+	const lang = 'en';
+	const sessionId = payload.sender.id;
 
   bot.getProfile(payload.sender.id, (err, profile) => {
-    if (err) throw err
-
-    reply({ text }, (err) => {
-      if (err) throw err
-
-      console.log(`Echoed back to ${profile.first_name} ${profile.last_name}: ${text}`)
-    })
+    if (err) { throw err; }
+		console.error('[MSGIN] ----------------------------------------');
+		console.log(`Query:   ${query}`);
+		console.log(`Profile: ${profile.toString()}`);
+		console.error('[/MSGIN] ---------------------------------------');
+		const postAddress = `${apiAiConfig.BASE_URL}${apiAiConfig.RESOURCES.QUERY}`;
+		const postData = { query, lang, sessionId };
+		const postHeaderAuthorization = `Bearer ${process.env.APIAI_CLIENT_TOKEN}`;
+		superagent.post(postAddress)
+			.set('Authorization', postHeaderAuthorization)
+			.set('Content-Type', 'application/json; charset=utf-8')
+			.send(postData)
+			.query({ v: '20150910' })
+			.end((err, apiAiResponse) => {
+				if(err) {
+					console.error('[ERR] ----------------------------------------');
+					console.error(err);
+					console.error('[/ERR] ---------------------------------------');
+					reply(err.toString(), (err) => {
+						console.error('FATAL ERROR');
+					});
+					throw err;
+				}
+				const ourResponse = {
+					text: apiAiResponse.body.result.fulfillment.speech
+				};
+				console.log(`[MSGOUT] ${ourResponse.text}`);
+				reply(ourResponse, (err) => {
+					if(err) {
+						console.error('[ERR] ----------------------------------------');
+						console.error(err);
+						console.error('[/ERR] ---------------------------------------');
+					}
+				});
+			});
   })
 });
 
@@ -52,6 +86,6 @@ app.use("/",express.static("display"));
 app.get(['/','/*', '/**'], function(req, res) {
   res.sendFile(path.join(__dirname, '/display/index.html'));
 });
-  
+
 app.listen(process.env.PORT);
 console.log(`Kopiboy bot server running at port ${process.env.PORT}.`);

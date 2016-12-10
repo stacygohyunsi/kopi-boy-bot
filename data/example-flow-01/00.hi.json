@@ -1,0 +1,88 @@
+{
+  "id": "8e5ce3f0-f54b-41ed-bf0b-a5064fa1dc0e",
+  "timestamp": "2016-12-10T18:16:12.096Z",
+  "result": {
+    "source": "agent",
+    "resolvedQuery": "hi",
+    "action": "",
+    "actionIncomplete": true,
+    "parameters": {
+      "Drinks": "",
+      "number": "",
+      "SugarLevel": "",
+      "Temperature": "",
+      "time": ""
+    },
+    "contexts": [
+      {
+        "name": "94a9733f-47bf-4c75-9b20-7ce8f37ea422_id_dialog_context",
+        "parameters": {
+          "Temperature.original": "",
+          "time.original": "",
+          "number": "",
+          "Temperature": "",
+          "Drinks.original": "",
+          "Drinks": "",
+          "time": "",
+          "number.original": "",
+          "SugarLevel.original": "",
+          "SugarLevel": ""
+        },
+        "lifespan": 2
+      },
+      {
+        "name": "drinkorder_dialog_params_drinks",
+        "parameters": {
+          "Temperature.original": "",
+          "time.original": "",
+          "number": "",
+          "Temperature": "",
+          "Drinks.original": "",
+          "Drinks": "",
+          "time": "",
+          "number.original": "",
+          "SugarLevel.original": "",
+          "SugarLevel": ""
+        },
+        "lifespan": 1
+      },
+      {
+        "name": "drinkorder_dialog_context",
+        "parameters": {
+          "Temperature.original": "",
+          "time.original": "",
+          "number": "",
+          "Temperature": "",
+          "Drinks.original": "",
+          "Drinks": "",
+          "time": "",
+          "number.original": "",
+          "SugarLevel.original": "",
+          "SugarLevel": ""
+        },
+        "lifespan": 2
+      }
+    ],
+    "metadata": {
+      "intentId": "94a9733f-47bf-4c75-9b20-7ce8f37ea422",
+      "webhookUsed": "false",
+      "webhookForSlotFillingUsed": "false",
+      "intentName": "DrinkOrder"
+    },
+    "fulfillment": {
+      "speech": "What kind of drink you want?",
+      "messages": [
+        {
+          "type": 0,
+          "speech": "What kind of drink you want?"
+        }
+      ]
+    },
+    "score": 1
+  },
+  "status": {
+    "code": 200,
+    "errorType": "success"
+  },
+  "sessionId": "eb3f7c73-2af2-4e59-9708-c0f68344d06f"
+}

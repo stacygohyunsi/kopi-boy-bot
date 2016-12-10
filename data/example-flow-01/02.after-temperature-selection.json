@@ -1,0 +1,88 @@
+{
+  "id": "31bfc6c4-77d5-4f21-a483-6b6486100732",
+  "timestamp": "2016-12-10T18:17:17.14Z",
+  "result": {
+    "source": "agent",
+    "resolvedQuery": "cold",
+    "action": "",
+    "actionIncomplete": true,
+    "parameters": {
+      "Drinks": "Kopi C",
+      "number": "",
+      "SugarLevel": "",
+      "Temperature": "Cold",
+      "time": ""
+    },
+    "contexts": [
+      {
+        "name": "94a9733f-47bf-4c75-9b20-7ce8f37ea422_id_dialog_context",
+        "parameters": {
+          "Temperature.original": "cold",
+          "time.original": "",
+          "number": "",
+          "Temperature": "Cold",
+          "Drinks.original": "kopi c",
+          "Drinks": "Kopi C",
+          "time": "",
+          "number.original": "",
+          "SugarLevel.original": "",
+          "SugarLevel": ""
+        },
+        "lifespan": 2
+      },
+      {
+        "name": "drinkorder_dialog_params_number",
+        "parameters": {
+          "Temperature.original": "cold",
+          "time.original": "",
+          "number": "",
+          "Temperature": "Cold",
+          "Drinks.original": "kopi c",
+          "Drinks": "Kopi C",
+          "time": "",
+          "number.original": "",
+          "SugarLevel.original": "",
+          "SugarLevel": ""
+        },
+        "lifespan": 1
+      },
+      {
+        "name": "drinkorder_dialog_context",
+        "parameters": {
+          "Temperature.original": "cold",
+          "time.original": "",
+          "number": "",
+          "Temperature": "Cold",
+          "Drinks.original": "kopi c",
+          "Drinks": "Kopi C",
+          "time": "",
+          "number.original": "",
+          "SugarLevel.original": "",
+          "SugarLevel": ""
+        },
+        "lifespan": 2
+      }
+    ],
+    "metadata": {
+      "intentId": "94a9733f-47bf-4c75-9b20-7ce8f37ea422",
+      "webhookUsed": "false",
+      "webhookForSlotFillingUsed": "false",
+      "intentName": "DrinkOrder"
+    },
+    "fulfillment": {
+      "speech": "How many you want?",
+      "messages": [
+        {
+          "type": 0,
+          "speech": "How many you want?"
+        }
+      ]
+    },
+    "score": 1
+  },
+  "status": {
+    "code": 200,
+    "errorType": "success"
+  },
+  "sessionId": "eb3f7c73-2af2-4e59-9708-c0f68344d06f"
+}
