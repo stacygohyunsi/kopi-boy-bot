@@ -38,10 +38,16 @@ bot.on('message', (payload, reply) => {
 
   bot.getProfile(payload.sender.id, (err, profile) => {
     if (err) { throw err; }
-		superagent.post(`${apiAiCOnfig.BASE_URL}${apiAiCOnfig.RESOURCES.QUERY}`)
-			.set('Authorization', `Bearer ${config[process.env.APIAI_CLIENT_TOKEN]}`)
+		const postAddress = `${apiAiCOnfig.BASE_URL}${apiAiCOnfig.RESOURCES.QUERY}`;
+		const postData = { query, lang, sessionId };
+		const postHeaderAuthorization = `Bearer ${config[process.env.APIAI_CLIENT_TOKEN]}`;
+		console.log(`[API.AI] POST ${postAddress}`);
+		console.log(`[API.AI] Authorization ${postHeaderAuthorization}`);
+		console.log(postData);
+		superagent.post(postAddress)
+			.set('Authorization', postHeaderAuthorization)
 			.set('Content-Type', 'application/json; charset=utf-8')
-			.send({ query, lang, sessionId })
+			.send(postData)
 			.query({ v: '20150910' })
 			.end((err, response) => {
 				if(err) {
