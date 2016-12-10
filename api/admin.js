@@ -2,12 +2,10 @@ const express = require("express");
 
 var exports = {};
 var router = express.Router();
-var status;
-exports.router = router;
 
-router.get("/orders", function(req, res){  
+router.get("/orders", function(req, res, next){  
 	res.send("yay");
 });
 
-
+exports.router = router;
 module.exports = exports;

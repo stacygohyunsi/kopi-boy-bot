@@ -44,14 +44,14 @@ app.use("/fbbot", bot.middleware());
 /** ADMIN INTERFACE */
 app.use("/bower_components",express.static("bower_components")); // Shared libraries
 
+/** API */
+var admin = require("./api/admin.js");
+app.use("/api", admin.router);
+
 app.use("/",express.static("display"));
 app.get(['/','/*', '/**'], function(req, res) {
   res.sendFile(path.join(__dirname, '/display/index.html'));
 });
   
-/** API */
-var admin = require("./api/admin.js");
-app.use("/api", admin.router);
-
 app.listen(process.env.PORT);
 console.log(`Kopiboy bot server running at port ${process.env.PORT}.`);
