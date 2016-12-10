@@ -89,25 +89,30 @@ bot.on('message', (payload, reply) => {
 					} = result.parameters;
 					const humanTimeForPickup = moment('14:15:00', 'HH:mm:ss').format('h:m a');
 					const ourResponse = {
-						text: `Confirm order of ${number} ${Temperature} ${Drinks} with ${SugarLevel} sugar for pickup at ${humanTimeForPickup}?`,
-						buttons: [
-							{
-								type: 'postback',
-								title: 'yes',
-								payload: {
-									type: 'order_confirm',
-									value: 1
-								}
-							},
-							{
-								type: 'postback',
-								title: 'no',
-								payload: {
-									type: 'order_confirm',
-									value: 0
-								}
+						attachment: {
+							type: "template",
+							payload: {
+								text: `Confirm order of ${number} ${Temperature} ${Drinks} with ${SugarLevel} sugar for pickup at ${humanTimeForPickup}?`,
+								buttons: [
+									{
+										type: 'postback',
+										title: 'yes',
+										payload: {
+											type: 'order_confirm',
+											value: 1
+										}
+									},
+									{
+										type: 'postback',
+										title: 'no',
+										payload: {
+											type: 'order_confirm',
+											value: 0
+										}
+									}
+								]
 							}
-						]
+						}
 					};
 					reply(ourResponse, (err) => {
 						console.error('[ERR] ----------------------------------------');
