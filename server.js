@@ -1,6 +1,7 @@
 const express = require('express');
 const http = require('http');
 const path = require("path");
+const moment = require('moment');
 const superagent = require('superagent');
 const Bot = require('messenger-bot');
 
@@ -29,17 +30,32 @@ bot.on('error', (err) => {
   console.log(err.message);
 });
 
+bot.on('postback', (payload, reply) => {
+	if(payload.type === 'order_confirm') {
+		if(payload.value === 1) {
+			reply({
+				text: 'That was easy peasy wasn\'t it!'
+			});
+		} else {
+			reply({
+				text: 'Awwwww'
+			});
+		}
+	}
+});
+
 bot.on('message', (payload, reply) => {
   const query = payload.message.text;
 	const lang = 'en';
 	const sessionId = payload.sender.id;
-
+	console.info('[MSGIN] ----------------------------------------');
+	console.info(`Query:   ${query}`);
+	console.info('[/MSGIN] ---------------------------------------');
   bot.getProfile(payload.sender.id, (err, profile) => {
     if (err) { throw err; }
-		console.error('[MSGIN] ----------------------------------------');
-		console.log(`Query:   ${query}`);
-		console.log(`Profile: ${profile.toString()}`);
-		console.error('[/MSGIN] ---------------------------------------');
+		console.info('[PROFILE] ----------------------------------------');
+		console.info(profile);
+		console.info('[/PROFILE] ---------------------------------------');
 		const postAddress = `${apiAiConfig.BASE_URL}${apiAiConfig.RESOURCES.QUERY}`;
 		const postData = { query, lang, sessionId };
 		const postHeaderAuthorization = `Bearer ${process.env.APIAI_CLIENT_TOKEN}`;
@@ -53,22 +69,64 @@ bot.on('message', (payload, reply) => {
 					console.error('[ERR] ----------------------------------------');
 					console.error(err);
 					console.error('[/ERR] ---------------------------------------');
-					reply(err.toString(), (err) => {
+					reply({
+						text: err.toString()
+					}, (err) => {
 						console.error('FATAL ERROR');
 					});
 					throw err;
 				}
-				const ourResponse = {
-					text: apiAiResponse.body.result.fulfillment.speech
-				};
-				console.log(`[MSGOUT] ${ourResponse.text}`);
-				reply(ourResponse, (err) => {
-					if(err) {
+				const result = apiAiResponse.body.result;
+				if(
+					(result.parameters['Drinks'].length != 0)
+					&& (result.parameters['number'].length != 0)
+					&& (result.parameters['Temperature'].length != 0)
+					&& (result.parameters['SugarLevel'].length != 0)
+					&& (result.parameters['time'].length != 0)
+				) {
+					const {
+						Drinks, number, SugarLevel, Temperature, time
+					} = result.parameters;
+					const humanTimeForPickup = moment('14:15:00', 'HH:mm:ss').format('h:m a');
+					const ourResponse = {
+						text: `Confirm order of ${number} ${Temperature} ${Drinks} with ${SugarLevel} sugar for pickup at ${humanTimeForPickup}?`,
+						buttons: [
+							{
+								type: 'postback',
+								title: 'yes',
+								payload: {
+									type: 'order_confirm',
+									value: 1
+								}
+							},
+							{
+								type: 'postback',
+								title: 'no',
+								payload: {
+									type: 'order_confirm',
+									value: 0
+								}
+							}
+						]
+					};
+					reply(ourRepsonse, (err) => {
 						console.error('[ERR] ----------------------------------------');
 						console.error(err);
 						console.error('[/ERR] ---------------------------------------');
-					}
-				});
+					});
+				} else {
+					const ourResponse = {
+						text: result.fulfillment.speech
+					};
+					console.log(`[MSGOUT] ${ourResponse.text}`);
+					reply(ourResponse, (err) => {
+						if(err) {
+							console.error('[ERR] ----------------------------------------');
+							console.error(err);
+							console.error('[/ERR] ---------------------------------------');
+						}
+					});
+				}
 			});
   })
 });
