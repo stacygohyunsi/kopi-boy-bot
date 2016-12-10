@@ -2,6 +2,8 @@ const express = require('express');
 const http = require('http');
 const Bot = require('messenger-bot');
 
+const app = express();
+
 let bot = new Bot({
   token: process.env.facebook_token,
   verify: process.env.verification_token,
@@ -26,5 +28,7 @@ bot.on('message', (payload, reply) => {
   })
 });
 
-http.createServer(bot.middleware()).listen(process.env.PORT);
+app.use("/fbbot", bot.middleware());
+
+app.listen(process.env.PORT);
 console.log('Kopiboy bot server running at port 6787.')
