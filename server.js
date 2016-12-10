@@ -34,32 +34,40 @@ bot.on('message', (payload, reply) => {
 	const lang = 'en';
 	const sessionId = payload.sender.id;
 
-	console.log(`[MSGIN] ${query}`);
-
   bot.getProfile(payload.sender.id, (err, profile) => {
     if (err) { throw err; }
+		console.error('[MSGIN] ----------------------------------------');
+		console.log(`Query:   ${query}`);
+		console.log(`Profile: ${profile.toString()}`);
+		console.error('[/MSGIN] ---------------------------------------');
 		const postAddress = `${apiAiConfig.BASE_URL}${apiAiConfig.RESOURCES.QUERY}`;
 		const postData = { query, lang, sessionId };
 		const postHeaderAuthorization = `Bearer ${process.env.APIAI_CLIENT_TOKEN}`;
-		console.log(`[API.AI] POST ${postAddress}`);
-		console.log(`[API.AI] Authorization ${postHeaderAuthorization}`);
-		console.log(postData);
 		superagent.post(postAddress)
 			.set('Authorization', postHeaderAuthorization)
 			.set('Content-Type', 'application/json; charset=utf-8')
 			.send(postData)
 			.query({ v: '20150910' })
-			.end((err, response) => {
+			.end((err, apiAiResponse) => {
 				if(err) {
+					console.error('[ERR] ----------------------------------------');
+					console.error(err);
+					console.error('[/ERR] ---------------------------------------');
 					reply(err.toString(), (err) => {
 						console.error('FATAL ERROR');
 					});
 					throw err;
 				}
-				console.log(response);
-
-				reply(response.body.result.fulfillment.speech, (err) => {
-					console.log(`[MSGOUT] ${response.body.result.fulfillment.speech}`);
+				const ourResponse = {
+					text: apiAiResponse.body.reslt.fulfillment.speech
+				};
+				console.log(`[MSGOUT] ${ourResponse.text}`);
+				reply(ourResponse, (err) => {
+					if(err) {
+						console.error('[ERR] ----------------------------------------');
+						console.error(err);
+						console.error('[/ERR] ---------------------------------------');
+					}
 				});
 			});
   })
