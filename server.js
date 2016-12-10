@@ -1,11 +1,11 @@
 const express = require('express');
 const http = require('http');
+const path = require("path");
 const Bot = require('messenger-bot');
-
 const app = express();
 
+/** CONFIG */
 process.env.PORT = process.env.PORT || 8080;
-
 const config = {
   development: {
     token: "EAAQhCRnyD7UBAJ3c2gItTTtTZCJj9IgnJm3RY9TUGr1Yfc5gxJY5kmP3BghkIID2Yq5rtAspi3WZArj3Af3MNdxrZBU7vvQbBZBOORZBpGDBZA1hIZB8ect0UZBpzAJxv9r8IcZATDhSmvFNQdagCaUOu9miHvHWzZAG6pJSpuZBW5pcAZDZD",
@@ -41,6 +41,8 @@ bot.on('message', (payload, reply) => {
 
 app.use("/fbbot", bot.middleware());
 
+/** ADMIN INTERFACE */
+app.use("/bower_components",express.static("bower_components")); // Shared libraries
 
 app.use("/",express.static("display"));
 app.get(['/','/*', '/**'], function(req, res) {
@@ -52,4 +54,4 @@ var admin = require("./api/admin.js");
 app.use("/api", admin.router);
 
 app.listen(process.env.PORT);
-console.log('Kopiboy bot server running at port 6787.')
+console.log(`Kopiboy bot server running at port ${process.env.PORT}.`);
