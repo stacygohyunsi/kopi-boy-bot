@@ -4,7 +4,7 @@
   "description": "A bot which allows advanced ordering from Messenger",
   "main": "server.js",
   "scripts": {
-    "test": "mocha ."
+    "test": "mocha ./spec"
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,8 @@
   "homepage": "https://bitbucket.org/kopiboyapp/botbot#readme",
   "dependencies": {
     "messenger-bot": "^2.4.0"
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0"
   }
 }
