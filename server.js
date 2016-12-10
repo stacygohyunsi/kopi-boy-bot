@@ -59,7 +59,7 @@ bot.on('message', (payload, reply) => {
 					throw err;
 				}
 				const ourResponse = {
-					text: apiAiResponse.body.reslt.fulfillment.speech
+					text: apiAiResponse.body.result.fulfillment.speech
 				};
 				console.log(`[MSGOUT] ${ourResponse.text}`);
 				reply(ourResponse, (err) => {
