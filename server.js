@@ -1,7 +1,11 @@
 const express = require('express');
 const http = require('http');
 const path = require("path");
+const superagent = require('superagent');
 const Bot = require('messenger-bot');
+
+const apiAiCOnfig = require('./api.ai.config');
+
 const app = express();
 
 /** CONFIG */
@@ -19,23 +23,38 @@ const config = {
   },
 }
 
-let bot = new Bot(config[process.env.NODE_ENV]);
+const bot = new Bot(config[process.env.NODE_ENV]);
 
 bot.on('error', (err) => {
   console.log(err.message);
 });
 
 bot.on('message', (payload, reply) => {
-  let text = payload.message.text;
+  const query = payload.message.text;
+	const lang = 'en';
+	const sessionId = payload.sender.id;
+
+	console.log('[MSGIN] ${query}');
 
   bot.getProfile(payload.sender.id, (err, profile) => {
-    if (err) throw err
+    if (err) { throw err; }
+		superagent.post(`${apiAiCOnfig.BASE_URL}${apiAiCOnfig.RESOURCES.QUERY}`)
+			.set('Authorization', `Bearer ${config[process.env.APIAI_CLIENT_TOKEN]}`)
+			.set('Content-Type', 'application/json; charset=utf-8')
+			.send({ query, lang, sessionId })
+			.query({ v: '20150910' })
+			.end((err, response) => {
+				if(err) {
+					reply(err.toString(), (err) => {
+						console.error('FATAL ERROR');
+					});
+					throw err;
+				}
 
-    reply({ text }, (err) => {
-      if (err) throw err
-
-      console.log(`Echoed back to ${profile.first_name} ${profile.last_name}: ${text}`)
-    })
+				reply(response.body.result.fulfillment.speech, (err) => {
+					console.log('[MSGOUT] ${response.body.result.fulfillment.speech}');
+				});
+			});
   })
 });
 
@@ -48,7 +67,7 @@ app.use("/",express.static("display"));
 app.get(['/','/*', '/**'], function(req, res) {
   res.sendFile(path.join(__dirname, '/display/index.html'));
 });
-  
+
 /** API */
 var admin = require("./api/admin.js");
 app.use("/api", admin.router);
