@@ -109,7 +109,7 @@ bot.on('message', (payload, reply) => {
 							}
 						]
 					};
-					reply(ourRepsonse, (err) => {
+					reply(ourResponse, (err) => {
 						console.error('[ERR] ----------------------------------------');
 						console.error(err);
 						console.error('[/ERR] ---------------------------------------');
