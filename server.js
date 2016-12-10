@@ -58,7 +58,7 @@ bot.on('message', (payload, reply) => {
 				}
 
 				reply(response.body.result.fulfillment.speech, (err) => {
-					console.log('[MSGOUT] ${response.body.result.fulfillment.speech}');
+					console.log(`[MSGOUT] ${response.body.result.fulfillment.speech}`);
 				});
 			});
   })
