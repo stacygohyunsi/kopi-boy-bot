@@ -3,9 +3,9 @@ const http = require('http');
 const Bot = require('messenger-bot');
 
 let bot = new Bot({
-  token: 'EAAQgsoQsJvkBAKWG6dXPficR0PNK0KkGgmce0JWuFgfBc8zJVb6X5vmBOYl79U96ATZCohRYQPXki327Pi9O3dmZAJZCQRIZC8VFXufYkXS5Jqmp93qTKZBZCD6a6bfCpBeDLZCLMlIXVJL60B7JElBUDszm57zqXII67utDPzbIwZDZD',
-  verify: 'greatestbotonearth',
-  app_secret: 'bc1ad72a1965e279a83d25d2b38b7270'
+  token: process.env.facebook_token,
+  verify: process.env.verification_token,
+  app_secret: process.env.facebook_app_secret
 });
 
 bot.on('error', (err) => {
