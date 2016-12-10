@@ -92,6 +92,7 @@ bot.on('message', (payload, reply) => {
 						attachment: {
 							type: "template",
 							payload: {
+								template_type: "button",
 								text: `Confirm order of ${number} ${Temperature} ${Drinks} with ${SugarLevel} sugar for pickup at ${humanTimeForPickup}?`,
 								buttons: [
 									{
