@@ -1,0 +1,21 @@
+{
+  "name": "bot-kopiboy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/kopiboyapp/botbot.git"
+  },
+  "keywords": [
+    "kopi",
+    "boy",
+    "bot"
+  ],
+  "author": "Stacy & Joseph Enterprises",
+  "license": "GPL-3.0",
+  "homepage": "https://bitbucket.org/kopiboyapp/botbot#readme"
+}
