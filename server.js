@@ -30,5 +30,9 @@ bot.on('message', (payload, reply) => {
 
 app.use("/fbbot", bot.middleware());
 
+app.use("/", function(req, res, next) {
+  res.send("yay");
+});
+
 app.listen(process.env.PORT);
 console.log('Kopiboy bot server running at port 6787.')
