@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "A bot which allows advanced ordering from Messenger",
   "main": "server.js",
+	"engines": {
+    "node": ">=6.9.0"
+  },
   "scripts": {
 		"start": "NODE_ENV=production node server.js",
 		"development": "NODE_ENV=development node server.js",
