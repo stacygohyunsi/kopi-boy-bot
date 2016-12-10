@@ -31,16 +31,16 @@ bot.on('error', (err) => {
 });
 
 bot.on('postback', (payload, reply) => {
-	if(payload.type === 'order_confirm') {
-		if(payload.value === 1) {
-			reply({
-				text: 'That was easy peasy wasn\'t it!'
-			});
-		} else {
-			reply({
-				text: 'Awwwww'
-			});
-		}
+	switch(payload) {
+	case 'order_confirm_1':
+		reply({
+			text: 'That was easy peasy wasn\'t it!'
+		});
+		break;
+	case 'order_confirm_0':
+		reply({
+			text: 'Awwwww'
+		});
 	}
 });
 
@@ -98,18 +98,12 @@ bot.on('message', (payload, reply) => {
 									{
 										type: 'postback',
 										title: 'yes',
-										payload: {
-											type: 'order_confirm',
-											value: 1
-										}
+										payload: 'order_confirm_1'
 									},
 									{
 										type: 'postback',
 										title: 'no',
-										payload: {
-											type: 'order_confirm',
-											value: 0
-										}
+										payload: 'order_confirm_0'
 									}
 								]
 							}
