@@ -13,9 +13,9 @@ const app = express();
 process.env.PORT = process.env.PORT || 8080;
 const config = {
   development: {
-    token: "EAAQhCRnyD7UBAJ3c2gItTTtTZCJj9IgnJm3RY9TUGr1Yfc5gxJY5kmP3BghkIID2Yq5rtAspi3WZArj3Af3MNdxrZBU7vvQbBZBOORZBpGDBZA1hIZB8ect0UZBpzAJxv9r8IcZATDhSmvFNQdagCaUOu9miHvHWzZAG6pJSpuZBW5pcAZDZD",
-    verify: "greatestbotonearth",
-    app_secret: "f8078e16030ed64e5b5f44cc8778aa72"
+    token: process.env.TOKEN,
+    verify: process.env.VERIFY,
+    app_secret: process.env.APP_SECRET
   },
   production: {
     token: process.env.facebook_token,
@@ -49,14 +49,14 @@ bot.on('postback', (payload, reply) => {
 
 bot.on('message', (payload, reply) => {
   bot.getProfile(payload.sender.id, (err, profile) => {
-		console.info('[MSGIN] ----------------------------------------');
-		console.info(`Query:   ${query}`);
-		console.info('[/MSGIN] ---------------------------------------');
     if (err) { throw err; }
 		console.info('[PROFILE] ----------------------------------------');
 		console.info(profile);
 		console.info('[/PROFILE] ---------------------------------------');
 		const query = payload.message.text;
+		console.info('[MSGIN] ----------------------------------------');
+		console.info(`Query:   ${payload.message.text}`);
+		console.info('[/MSGIN] ---------------------------------------');
 		const lang = 'en';
 		const sessionId = payload.sender.id;
 		const postAddress = `${apiAiConfig.BASE_URL}${apiAiConfig.RESOURCES.QUERY}`;
