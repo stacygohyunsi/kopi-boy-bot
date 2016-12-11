@@ -1,10 +1,10 @@
 const express = require("express");
 const firebase = require('firebase');
-const config = require('../firebase.config');
-
+const firebaseConfig = require('../firebase.config');
 
 var exports = {};
 var router = express.Router();
+
 // firebase.database.enableLogging(true);
 
 router.get("/orders", function(req, res, next){ 
