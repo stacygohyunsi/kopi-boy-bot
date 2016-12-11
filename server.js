@@ -31,6 +31,9 @@ bot.on('error', (err) => {
 });
 
 bot.on('postback', (payload, reply) => {
+	console.info('[POSTBACK] ----------------------------------------');
+	console.info(`payload:   ${payload}`);
+	console.info('[/POSTBACK] ---------------------------------------');
 	switch(payload) {
 	case 'order_confirm_1':
 		reply({
@@ -45,17 +48,17 @@ bot.on('postback', (payload, reply) => {
 });
 
 bot.on('message', (payload, reply) => {
-  const query = payload.message.text;
-	const lang = 'en';
-	const sessionId = payload.sender.id;
-	console.info('[MSGIN] ----------------------------------------');
-	console.info(`Query:   ${query}`);
-	console.info('[/MSGIN] ---------------------------------------');
   bot.getProfile(payload.sender.id, (err, profile) => {
+		console.info('[MSGIN] ----------------------------------------');
+		console.info(`Query:   ${query}`);
+		console.info('[/MSGIN] ---------------------------------------');
     if (err) { throw err; }
 		console.info('[PROFILE] ----------------------------------------');
 		console.info(profile);
 		console.info('[/PROFILE] ---------------------------------------');
+		const query = payload.message.text;
+		const lang = 'en';
+		const sessionId = payload.sender.id;
 		const postAddress = `${apiAiConfig.BASE_URL}${apiAiConfig.RESOURCES.QUERY}`;
 		const postData = { query, lang, sessionId };
 		const postHeaderAuthorization = `Bearer ${process.env.APIAI_CLIENT_TOKEN}`;
