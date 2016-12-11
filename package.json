@@ -8,7 +8,8 @@
   },
   "scripts": {
     "start": "NODE_ENV=production node server.js",
-    "dev": "NODE_ENV=development node server.js",
+    "devstacy": "NODE_ENV=development TOKEN=EAAQhCRnyD7UBAJ3c2gItTTtTZCJj9IgnJm3RY9TUGr1Yfc5gxJY5kmP3BghkIID2Yq5rtAspi3WZArj3Af3MNdxrZBU7vvQbBZBOORZBpGDBZA1hIZB8ect0UZBpzAJxv9r8IcZATDhSmvFNQdagCaUOu9miHvHWzZAG6pJSpuZBW5pcAZDZD VERIFY=greatestbotonearth APP_SECRET=f8078e16030ed64e5b5f44cc8778aa72 node server.js",
+		"devjoe": "NODE_ENV=development TOKEN=EAAQhZBLuiyCwBAFxJvcyK0iT6W7Cxg2mFXW9bGYblZB0YVy4LxKNDWIU0pYkq5ZCeVvAzrwQBDJ0gsVTYZAUAvrbwW2ZBCKGLFgZBrt9EBLmhxfqxLXQ3VcCmUVR6znPIe06eGDZAYvaVcLDZB4dn7hw6XGleBzeklqMoJdcboLElAZDZD VERIFY=greatestbotonearth APP_SECRET=1afd68320df9850accb1abb83b7b7155 node server.js",
     "test": "mocha ./spec"
   },
   "repository": {
