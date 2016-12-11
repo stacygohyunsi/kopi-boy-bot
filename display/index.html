@@ -27,12 +27,11 @@
 				<th>Confirmed</th>	
 				<th>Collected</th>	
 			</tr>
-			<tr ng-repeat="order in orders">
-				<td>{{order.customerDetails.name}}</td>
+			<tr ng-repeat="order in orders" ng-init="customer = getCustomerName(order.customer)">
+				<td>{{customer.name}}</td>
 				<td>{{order.pickup_at}}</td>
 				<td>{{order.items}}</td>			
 				<td>{{order.confirmed}}</td>				
-				<td>{{order.collected}}</td>	
 				<td>{{order.collected}}</td>	
 				
 				<button ng-click="collected()">Collected</button>					
