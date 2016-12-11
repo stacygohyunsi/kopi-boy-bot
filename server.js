@@ -32,10 +32,17 @@ bot.on('error', (err) => {
 
 bot.on('postback', (payload, reply) => {
 	console.info('[POSTBACK] ----------------------------------------');
-	console.info(`payload:   ${payload}`);
+	console.info('[PAYLOAD] ----------------------------------------');
+	console.info(payload);
+	console.info('[/PAYLOAD] ----------------------------------------');
 	console.info('[/POSTBACK] ---------------------------------------');
-	switch(payload) {
+	const pbPayload = JSON.parse(payload.postback.payload); 
+	switch(pbPayload.type) {
 	case 'order_confirm_1':
+		const order = pbPayload.data;
+		console.log('[ORDER] ----------------------------------------');
+		console.log(order);
+		console.log('[/ORDER] ----------------------------------------');
 		reply({
 			text: 'That was easy peasy wasn\'t it!'
 		});
@@ -90,7 +97,7 @@ bot.on('message', (payload, reply) => {
 					const {
 						Drinks, number, SugarLevel, Temperature, time
 					} = result.parameters;
-					const humanTimeForPickup = moment('14:15:00', 'HH:mm:ss').format('h:m a');
+					const humanTimeForPickup = moment(time, 'HH:mm:ss').format('h:mm a');
 					const ourResponse = {
 						attachment: {
 							type: "template",
@@ -101,12 +108,22 @@ bot.on('message', (payload, reply) => {
 									{
 										type: 'postback',
 										title: 'yes',
-										payload: 'order_confirm_1'
+										payload: JSON.stringify(
+											{
+												type: 'order_confirm_1',
+												data: result.parameters 
+											}
+										)
 									},
 									{
 										type: 'postback',
 										title: 'no',
-										payload: 'order_confirm_0'
+										payload: JSON.stringify(
+											{
+												type: 'order_confirm_0',
+												data: result.parameters 
+											}
+										)
 									}
 								]
 							}
