@@ -2,7 +2,6 @@ const express = require("express");
 const firebase = require('firebase');
 const firebaseConfig = require('../firebase.config');
 
-
 var exports = {};
 var router = express.Router();
 
