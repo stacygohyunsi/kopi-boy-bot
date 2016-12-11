@@ -1,6 +1,7 @@
 const express = require("express");
-var firebase = require('firebase');
-var async = require('async');
+const firebase = require('firebase');
+const apiAiConfig = require('./firebase.config');
+
 
 var exports = {};
 var router = express.Router();
@@ -8,8 +9,6 @@ var router = express.Router();
 firebase.initializeApp(config[process.env.NODE_ENV]);
 var db = firebase.database();
 // firebase.database.enableLogging(true);
-var refCustomers = db.ref("/customers");
-var refOrders = db.ref("/orders");
 
 router.get("/orders", function(req, res, next){ 
 	// refOrders.on("value", function(snapshot) {
