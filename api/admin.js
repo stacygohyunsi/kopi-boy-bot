@@ -5,7 +5,6 @@ const config = require('../firebase.config');
 
 var exports = {};
 var router = express.Router();
-
 // firebase.database.enableLogging(true);
 
 router.get("/orders", function(req, res, next){ 

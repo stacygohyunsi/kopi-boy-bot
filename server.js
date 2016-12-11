@@ -22,7 +22,11 @@ const config = {
     verify: process.env.verification_token,
     app_secret: process.env.facebook_app_secret
   },
-}
+};
+
+const firebase = require('firebase');
+firebase.initializeApp(require('./firebase.config'));
+var db = firebase.database();
 
 const bot = new Bot(config[process.env.NODE_ENV]);
 
@@ -39,10 +43,31 @@ bot.on('postback', (payload, reply) => {
 	const pbPayload = JSON.parse(payload.postback.payload); 
 	switch(pbPayload.type) {
 	case 'order_confirm_1':
-		const order = pbPayload.data;
+		const order = pbPayload;
 		console.log('[ORDER] ----------------------------------------');
 		console.log(order);
 		console.log('[/ORDER] ----------------------------------------');
+		const now = moment().format('YYYYMMDD HH:mm:ss');
+		const {customerId} = order;
+		var orderHash = require('crypto').createHash('md5').update(`${now}-${customerId}`).digest("hex");
+		db.ref(`/customers/${customerId}`).set({
+			name: `${order.customer.first_name} ${order.customer.last_name}`,
+			picture: order.customer.profile_pic,
+			gender: order.customer.gender,
+			locale: order.customer.locale
+		});
+		const orderedItems = {};
+		orderedItems[order.data.Drinks] = order.data.number;
+		db.ref(`/orders/${orderHash}`).set({
+			collected: false,
+			confirmed: false,
+			customer: customerId,
+			items: orderedItems,
+			sugar: order.data.SugarLevel,
+			pickup_at: order.data.time,
+			temperature: order.data.Temperature,
+			rejected: false
+		});
 		reply({
 			text: 'That was easy peasy wasn\'t it!'
 		});
@@ -56,6 +81,7 @@ bot.on('postback', (payload, reply) => {
 
 bot.on('message', (payload, reply) => {
   bot.getProfile(payload.sender.id, (err, profile) => {
+		const customerId = payload.sender.id;
     if (err) { throw err; }
 		console.info('[PROFILE] ----------------------------------------');
 		console.info(profile);
@@ -103,24 +129,28 @@ bot.on('message', (payload, reply) => {
 							type: "template",
 							payload: {
 								template_type: "button",
-								text: `Confirm order of ${number} ${Temperature} ${Drinks} with ${SugarLevel} sugar for pickup at ${humanTimeForPickup}?`,
+								text: `So ${profile.first_name} ${profile.last_name}, confirm order of ${number} ${Temperature} ${Drinks} with ${SugarLevel} sugar for pickup at ${humanTimeForPickup}?`,
 								buttons: [
 									{
 										type: 'postback',
-										title: 'yes',
+										title: 'DOUBLE CONFIRM',
 										payload: JSON.stringify(
 											{
 												type: 'order_confirm_1',
+												customer: profile,
+												customerId,
 												data: result.parameters 
 											}
 										)
 									},
 									{
 										type: 'postback',
-										title: 'no',
+										title: 'Maybe nehmind...',
 										payload: JSON.stringify(
 											{
 												type: 'order_confirm_0',
+												customer: profile,
+												customerId,
 												data: result.parameters 
 											}
 										)
