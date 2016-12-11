@@ -1,12 +1,12 @@
 const express = require("express");
 const firebase = require('firebase');
-const apiAiConfig = require('./firebase.config');
+const firebaseConfig = require('../firebase.config');
 
 
 var exports = {};
 var router = express.Router();
 
-firebase.initializeApp(config[process.env.NODE_ENV]);
+firebase.initializeApp(firebaseConfig[process.env.NODE_ENV]);
 var db = firebase.database();
 // firebase.database.enableLogging(true);
 
