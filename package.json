@@ -24,9 +24,7 @@
   "license": "GPL-3.0",
   "homepage": "https://bitbucket.org/kopiboyapp/botbot#readme",
   "dependencies": {
-    "async": "^2.1.4",
     "express": "^4.14.0",
-    "firebase": "^3.6.3",
     "messenger-bot": "^2.4.0",
     "moment": "^2.17.1",
     "superagent": "^3.1.0"
