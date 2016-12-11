@@ -1,7 +1,7 @@
 {
   "name": "bot-kopiboy",
   "version": "1.0.0",
-  "description": "",
+  "description": "A bot which allows advanced ordering from Messenger",
   "main": "server.js",
   "scripts": {
     "test": "mocha ."
@@ -17,5 +17,8 @@
   ],
   "author": "Stacy & Joseph Enterprises",
   "license": "GPL-3.0",
-  "homepage": "https://bitbucket.org/kopiboyapp/botbot#readme"
+  "homepage": "https://bitbucket.org/kopiboyapp/botbot#readme",
+  "dependencies": {
+    "messenger-bot": "^2.4.0"
+  }
 }
