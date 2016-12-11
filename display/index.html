@@ -21,22 +21,28 @@
 	<body ng-app="display" ng-controller="main">
 		<table>
 			<tr>
+				<th>Profile Pic</th>	
 				<th>Customer</th>
 				<th>Pickup time</th>
 				<th>Items</th>	
+				<th>Sugar</th>	
+				<th>Temp</th>	
 				<th>Confirmed</th>	
 				<th>Collected</th>	
 			</tr>
 			<tr ng-repeat="order in orders" ng-init="customer = getCustomerName(order.customer)">
+				<td><img style="width:40px;" ng-src="{{customer.picture}}"/></td>
 				<td>{{customer.name}}</td>
 				<td>{{order.pickup_at}}</td>
 				<td>{{order.items}}</td>			
+				<td>{{order.sugar}}</td>			
+				<td>{{order.temperature}}</td>							
 				<td>{{order.confirmed}}</td>				
 				<td>{{order.collected}}</td>	
 				
-				<button ng-click="collected()">Collected</button>					
-				<button ng-click="collected()">Collected</button>	
-				<textarea></textarea>		
+				<td><button ng-click="collected()">Collected</button></td>			
+				<td><button ng-click="collected()">Collected</button></td>
+				<td><textarea></textarea></td>		
 			</tr>
 		</table>
 	</body>
