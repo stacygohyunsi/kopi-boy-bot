@@ -1,7 +1,11 @@
 <html>
 	<head>
 			<title>Orders</title>
-      <script src="/bower_components/angular/angular.min.js"></script>		
+			<link rel="stylesheet" href="/bower_components/angular-material/angular-material.min.css" />
+      <script src="/bower_components/angular/angular.min.js"></script>
+			<script src="/bower_components/angular-aria/angular-aria.min.js"></script>
+			<script src="/bower_components/angular-animate/angular-animate.min.js"></script>
+			<script src="/bower_components/angular-material/angular-material.min.js"></script>		
       <script src="/bower_components/firebase/firebase.js"></script>		
       <script src="/bower_components/angularfire/dist/angularfire.js"></script>						
       <script src="./js/index.js"></script>
@@ -19,31 +23,60 @@
 			</script>			
 	</head>
 	<body ng-app="display" ng-controller="main">
-		<table>
-			<tr>
-				<th>Profile Pic</th>	
-				<th>Customer</th>
-				<th>Pickup time</th>
-				<th>Items</th>	
-				<th>Sugar</th>	
-				<th>Temp</th>	
-				<th>Confirmed</th>	
-				<th>Collected</th>	
-			</tr>
-			<tr ng-repeat="order in orders" ng-init="customer = getCustomerName(order.customer)">
-				<td><img style="width:40px;" ng-src="{{customer.picture}}"/></td>
-				<td>{{customer.name}}</td>
-				<td>{{order.pickup_at}}</td>
-				<td>{{order.items}}</td>			
-				<td>{{order.sugar}}</td>			
-				<td>{{order.temperature}}</td>							
-				<td>{{order.confirmed}}</td>				
-				<td>{{order.collected}}</td>	
-				
-				<td><button ng-click="collected()">Collected</button></td>			
-				<td><button ng-click="collected()">Collected</button></td>
-				<td><textarea></textarea></td>		
-			</tr>
-		</table>
+		<md-content layout="column">
+			<div class="md-card"
+				ng-repeat="order in orders"
+				ng-init="getCustomerName(order.customer)"
+			>
+				<div class="md-card-content"
+					layout="row">
+					<div class="flex-xs-15"
+						ng-if="customerProfile[order.customer].picture">
+						<div
+						ng-style="{'background-image':'url({{customerProfile[order.customer].picture}})'}"
+						style="
+							background-size:cover;
+							background-position:center;
+							border-radius:9999em;
+							height:64px;
+							width:64px;
+						">
+						</div>
+					</div>
+					<div class="flex-xs-15">
+						{{customerProfile[order.customer].name}}
+					</div>
+					<div class="flex-xs-15">
+						{{order.pickup_at}}
+					</div>
+				</div>
+			</div>
+			<table>
+				<tr>
+					<th>Profile Pic</th>	
+					<th>Customer</th>
+					<th>Pickup time</th>
+					<th>Items</th>	
+					<th>Sugar</th>	
+					<th>Temp</th>	
+					<th>Confirmed</th>	
+					<th>Collected</th>	
+				</tr>
+				<tr ng-repeat="order in orders" ng-init="customer = getCustomerName(order.customer)">
+					<td><img style="width:40px;" ng-src="{{customer.picture}}"/></td>
+					<td>{{customer.name}}</td>
+					<td>{{order.pickup_at}}</td>
+					<td>{{order.items}}</td>			
+					<td>{{order.sugar}}</td>			
+					<td>{{order.temperature}}</td>							
+					<td>{{order.confirmed}}</td>				
+					<td>{{order.collected}}</td>	
+					
+					<td><button ng-click="collected()">Collected</button></td>			
+					<td><button ng-click="collected()">Collected</button></td>
+					<td><textarea></textarea></td>		
+				</tr>
+			</table>
+		</md-content>
 	</body>
 </html>
