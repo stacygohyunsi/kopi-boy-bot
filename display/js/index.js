@@ -1,7 +1,8 @@
-var app = angular.module('display', ["firebase"]);
+var app = angular.module('display', ["firebase", "ngAnimate", "ngMaterial"]);
 
 app.controller("main", function($scope, $http, $firebaseObject, $firebaseArray) {
-	
+	$scope.customerProfile = {};
+
   var refOrders = firebase.database().ref("/orders");
   $scope.orders = $firebaseArray(refOrders);	
 
@@ -9,7 +10,10 @@ app.controller("main", function($scope, $http, $firebaseObject, $firebaseArray) 
   $scope.customers = $firebaseArray(refCustomers);	
 
 	$scope.getCustomerName = function(id) {
-		return $scope.customers.$getRecord(id);
+		$scope.customerProfile[id] = {};
+		$scope.customers.$loaded().then(function(x) {
+			$scope.customerProfile[id] = $scope.customers.$getRecord(id);
+		});
 	}
 	
 	$scope.orders.$loaded()
