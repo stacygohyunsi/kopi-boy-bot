@@ -24,9 +24,7 @@ const config = {
   },
 };
 
-const firebase = require('firebase');
-firebase.initializeApp(require('./firebase.config'));
-var db = firebase.database();
+const firebaseDbRef = require('./components/firebase');
 
 const bot = new Bot(config[process.env.NODE_ENV]);
 
@@ -50,7 +48,7 @@ bot.on('postback', (payload, reply) => {
 		const now = moment().format('YYYYMMDD HH:mm:ss');
 		const {customerId} = order;
 		var orderHash = require('crypto').createHash('md5').update(`${now}-${customerId}`).digest("hex");
-		db.ref(`/customers/${customerId}`).set({
+		firebaseDbRef(`/customers/${customerId}`).set({
 			name: `${order.customer.first_name} ${order.customer.last_name}`,
 			picture: order.customer.profile_pic,
 			gender: order.customer.gender,
@@ -58,7 +56,7 @@ bot.on('postback', (payload, reply) => {
 		});
 		const orderedItems = {};
 		orderedItems[order.data.Drinks] = order.data.number;
-		db.ref(`/orders/${orderHash}`).set({
+		firebaseDbRef(`/orders/${orderHash}`).set({
 			collected: false,
 			confirmed: false,
 			customer: customerId,
@@ -187,9 +185,7 @@ app.use("/fbbot", bot.middleware());
 app.use("/bower_components",express.static("bower_components")); // Shared libraries
 
 /** API */
-var admin = require("./api/admin.js");
-app.use("/api", admin.router);
-
+app.use("/api", require("./api"));
 app.use("/",express.static("display"));
 app.get(['/','/*', '/**'], function(req, res) {
   res.sendFile(path.join(__dirname, '/display/index.html'));
