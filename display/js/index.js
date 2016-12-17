@@ -8,16 +8,39 @@ app.controller("main", function($scope, $http, $firebaseObject, $firebaseArray,$
 	var refCustomers = firebase.database().ref("/customers");
   $scope.customers = $firebaseArray(refCustomers);	
 
-	$scope.change = function(order, status, ev) {
+	$scope.confirm = function(order, ev) {
 		if (!order.confirmed && !order.rejected) {
 			var confirm = $mdDialog.confirm()
 				.title('Order status')
-				.textContent('Are you sure you want to '+ status +' order?')
+				.textContent('Are you sure you want to confirm order?')
 				.targetEvent(ev)
 				.ok('Yes')
 				.cancel('No');
 			$mdDialog.show(confirm).then(function() {
-				order[(status == "confirm") ? 'confirmed' : 'rejected'] = true;
+				$http.get("/api/order/confirm/" + order._id).then(function(resp) {
+					console.log(resp);
+				})				
+				order.confirmed = true;
+				$scope.orders.$save(order).then(function(ref) { });
+			}, function() {
+				console.log("cancelled");
+			});
+		}
+	}
+
+	$scope.reject = function(order, ev) {
+		if (!order.confirmed && !order.rejected) {
+			var confirm = $mdDialog.confirm()
+				.title('Order status')
+				.textContent('Are you sure you want to reject order?')
+				.targetEvent(ev)
+				.ok('Yes')
+				.cancel('No');
+			$mdDialog.show(confirm).then(function() {
+				$http.get("/api/order/reject/" + order._id).then(function(resp) {
+					console.log(resp);
+				})				
+				order.rejected = true;
 				$scope.orders.$save(order).then(function(ref) { });
 			}, function() {
 				console.log("cancelled");

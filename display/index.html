@@ -128,10 +128,10 @@
 							{{order.pickupAt}}</p>
 					</div>	
 					<!--confirm, reject, collected-->															
-					<div ng-if="!!!order.rejected" layout="column" ng-click="change(order, 'confirm', $event)" layout-align="center center" style="width:64px;background-color:#68C3A3;">
+					<div ng-if="!!!order.rejected" layout="column" ng-click="confirm(order, $event)" layout-align="center center" style="width:64px;background-color:#68C3A3;">
 						<i class="fa fa-check fa-2x"></i>
 					</div>		
-					<div ng-if="!!!order.confirmed" layout="column" ng-click="change(order, 'reject', $event)" layout-align="center center" style="width:64px;background-color:#EC644B;">
+					<div ng-if="!!!order.confirmed" layout="column" ng-click="reject(order, $event)" layout-align="center center" style="width:64px;background-color:#EC644B;">
 						<i class="fa fa-times fa-2x"></i>
 					</div>				
 					<div layout="column" layout-align="center center" style="background-color:lightgray;padding:10px;">
