@@ -29,7 +29,7 @@ app.controller("main", function($scope, $http, $firebaseObject, $firebaseArray,$
 	}
 
 	$scope.collect = function(order, ev) {
-		if (!order.confirmed && !order.rejected) {
+		if (order.confirmed && !order.rejected) {
 			var confirm = $mdDialog.confirm()
 				.title('Order status')
 				.textContent('Is the order collected?')
