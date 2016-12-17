@@ -1,0 +1,31 @@
+.hot {
+	background-image:url('/resources/hot.png');
+	height:64px;
+	width:64px;
+	background-size:cover;
+	background-position:center;
+}
+.cold {
+	background-image:url('/resources/cold.png');
+	height:64px;
+	width:64px;
+	background-size:cover;
+	background-position:center;
+}
+.iced {
+	background-image:url('/resources/iced.png');
+	height:64px;
+	width:64px;
+	background-size:cover;
+	background-position:center;
+}
+md-card.order:first-child {
+	margin-top: 0 !important;
+}
+/*.confirmed{
+	background-color:gray !important;
+}
+
+.rejected{
+	background-color:gray !important;
+}*/

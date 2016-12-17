@@ -24,6 +24,8 @@
     "angular": "^1.6.0",
     "angularfire": "^2.1.0",
     "firebase": "^3.6.3",
-    "angular-material": "^1.1.1"
+    "angular-material": "^1.1.1",
+    "moment": "^2.17.1",
+    "font-awesome": "fontawesome#^4.7.0"
   }
 }
