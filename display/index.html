@@ -3,6 +3,7 @@
 			<title>Orders</title>
 			<link rel="stylesheet" href="/bower_components/angular-material/angular-material.min.css" />
 			<link href="https://fonts.googleapis.com/css?family=Anonymous+Pro" rel="stylesheet">			
+			<link rel="stylesheet" href="./css/index.css" />			
       <script src="/bower_components/angular/angular.min.js"></script>
 			<script src="/bower_components/angular-aria/angular-aria.min.js"></script>
 			<script src="/bower_components/angular-animate/angular-animate.min.js"></script>
@@ -29,7 +30,7 @@
 				ng-repeat="order in orders"
 				ng-init="getCustomerName(order.customer)">
 				<md-card-content layout="row">
-					<div ng-if="customerProfile[order.customer].picture">
+					<div style="padding-right:10px;" ng-if="customerProfile[order.customer].picture">
 						<div ng-style="{'background-image':'url({{customerProfile[order.customer].picture}})'}"
 						style="
 							background-size:cover;
@@ -39,7 +40,7 @@
 							width:64px;">
 						</div>
 					</div>
-					<div layout="column">
+					<div layout="column" layout-align="center center" style="padding-right:10px;">
 						<span style="font-family: 'Anonymous Pro', monospace;font-size:25px;font-weight:700;" ng-repeat="(key, value) in order.items">
 							<span style="background-color: #EB974E; padding:10px;">{{value}}</span> 
 							<span>{{key}}</span>
@@ -47,7 +48,7 @@
 						<span style="padding-top:10px;">{{customerProfile[order.customer].name}}</span>
 					</div>
 					<div>
-						<p>{{order.temperature}}</p>
+						<div ng-class="{'hot': order.temperature === 'hot', 'cold': order.temperature === 'cold', 'iced': order.temperature === 'iced'}"></div>
 					</div>
 					<div>
 						<p>{{order.sugar}}</p>
