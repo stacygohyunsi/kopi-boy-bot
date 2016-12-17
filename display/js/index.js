@@ -17,7 +17,7 @@ app.controller("main", function($scope, $http, $firebaseObject, $firebaseArray,$
 				.ok('Yes')
 				.cancel('No');
 			$mdDialog.show(confirm).then(function() {
-				$http.get("/api/order/confirm/" + order._id).then(function(resp) {
+				$http.get("/api/order/confirm/" + order["$id"]).then(function(resp) {
 					console.log(resp);
 				})				
 				order.confirmed = true;
@@ -28,6 +28,26 @@ app.controller("main", function($scope, $http, $firebaseObject, $firebaseArray,$
 		}
 	}
 
+	$scope.collect = function(order, ev) {
+		if (!order.confirmed && !order.rejected) {
+			var confirm = $mdDialog.confirm()
+				.title('Order status')
+				.textContent('Is the order collected?')
+				.targetEvent(ev)
+				.ok('Yes')
+				.cancel('No');
+			$mdDialog.show(confirm).then(function() {
+				$http.get("/api/order/collected/" + order["$id"]).then(function(resp) {
+					console.log(resp);
+				})				
+				order.collected = true;
+				$scope.orders.$save(order).then(function(ref) { });
+			}, function() {
+				console.log("cancelled");
+			});
+		}
+	}	
+
 	$scope.reject = function(order, ev) {
 		if (!order.confirmed && !order.rejected) {
 			var confirm = $mdDialog.confirm()
@@ -37,7 +57,7 @@ app.controller("main", function($scope, $http, $firebaseObject, $firebaseArray,$
 				.ok('Yes')
 				.cancel('No');
 			$mdDialog.show(confirm).then(function() {
-				$http.get("/api/order/reject/" + order._id).then(function(resp) {
+				$http.get("/api/order/reject/" + order["$id"]).then(function(resp) {
 					console.log(resp);
 				})				
 				order.rejected = true;
