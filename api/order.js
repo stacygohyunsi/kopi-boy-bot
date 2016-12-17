@@ -104,7 +104,7 @@ ApiRouter.use('/collected/:orderId', (req, res, next) => {
 			const pickupTime = moment(refinedPickupTime).format('h:mm a');
 
 			replyBot.sendMessage(order.customer, {
-				text: `Thanks for using KopiBoy, ${customer.name}! We hope you enjoyed the experience <3`
+				text: `Thanks for using KopiBoy, ${customer.name}! We hope you enjoy your ${quantity} x ${itemName}.`
 			}, (error, info) => {
 				res.json((!error) ? { customer, info } : { customer, error });
 			});
