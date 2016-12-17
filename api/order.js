@@ -82,4 +82,34 @@ ApiRouter.use('/reject/:orderId', (req, res, next) => {
 	});
 });
 
+ApiRouter.use('/collected/:orderId', (req, res, next) => {
+	const {orderId} = req.params;
+	firebase(`/orders/${orderId}`).once('value').then((responseOrder) => {
+		const order = responseOrder.val();
+		const {items} = order;
+		const item = [];
+		for(var menuItem in items) {
+			item.push(menuItem);
+		}
+		firebase(`/customers/${order.customer}`).once('value').then((responseCustomer) => {
+			const customer = responseCustomer.val();
+			const sugarLevel = (order.sugar.toLowerCase() === 'none' ? 'no' : `${order.sugar.toLowerCase()}`) + ' sugar'; 
+			const quantity = order.items[item[0]];
+			const temperature = order.temperature.toLowerCase();
+			const itemName = item[0];
+			const rawPickupTime = order.pickup_at.split(':');
+			const refinedPickupTime = new Date();
+			refinedPickupTime.setHours(rawPickupTime[0]);
+			refinedPickupTime.setMinutes(rawPickupTime[1]);
+			const pickupTime = moment(refinedPickupTime).format('h:mm a');
+
+			replyBot.sendMessage(order.customer, {
+				text: `Thanks for using KopiBoy, ${customer.name}! We hope you enjoyed the experience <3`
+			}, (error, info) => {
+				res.json((!error) ? { customer, info } : { customer, error });
+			});
+		});
+	});
+});
+
 module.exports = ApiRouter;
