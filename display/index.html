@@ -2,6 +2,7 @@
 	<head>
 			<title>Orders</title>
 			<link rel="stylesheet" href="/bower_components/angular-material/angular-material.min.css" />
+			<link href="https://fonts.googleapis.com/css?family=Anonymous+Pro" rel="stylesheet">			
       <script src="/bower_components/angular/angular.min.js"></script>
 			<script src="/bower_components/angular-aria/angular-aria.min.js"></script>
 			<script src="/bower_components/angular-animate/angular-animate.min.js"></script>
@@ -24,33 +25,38 @@
 	</head>
 	<body ng-app="display" ng-controller="main">
 		<md-content layout="column">
-			<div class="md-card"
+			<md-card style="background-color:#F4B350;"
 				ng-repeat="order in orders"
-				ng-init="getCustomerName(order.customer)"
-			>
-				<div class="md-card-content"
-					layout="row">
-					<div class="flex-xs-15"
-						ng-if="customerProfile[order.customer].picture">
-						<div
-						ng-style="{'background-image':'url({{customerProfile[order.customer].picture}})'}"
+				ng-init="getCustomerName(order.customer)">
+				<md-card-content layout="row">
+					<div ng-if="customerProfile[order.customer].picture">
+						<div ng-style="{'background-image':'url({{customerProfile[order.customer].picture}})'}"
 						style="
 							background-size:cover;
 							background-position:center;
 							border-radius:9999em;
 							height:64px;
-							width:64px;
-						">
+							width:64px;">
 						</div>
 					</div>
-					<div class="flex-xs-15">
-						{{customerProfile[order.customer].name}}
+					<div layout="column">
+						<span style="font-family: 'Anonymous Pro', monospace;font-size:25px;font-weight:700;" ng-repeat="(key, value) in order.items">
+							<span style="background-color: #EB974E; padding:10px;">{{value}}</span> 
+							<span>{{key}}</span>
+						</span>
+						<span style="padding-top:10px;">{{customerProfile[order.customer].name}}</span>
 					</div>
-					<div class="flex-xs-15">
-						{{order.pickup_at}}
+					<div>
+						<p>{{order.temperature}}</p>
 					</div>
-				</div>
-			</div>
+					<div>
+						<p>{{order.sugar}}</p>
+					</div>	
+					<div>
+						<p>{{order.pickup_at}}</p>
+					</div>									
+				</md-card-content>
+			</md-card>
 			<table>
 				<tr>
 					<th>Profile Pic</th>	

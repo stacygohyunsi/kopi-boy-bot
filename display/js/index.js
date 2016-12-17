@@ -4,7 +4,7 @@ app.controller("main", function($scope, $http, $firebaseObject, $firebaseArray) 
 	$scope.customerProfile = {};
 
   var refOrders = firebase.database().ref("/orders");
-  $scope.orders = $firebaseArray(refOrders);	
+  $scope.orders = $firebaseArray(refOrders);
 
 	var refCustomers = firebase.database().ref("/customers");
   $scope.customers = $firebaseArray(refCustomers);	
