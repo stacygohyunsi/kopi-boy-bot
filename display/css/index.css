@@ -1,9 +1,21 @@
 .hot {
-	background-image: url();
+	background-image:url('/resources/hot.png');
+	height:64px;
+	width:64px;
+	background-size:cover;
+	background-position:center;
 }
-.cold{
-	background-image: url();
+.cold {
+	background-image:url('/resources/cold.png');
+	height:64px;
+	width:64px;
+	background-size:cover;
+	background-position:center;
 }
-.iced{
-	background-image: url();
+.iced {
+	background-image:url('/resources/iced.png');
+	height:64px;
+	width:64px;
+	background-size:cover;
+	background-position:center;
 }

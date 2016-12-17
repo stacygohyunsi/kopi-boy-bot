@@ -185,6 +185,7 @@ app.use("/fbbot", bot.middleware());
 
 /** ADMIN INTERFACE */
 app.use("/bower_components",express.static("bower_components")); // Shared libraries
+app.use("/resources",express.static("resources")); // Shared libraries
 
 /** API */
 var admin = require("./api/admin.js");

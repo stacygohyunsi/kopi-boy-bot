@@ -2,6 +2,7 @@
 	<head>
 			<title>Orders</title>
 			<link rel="stylesheet" href="/bower_components/angular-material/angular-material.min.css" />
+			<link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css" />			
 			<link href="https://fonts.googleapis.com/css?family=Anonymous+Pro" rel="stylesheet">			
 			<link rel="stylesheet" href="./css/index.css" />			
       <script src="/bower_components/angular/angular.min.js"></script>
@@ -9,7 +10,8 @@
 			<script src="/bower_components/angular-animate/angular-animate.min.js"></script>
 			<script src="/bower_components/angular-material/angular-material.min.js"></script>		
       <script src="/bower_components/firebase/firebase.js"></script>		
-      <script src="/bower_components/angularfire/dist/angularfire.js"></script>						
+      <script src="/bower_components/angularfire/dist/angularfire.js"></script>	
+      <script src="/bower_components/moment/min/moment.min.js"></script>														
       <script src="./js/index.js"></script>
 			<script>
 				// Initialize the Firebase SDK
@@ -40,22 +42,34 @@
 							width:64px;">
 						</div>
 					</div>
-					<div layout="column" layout-align="center center" style="padding-right:10px;">
+					<div layout="column" layout-align="center center" style="padding-right:30px;">
 						<span style="font-family: 'Anonymous Pro', monospace;font-size:25px;font-weight:700;" ng-repeat="(key, value) in order.items">
 							<span style="background-color: #EB974E; padding:10px;">{{value}}</span> 
 							<span>{{key}}</span>
 						</span>
 						<span style="padding-top:10px;">{{customerProfile[order.customer].name}}</span>
 					</div>
-					<div>
-						<div ng-class="{'hot': order.temperature === 'hot', 'cold': order.temperature === 'cold', 'iced': order.temperature === 'iced'}"></div>
+					<div style="padding-right:10px;">
+						<div style="height:64px;width:64px;" ng-class="{'hot': order.temperature === 'Hot', 'cold': order.temperature === 'Cold', 'iced': order.temperature === 'Iced'}"></div>
 					</div>
-					<div>
-						<p>{{order.sugar}}</p>
+					<div style="padding-right:10px;">
+						<span layout="column" layout-align="center center" style="font-family: 'Anonymous Pro', monospace;color:white; font-size:25px;">
+							<span>{{order.sugar}}</span>
+							<span>SUGAR</span>
+						</span>
 					</div>	
-					<div>
-						<p>{{order.pickup_at}}</p>
-					</div>									
+					<div flex>
+						<p style="font-family: 'Anonymous Pro', monospace;color:white; font-size:25px;padding-right:10px;">{{order.pickup_at}}</p>
+					</div>	
+					<div layout="column" layout-align="center center" style="height:64px;width:64px;background-color:lightgray;">
+						<i class="fa fa-comment"></i>
+					</div>		
+					<div layout="column" layout-align="center center" style="height:64px;width:64px;background-color:green;">
+						<i class="fa fa-comment"></i>
+					</div>		
+					<div layout="column" layout-align="center center" style="height:64px;width:64px;background-color:red;">
+						<i class="fa fa-comment"></i>
+					</div>																				
 				</md-card-content>
 			</md-card>
 			<table>

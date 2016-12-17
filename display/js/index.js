@@ -2,7 +2,6 @@ var app = angular.module('display', ["firebase", "ngAnimate", "ngMaterial"]);
 
 app.controller("main", function($scope, $http, $firebaseObject, $firebaseArray) {
 	$scope.customerProfile = {};
-
   var refOrders = firebase.database().ref("/orders");
   $scope.orders = $firebaseArray(refOrders);
 
@@ -19,6 +18,10 @@ app.controller("main", function($scope, $http, $firebaseObject, $firebaseArray) 
 	$scope.orders.$loaded()
   .then(function() {
     console.log($scope.orders);
+		$scope.orders = $scope.orders.map(function(order) {
+			moment(order.pickup_at).format('LLLL');
+			return order;
+		})	
   })
   .catch(function(err) {
     console.error(err);
