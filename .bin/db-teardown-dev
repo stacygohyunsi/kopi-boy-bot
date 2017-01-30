@@ -1,0 +1,8 @@
+#!/bin/sh
+echo This script will remove the 'makesmth' user from your local development environment.
+echo You will be asked for the password of your 'root' user to import the SQL script at ./.bin/db-teardown-dev.sql.
+echo Hit ctrl+c to terminate if wrongly started.
+sleep 1
+echo Beginning DB teardown for development environment...
+mysql -uroot -p < ./.bin/db-teardown-dev.sql
+echo Done.
