@@ -32,14 +32,12 @@
     "express": "^4.14.0",
     "firebase": "^3.6.3",
     "messenger-bot": "^2.4.0",
+    "mocha": "^3.2.0",
     "moment": "^2.17.1",
     "newrelic": "^1.36.0",
     "sequelize": "^3.30.0",
     "sequelize-cli": "^2.5.1",
     "should": "^11.2.0",
     "superagent": "^3.1.0"
-  },
-  "devDependencies": {
-    "mocha": "^3.2.0"
   }
 }
