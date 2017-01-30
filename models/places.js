@@ -3,8 +3,11 @@ module.exports = function(sequelize, DataTypes) {
   var places = sequelize.define('places', {
     name: DataTypes.STRING,
     address: DataTypes.STRING,
+		image_url: DataTypes.STRING,
     contact_number: DataTypes.STRING,
     contact_email: DataTypes.STRING,
+    website_url: DataTypes.STRING,
+    opening_hours: DataTypes.STRING,
     longitude: DataTypes.DOUBLE,
     latitude: DataTypes.DOUBLE
   }, {

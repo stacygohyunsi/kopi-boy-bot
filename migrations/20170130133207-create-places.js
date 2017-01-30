@@ -14,10 +14,19 @@ module.exports = {
       address: {
         type: Sequelize.STRING
       },
+			image_url: {
+				type: Sequelize.STRING
+			},
       contact_number: {
         type: Sequelize.STRING
       },
       contact_email: {
+        type: Sequelize.STRING
+      },
+			website_url: {
+        type: Sequelize.STRING
+      },
+      opening_hours: {
         type: Sequelize.STRING
       },
       longitude: {
