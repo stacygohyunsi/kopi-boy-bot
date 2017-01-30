@@ -1,0 +1,8 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+	"terminal.external.osxExec": "iTerm.app",
+	"terminal.integrated.shell.linux": "/bin/zsh",
+	"terminal.integrated.shell.osx": "/bin/zsh",
+	"terminal.integrated.shellArgs.osx": ["-l"],
+	"terminal.integrated.shellArgs.linux": ["-l"]
+}
