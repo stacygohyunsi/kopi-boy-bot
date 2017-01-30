@@ -56,7 +56,7 @@ bot.on('postback', (payload, reply) => {
 			reply({ text: 'country' });
 			break;
 		case ACTIONS.CAFE_RANDOM:
-			const responseText = STRINGS.CAFE_ABOUT_RANDOM;
+			const responseText = STRINGS.CAFE_RANDOM_ABOUT;
 			const responseButtons = LocationProximityButtons();
 			reply({
 				attachment: {

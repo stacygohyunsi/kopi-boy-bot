@@ -9,7 +9,7 @@ Hi, %_NAME_%, KopiBoy is your personal assitant in discovering awesome cafés.
 How can I help you today?
 `,
 	CAFE_RANDOM: 'Café Roulette',
-	CAFE_ABOUT_RANDOM: 'Up for an adventure aren\'t you? Sure, we\'ll find you cafés: ',
+	CAFE_RANDOM_ABOUT: 'Up for an adventure aren\'t you? Sure, we\'ll find you cafés: ',
 	CAFE_LIST: 'Cafés Near Me',
 	CAFE_ADD: 'I found a Café!',
 	WITHIN_NEARBY: 'Near to me!',

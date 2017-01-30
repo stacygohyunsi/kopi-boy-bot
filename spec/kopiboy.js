@@ -3,12 +3,52 @@ const path = require('path');
 const should = require('should');
 const {expect} = require('chai');
 
-const ACTIONS = require('../actions');
-const STRINGS = require('../strings');
-const FEATURES = require('../features');
-
-describe('KopiBoy Components', () => {
-	context('Welcome Dialog', () => {
+describe('KopiBoy', () => {
+	let actions,
+		features,
+		models,
+		strings,
+		dataImporter,
+		locationCalculator;
+	context('Components', () => {
+		it('has Actions', () => {
+			(() => {
+				actions = require('../actions');
+			}).should.not.throw();
+		});
+		it('has Features', () => {
+			(() => {
+				features = require('../features');
+			}).should.not.throw();
+		});
+		it('has Strings', () => {
+			(() => {
+				strings = require('../strings');
+			}).should.not.throw();
+		});
+		it('has Models', () => {
+			(() => {
+				models = require('../models');
+			}).should.not.throw();
+		});
+		it('has a Data Importer [#138593941]', () => {
+			(() => {
+				dataImporter = require('../components/data-importer');
+			}).should.not.throw();
+		});
+		it('has a Location Calculator [#138614499]', () => {
+			(() => {
+				locationCalculator = require('../components/location-calculator');
+			}).should.not.throw();
+		});
+	});
+	context('Data Models', () => {
+		it('contains Places to store Cafés', () => {
+			expect(models.places).to.not.be.undefined;
+			expect(models.places.toString()).to.contain('SequelizeModel');
+		});
+	});
+	context('Introduction', () => {
 		context('button creators', () => {
 			it('exists', () => {
 				(() => {
@@ -16,13 +56,33 @@ describe('KopiBoy Components', () => {
 				}).should.not.throw();
 			});
 		});
-		context('strings', () => {
-			it('exists', () => {
-				expect(STRINGS.CAFE_RANDOM).to.not.be.undefined;
-				expect(STRINGS.CAFE_LIST).to.not.be.undefined;
-				expect(STRINGS.CAFE_ADD).to.not.be.undefined;
-			});
-		});
-		
 	});
+	context('Primary Actions', () => {
+
+	});
+	context('Random Café', () => {
+		it('has associated Action', () => {
+			expect(actions.CAFE_RANDOM).to.not.be.undefined;
+		});
+	});
+	context('List all Cafés', () => {
+		it('has associated Action', () => {
+			expect(actions.CAFE_LIST).to.not.be.undefined;
+		});
+	});
+	context('Add a new Café', () => {
+		it('has associated Action', () => {
+			expect(actions.CAFE_ADD).to.not.be.undefined;
+		});
+	});
+	context('In the Vicinity', () => {
+		it('has associated Action', () => {
+			expect(actions.WITHIN_NEARBY).to.not.be.undefined;
+		});
+	});
+	context('Within user\'s Country', () => {
+		it('has associated Action', () => {
+			expect(actions.WITHIN_COUNTRY).to.not.be.undefined;
+		});
+	})
 });
