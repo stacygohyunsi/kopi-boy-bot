@@ -1,0 +1,49 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/Users/zephinzer/.nvm/versions/node/v6.9.4/bin/node',
+1 verbose cli   '/Users/zephinzer/.nvm/versions/node/v6.9.4/bin/npm',
+1 verbose cli   'run',
+1 verbose cli   'devjoe' ]
+2 info using npm@3.10.10
+3 info using node@v6.9.4
+4 verbose run-script [ 'predevjoe', 'devjoe', 'postdevjoe' ]
+5 info lifecycle bot-kopiboy@1.0.0~predevjoe: bot-kopiboy@1.0.0
+6 silly lifecycle bot-kopiboy@1.0.0~predevjoe: no script for predevjoe, continuing
+7 info lifecycle bot-kopiboy@1.0.0~devjoe: bot-kopiboy@1.0.0
+8 verbose lifecycle bot-kopiboy@1.0.0~devjoe: unsafe-perm in lifecycle true
+9 verbose lifecycle bot-kopiboy@1.0.0~devjoe: PATH: /Users/zephinzer/.nvm/versions/node/v6.9.4/lib/node_modules/npm/bin/node-gyp-bin:/Users/zephinzer/Projects/KopiBoy/repository/node_modules/.bin:/Users/zephinzer/.cargo/bin:/Users/zephinzer/.nvm/versions/node/v6.9.4/bin:/Users/zephinzer/.rbenv/shims:/=/usr/local/bin:/usr/local/mysql/bin:/Library/Frameworks/Python.framework/Versions/2.7/bin:/usr/local/lib/python2.7/site-packages://Users/zephinzer/scripts://Users/zephinzer/.composer/vendor/bin:/usr/local/sbin:/Users/zephinzer/.rbenv/bin:/Users/zephinzer/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/git/bin:/Library/TeX/texbin:/Users/zephinzer/.rbenv/shims:/=/usr/local/bin:/usr/local/mysql/bin:/Library/Frameworks/Python.framework/Versions/2.7/bin:/usr/local/lib/python2.7/site-packages://Users/zephinzer/scripts://Users/zephinzer/.composer/vendor/bin:/usr/local/sbin:/Users/zephinzer/.rbenv/bin
+10 verbose lifecycle bot-kopiboy@1.0.0~devjoe: CWD: /Users/zephinzer/Projects/KopiBoy/repository
+11 silly lifecycle bot-kopiboy@1.0.0~devjoe: Args: [ '-c',
+11 silly lifecycle   'NODE_ENV=development TOKEN=EAAQhZBLuiyCwBAIRimpJ2yqqjBV9tbIgRt84ogOzXFHnd0SHV5ItkDAqKceOmHLvOJzn85P1wQoL7njtZC2t0EjenITR3cjZAzlNzRGscF05dX301yEkG9XdLDHeW9pNZCQIaHD5Ta86qy5IaZCqQEacyxOXr0xIT3aksWo7yEQZDZD VERIFY=greatestbotonearth APP_SECRET=1afd68320df9850accb1abb83b7b7155 node server.js' ]
+12 silly lifecycle bot-kopiboy@1.0.0~devjoe: Returned: code: 1  signal: null
+13 info lifecycle bot-kopiboy@1.0.0~devjoe: Failed to exec devjoe script
+14 verbose stack Error: bot-kopiboy@1.0.0 devjoe: `NODE_ENV=development TOKEN=EAAQhZBLuiyCwBAIRimpJ2yqqjBV9tbIgRt84ogOzXFHnd0SHV5ItkDAqKceOmHLvOJzn85P1wQoL7njtZC2t0EjenITR3cjZAzlNzRGscF05dX301yEkG9XdLDHeW9pNZCQIaHD5Ta86qy5IaZCqQEacyxOXr0xIT3aksWo7yEQZDZD VERIFY=greatestbotonearth APP_SECRET=1afd68320df9850accb1abb83b7b7155 node server.js`
+14 verbose stack Exit status 1
+14 verbose stack     at EventEmitter.<anonymous> (/Users/zephinzer/.nvm/versions/node/v6.9.4/lib/node_modules/npm/lib/utils/lifecycle.js:255:16)
+14 verbose stack     at emitTwo (events.js:106:13)
+14 verbose stack     at EventEmitter.emit (events.js:191:7)
+14 verbose stack     at ChildProcess.<anonymous> (/Users/zephinzer/.nvm/versions/node/v6.9.4/lib/node_modules/npm/lib/utils/spawn.js:40:14)
+14 verbose stack     at emitTwo (events.js:106:13)
+14 verbose stack     at ChildProcess.emit (events.js:191:7)
+14 verbose stack     at maybeClose (internal/child_process.js:877:16)
+14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:226:5)
+15 verbose pkgid bot-kopiboy@1.0.0
+16 verbose cwd /Users/zephinzer/Projects/KopiBoy/repository
+17 error Darwin 15.6.0
+18 error argv "/Users/zephinzer/.nvm/versions/node/v6.9.4/bin/node" "/Users/zephinzer/.nvm/versions/node/v6.9.4/bin/npm" "run" "devjoe"
+19 error node v6.9.4
+20 error npm  v3.10.10
+21 error code ELIFECYCLE
+22 error bot-kopiboy@1.0.0 devjoe: `NODE_ENV=development TOKEN=EAAQhZBLuiyCwBAIRimpJ2yqqjBV9tbIgRt84ogOzXFHnd0SHV5ItkDAqKceOmHLvOJzn85P1wQoL7njtZC2t0EjenITR3cjZAzlNzRGscF05dX301yEkG9XdLDHeW9pNZCQIaHD5Ta86qy5IaZCqQEacyxOXr0xIT3aksWo7yEQZDZD VERIFY=greatestbotonearth APP_SECRET=1afd68320df9850accb1abb83b7b7155 node server.js`
+22 error Exit status 1
+23 error Failed at the bot-kopiboy@1.0.0 devjoe script 'NODE_ENV=development TOKEN=EAAQhZBLuiyCwBAIRimpJ2yqqjBV9tbIgRt84ogOzXFHnd0SHV5ItkDAqKceOmHLvOJzn85P1wQoL7njtZC2t0EjenITR3cjZAzlNzRGscF05dX301yEkG9XdLDHeW9pNZCQIaHD5Ta86qy5IaZCqQEacyxOXr0xIT3aksWo7yEQZDZD VERIFY=greatestbotonearth APP_SECRET=1afd68320df9850accb1abb83b7b7155 node server.js'.
+23 error Make sure you have the latest version of node.js and npm installed.
+23 error If you do, this is most likely a problem with the bot-kopiboy package,
+23 error not with npm itself.
+23 error Tell the author that this fails on your system:
+23 error     NODE_ENV=development TOKEN=EAAQhZBLuiyCwBAIRimpJ2yqqjBV9tbIgRt84ogOzXFHnd0SHV5ItkDAqKceOmHLvOJzn85P1wQoL7njtZC2t0EjenITR3cjZAzlNzRGscF05dX301yEkG9XdLDHeW9pNZCQIaHD5Ta86qy5IaZCqQEacyxOXr0xIT3aksWo7yEQZDZD VERIFY=greatestbotonearth APP_SECRET=1afd68320df9850accb1abb83b7b7155 node server.js
+23 error You can get information on how to open an issue for this project with:
+23 error     npm bugs bot-kopiboy
+23 error Or if that isn't available, you can get their info via:
+23 error     npm owner ls bot-kopiboy
+23 error There is likely additional logging output above.
+24 verbose exit [ 1, true ]
