@@ -27,11 +27,13 @@
   "homepage": "https://bitbucket.org/kopiboyapp/botbot#readme",
   "dependencies": {
     "bower": "^1.8.0",
+    "chai": "^3.5.0",
     "express": "^4.14.0",
     "firebase": "^3.6.3",
     "messenger-bot": "^2.4.0",
     "moment": "^2.17.1",
     "newrelic": "^1.36.0",
+    "should": "^11.2.0",
     "superagent": "^3.1.0"
   },
   "devDependencies": {
