@@ -27,12 +27,6 @@ describe('KopiBoy', () => {
 			}).should.not.throw();
 		});
 	});
-	context('Data Models', () => {
-		it('contains Places to store Cafés', () => {
-			expect(models.places).to.not.be.undefined;
-			expect(models.places.toString()).to.contain('SequelizeModel');
-		});
-	});
 	context('Introduction', () => {
 		context('button creators', () => {
 			it('exists', () => {

@@ -1,7 +1,12 @@
 const {expect} = require('chai');
 
 describe('KopiBoy::Components::LocationCalculator', () => {
+	const latitude = Math.random() * 90;
+	const longitude = Math.random() * 90;
+	const location1 = { latitude, longitude };
+	const location2 = { latitude, longitude };
 	let locationCalculator = {};
+
 	it('is located in the right position', () => {
 		expect(() => {
 			locationCalculator = require('../../components/location-calculator');
@@ -17,11 +22,6 @@ describe('KopiBoy::Components::LocationCalculator', () => {
 		expect(locationCalculator.getLongitudeBounds).to.not.be.undefined;
 	});
 	describe('.getDistance()', () => {
-		const latitude = Math.random() * 90;
-		const longitude = Math.random() * 90;
-		const location1 = { latitude, longitude };
-		const location2 = { latitude, longitude };
-
 		it('takes in two arguments of Object<{latitude:Float,longitude:Flat}> and returns an integer', () => {
 			const observedDistance = locationCalculator.getDistance(location1, location2);
 			expect(typeof observedDistance).to.be.equal('number');
