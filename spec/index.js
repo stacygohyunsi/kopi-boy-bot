@@ -26,21 +26,6 @@ describe('KopiBoy', () => {
 				strings = require('../strings');
 			}).should.not.throw();
 		});
-		it('has Models', () => {
-			(() => {
-				models = require('../models');
-			}).should.not.throw();
-		});
-		it('has a Data Importer [#138593941]', () => {
-			(() => {
-				dataImporter = require('../components/data-importer');
-			}).should.not.throw();
-		});
-		it('has a Location Calculator [#138614499]', () => {
-			(() => {
-				locationCalculator = require('../components/location-calculator');
-			}).should.not.throw();
-		});
 	});
 	context('Data Models', () => {
 		it('contains Places to store Cafés', () => {

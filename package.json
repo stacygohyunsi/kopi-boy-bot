@@ -11,7 +11,7 @@
     "devstacy": "NODE_ENV=development TOKEN=EAAQhCRnyD7UBAJ3c2gItTTtTZCJj9IgnJm3RY9TUGr1Yfc5gxJY5kmP3BghkIID2Yq5rtAspi3WZArj3Af3MNdxrZBU7vvQbBZBOORZBpGDBZA1hIZB8ect0UZBpzAJxv9r8IcZATDhSmvFNQdagCaUOu9miHvHWzZAG6pJSpuZBW5pcAZDZD VERIFY=greatestbotonearth APP_SECRET=f8078e16030ed64e5b5f44cc8778aa72 node server.js",
     "devjoe": "NODE_ENV=development TOKEN=EAAQhZBLuiyCwBAIRimpJ2yqqjBV9tbIgRt84ogOzXFHnd0SHV5ItkDAqKceOmHLvOJzn85P1wQoL7njtZC2t0EjenITR3cjZAzlNzRGscF05dX301yEkG9XdLDHeW9pNZCQIaHD5Ta86qy5IaZCqQEacyxOXr0xIT3aksWo7yEQZDZD VERIFY=greatestbotonearth APP_SECRET=1afd68320df9850accb1abb83b7b7155 node server.js",
 		"migrate": "./node_modules/.bin/sequelize --config ./config/sequelize.js db:migrate",
-    "test": "mocha ./spec",
+    "test": "mocha ./spec/**",
     "postinstall": "./node_modules/bower/bin/bower install"
   },
   "repository": {
