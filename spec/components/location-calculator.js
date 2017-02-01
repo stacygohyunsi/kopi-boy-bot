@@ -5,6 +5,7 @@ describe('KopiBoy::Components::LocationCalculator', () => {
 	const longitude = Math.random() * 90;
 	const location1 = { latitude, longitude };
 	const location2 = { latitude, longitude };
+	const distance = 100;
 	let locationCalculator = {};
 
 	it('is located in the right position', () => {
@@ -33,8 +34,8 @@ describe('KopiBoy::Components::LocationCalculator', () => {
 		})
 	});
 	describe('.getLatitudeBounds()', () => {
-		it('takes in a single argument of Object<{latitude:Float,longitude:Float}> and returns an Object<{upperLatitude:Float,lowerLatitude:Float}>', () => {
-			const observedReturnedValue = locationCalculator.getLatitudeBounds(location1);
+		it('takes in a single argument of Object<{latitude:Float,longitude:Float}> and distance and returns an Object<{upperLatitude:Float,lowerLatitude:Float}>', () => {
+			const observedReturnedValue = locationCalculator.getLatitudeBounds(location1, distance);
 			expect(observedReturnedValue.upperLatitude).to.not.be.undefined;
 			expect(typeof observedReturnedValue.upperLatitude).to.be.equal('number');
 			expect(observedReturnedValue.lowerLatitude).to.not.be.undefined;
@@ -42,8 +43,8 @@ describe('KopiBoy::Components::LocationCalculator', () => {
 		});
 	});
 	describe('.getLongitudeBounds()', () => {
-		it('takes in a single argument of Object<{latitude:Float,longitude:Float}> and returns an Object<{leftLongitude:Float,rightLongitude:Float}>', () => {
-			const observedReturnedValue = locationCalculator.getLatitudeBounds(location1);
+		it('takes in a single argument of Object<{latitude:Float,longitude:Float}> and distance and returns an Object<{leftLongitude:Float,rightLongitude:Float}>', () => {
+			const observedReturnedValue = locationCalculator.getLongitudeBounds(location1, distance);
 			expect(observedReturnedValue.leftLongitude).to.not.be.undefined;
 			expect(typeof observedReturnedValue.leftLongitude).to.be.equal('number');
 			expect(observedReturnedValue.rightLongitude).to.not.be.undefined;
