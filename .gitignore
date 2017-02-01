@@ -5,3 +5,4 @@ bower_components/**
 yarn-error.log
 npm-debug.log
 newrelic_agent.log
+data/latest.json
