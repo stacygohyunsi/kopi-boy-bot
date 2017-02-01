@@ -10,7 +10,8 @@ const dataImporter = {
 			totalCafes.push(jsonObj);
 		})
 		.on('done',(error)=>{
-			callback(totalCafes);
+			error && callback(error, null);
+			!error && callback(null, totalCafes);
 		});
 	}
 }
