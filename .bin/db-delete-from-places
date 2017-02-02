@@ -1,0 +1,8 @@
+#!/bin/sh
+echo This script will remove all data rows in the table \`kopiboy\`.\`places\`.
+echo You will be asked for the password of your 'root' user to import the SQL script at ./.bin/db-delete-from-places.sql.
+echo Hit ctrl+c to terminate if wrongly started.
+sleep 1
+echo Beginning removal of data rows from table \`kopiboy\`.\`places\` for development environment...
+mysql -uroot -p < ./.bin/db-delete-from-places.sql
+echo Done.
