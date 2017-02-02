@@ -6,10 +6,9 @@ require('newrelic');
 // const moment = require('moment');
 const express = require('express');
 const Bot = require('messenger-bot');
-const ACTIONS = require('./actions');
-const FEATURES = require('./features');
-const STRINGS = require('./strings');
 
+const Features = require('./components/features');
+const Strings = require('./components/strings');
 const Actions = require('./components/actions');
 const WelcomeButtons = require('./components/buttons/welcome');
 const LocationProximityButtons = require('./components/buttons/location-proximity');
@@ -42,24 +41,24 @@ bot.on('error', (err) => {
 bot.on('postback', (payload, reply) => {
 	bot.getProfile(payload.sender.id, (err, profile) => {
 		switch(payload.postback.payload) {
-			case ACTIONS.CAFE_ADD:
-				reply({ text: STRINGS.COMING_SOON }, err => {
+			case Actions.CAFE_ADD:
+				reply({ text: Strings.COMING_SOON }, err => {
 					console.log(err);
 				});
 				break;
-			case ACTIONS.CAFE_LIST:
-				reply({ text: STRINGS.COMING_SOON }, err => {
+			case Actions.CAFE_LIST:
+				reply({ text: Strings.COMING_SOON }, err => {
 					console.log(err);
 				});
 				break;
-			case ACTIONS.WITHIN_NEARBY:
+			case Actions.WITHIN_NEARBY:
 				reply({ text: 'nearby' });
 				break;
-			case ACTIONS.WITHIN_COUNTRY:
+			case Actions.WITHIN_COUNTRY:
 				Actions.WithinCountry.handle(reply, profile);
 				break;
-			case ACTIONS.CAFE_RANDOM:
-				const responseText = STRINGS.CAFE_RANDOM_ABOUT;
+			case Actions.CAFE_RANDOM:
+				const responseText = Strings.CAFE_RANDOM_ABOUT;
 				const responseButtons = LocationProximityButtons();
 				reply({
 					attachment: {
@@ -85,7 +84,7 @@ bot.on('message', (payload, reply) => {
 	console.log('message incoming!');
   bot.getProfile(payload.sender.id, (err, profile) => {
 		const name = `${profile.first_name} ${profile.last_name}`;
-		const responseText = STRINGS.WELCOME.replace(STRINGS.KEYS.NAME, name);
+		const responseText = Strings.WELCOME.replace(Strings.KEYS.NAME, name);
 		const responseButtons = new WelcomeButtons();
 		reply({
 			attachment: {

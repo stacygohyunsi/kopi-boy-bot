@@ -2,14 +2,14 @@ const Sequelize = require('sequelize');
 
 const Models = require('../../models');
 
-const STRINGS = require('../../strings');
+const Strings = require('../strings');
 
 const ActionWithinCountry = {
 	handle: (reply, profile) => {
 		const name = profile ? profile.name : 'dear user';
 		Models.places.find({ order: [ Sequelize.fn('RAND') ] }).then((res) => {
 			const {dataValues} = res;
-			const leadText = STRINGS.SUCCESS.cafeFound(name);
+			const leadText = Strings.SUCCESS.cafeFound(name);
 			reply({ text: leadText });
 			setTimeout(() => {
 				reply({

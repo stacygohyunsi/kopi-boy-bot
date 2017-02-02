@@ -2,7 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const {expect} = require('chai');
 
-describe('KopiBoy::Components::LocationCalculator', () => {
+describe('KopiBoy::Components::DataImporter [#138593941]', () => {
+	const expectedComponentLocation = path.join(process.cwd(), '/components/data-importer.js');
 	let testDataKeys = ['a', 'b', 'c', 'd', 'e'];
 	let testDataRows = [
 		[1, 2, 3, 4, 5],
@@ -16,7 +17,7 @@ describe('KopiBoy::Components::LocationCalculator', () => {
 
 	it('is located in the right position', () => {
 		expect(() => {
-			currentModule = require('../../components/data-importer');
+			currentModule = require(expectedComponentLocation);
 		}).to.not.throw();
 	});
 

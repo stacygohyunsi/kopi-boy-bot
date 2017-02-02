@@ -1,13 +1,12 @@
 const {expect} = require('chai');
+const path = require('path');
 
 describe('KopiBoy::Models', () => {
+	const expectedComponentLocation = path.resolve('./models');
 	let models;
 	it('has Models [#138604129]', () => {
 		(() => {
-			models = require('../../models');
+			models = require(expectedComponentLocation);
 		}).should.not.throw();
-	});
-	it('contains a Model named `places`', () => {
-		expect(models.places).to.not.be.undefined;
 	});
 });

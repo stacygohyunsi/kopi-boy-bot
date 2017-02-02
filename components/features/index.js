@@ -1,4 +1,4 @@
-const FEATURES = {
+const Features = {
 	CAFE_RANDOM: true,
 	CAFE_LIST: true,
 	CAFE_ADD: true,
@@ -6,4 +6,4 @@ const FEATURES = {
 	WITHIN_COUNTRY: true,
 };
 
-module.exports = FEATURES;
+module.exports = Features;
