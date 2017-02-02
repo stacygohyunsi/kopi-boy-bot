@@ -10,8 +10,10 @@ const ACTIONS = require('./actions');
 const FEATURES = require('./features');
 const STRINGS = require('./strings');
 
+const Actions = require('./components/actions');
 const WelcomeButtons = require('./components/buttons/welcome');
 const LocationProximityButtons = require('./components/buttons/location-proximity');
+
 const app = express();
 
 /** CONFIG */
@@ -38,43 +40,45 @@ bot.on('error', (err) => {
 });
 
 bot.on('postback', (payload, reply) => {
-	switch(payload.postback.payload) {
-		case ACTIONS.CAFE_ADD:
-			reply({ text: STRINGS.COMING_SOON }, err => {
-				console.log(err);
-			});
-			break;
-		case ACTIONS.CAFE_LIST:
-			reply({ text: STRINGS.COMING_SOON }, err => {
-				console.log(err);
-			});
-			break;
-		case ACTIONS.WITHIN_NEARBY:
-			reply({ text: 'nearby' });
-			break;
-		case ACTIONS.WITHIN_COUNTRY:
-			reply({ text: 'country' });
-			break;
-		case ACTIONS.CAFE_RANDOM:
-			const responseText = STRINGS.CAFE_RANDOM_ABOUT;
-			const responseButtons = LocationProximityButtons();
-			reply({
-				attachment: {
-					type: 'template',
-					payload: {
-						template_type: 'button',
-						text: responseText,
-						buttons: responseButtons
+	bot.getProfile(payload.sender.id, (err, profile) => {
+		switch(payload.postback.payload) {
+			case ACTIONS.CAFE_ADD:
+				reply({ text: STRINGS.COMING_SOON }, err => {
+					console.log(err);
+				});
+				break;
+			case ACTIONS.CAFE_LIST:
+				reply({ text: STRINGS.COMING_SOON }, err => {
+					console.log(err);
+				});
+				break;
+			case ACTIONS.WITHIN_NEARBY:
+				reply({ text: 'nearby' });
+				break;
+			case ACTIONS.WITHIN_COUNTRY:
+				Actions.WithinCountry.handle(reply, profile);
+				break;
+			case ACTIONS.CAFE_RANDOM:
+				const responseText = STRINGS.CAFE_RANDOM_ABOUT;
+				const responseButtons = LocationProximityButtons();
+				reply({
+					attachment: {
+						type: 'template',
+						payload: {
+							template_type: 'button',
+							text: responseText,
+							buttons: responseButtons
+						}
 					}
-				}
-			}, err => {
-				console.log(err);
-			});
-			break;
-		default:
-			reply({ text: JSON.stringify(payload) });
-			break;
-	}
+				}, err => {
+					console.log(err);
+				});
+				break;
+			default:
+				reply({ text: JSON.stringify(payload) });
+				break;
+		}
+	});
 });
 
 bot.on('message', (payload, reply) => {
