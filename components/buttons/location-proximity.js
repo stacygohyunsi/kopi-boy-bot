@@ -4,14 +4,14 @@ const Strings = require('../strings');
 
 function WelcomeButtons() {
 	const responseButtons = [];
-	if(Features.WITHIN_NEARBY === true) {
+	if(Features.withinNearby() === true) {
 		responseButtons.push({
 			payload: Actions.WITHIN_NEARBY,
 			title: Strings.WITHIN_NEARBY,
 			type: 'postback',
 		});
 	}
-	if(Features.WITHIN_COUNTRY === true) {
+	if(Features.withinCountry() === true) {
 		responseButtons.push({
 			payload: Actions.WITHIN_COUNTRY,
 			title: Strings.WITHIN_COUNTRY,
