@@ -1,27 +1,27 @@
-const ACTIONS = require('../../actions');
-const FEATURES = require('../../features');
-const STRINGS = require('../../strings');
+const Actions = require('../actions');
+const Features = require('../features');
+const Strings = require('../strings');
 
 function WelcomeButtons() {
 	const responseButtons = [];
-	if(FEATURES.CAFE_RANDOM === true) {
+	if(Features.CAFE_RANDOM === true) {
 		responseButtons.push({
-			payload: ACTIONS.CAFE_RANDOM,
-			title: STRINGS.CAFE_RANDOM,
+			payload: Actions.CAFE_RANDOM,
+			title: Strings.CAFE_RANDOM,
 			type: 'postback',
 		});
 	}
-	if(FEATURES.CAFE_LIST === true) {
+	if(Features.CAFE_LIST === true) {
 		responseButtons.push({
-			payload: ACTIONS.CAFE_LIST,
-			title: STRINGS.CAFE_LIST,
+			payload: Actions.CAFE_LIST,
+			title: Strings.CAFE_LIST,
 			type: 'postback',
 		});
 	}
-	if(FEATURES.CAFE_ADD === true) {
+	if(Features.CAFE_ADD === true) {
 		responseButtons.push({
-			payload: ACTIONS.CAFE_ADD,
-			title: STRINGS.CAFE_ADD,
+			payload: Actions.CAFE_ADD,
+			title: Strings.CAFE_ADD,
 			type: 'postback',
 		});
 	}
