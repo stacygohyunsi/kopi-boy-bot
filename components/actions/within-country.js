@@ -7,11 +7,11 @@ const MapOpener = require('../map-opener');
 
 const ActionWithinCountry = {
 	createBasicInfoElement: (place) => {
-		(!place.name) && (() => { throw new Error('Expected property `name` is not defined.')})();
-		(!place.address) && (() => { throw new Error('Expected property `address` is not defined.' )})();
-		// (!place.image_url) && (() => { throw new Error('Expected property `image_url` is not defined.' )})();
-		(!place.website_url) && (() => { throw new Error('Expected property `website_url` is not defined.' )})();
-		// (!place.contact_number) && (() => { throw new Error('Expected property `contact_number` is not defined.' )})();
+		(!place.name) && (() => { throw new EvalError('Expected property `name` is not defined.')})();
+		(!place.address) && (() => { throw new EvalError('Expected property `address` is not defined.' )})();
+		// (!place.image_url) && (() => { throw new EvalError('Expected property `image_url` is not defined.' )})();
+		(!place.website_url) && (() => { throw new EvalError('Expected property `website_url` is not defined.' )})();
+		// (!place.contact_number) && (() => { throw new EvalError('Expected property `contact_number` is not defined.' )})();
 
 		const buttons = [{
 			type:"web_url",
@@ -37,9 +37,10 @@ const ActionWithinCountry = {
 	},
 
 	createLocationElement: (place) => {
-		(!place.latitude) && (() => { throw new Error('Latitude is not defined.')})();
-		(!place.longitude) && (() => { throw new Error('Longitude is not defined.' )})();
-		
+		console.log(place);
+		(!place.latitude) && (() => { throw new EvalError('Latitude is not defined.')})();
+		(!place.longitude) && (() => { throw new EvalError('Longitude is not defined.' )})();
+
 		return {
 			title: 'Need Directions?',
 			subtitle: 'Check it out in your favourite maps application',
@@ -79,7 +80,10 @@ const ActionWithinCountry = {
 		};
 	},
 	
-	handle: (reply, profile) => {
+	handle: (reply, profile, callback) => {
+		(typeof reply !== 'function') && (() => { throw new EvalError('Parameter `reply` is not a valid function.') })();
+		(!profile) && (() => { throw new EvalError('Expected argument `profile` was not found.') })();
+		
 		const name = profile ? profile.name : 'dear user';
 		Models.places.find({ order: [ Sequelize.fn('RAND') ] }).then((res) => {
 			const {dataValues} = res;
@@ -87,8 +91,7 @@ const ActionWithinCountry = {
 			reply({ text: leadText });
 			setTimeout(() => {
 				reply(ActionWithinCountry.generateReply(dataValues), (err, info) => {
-					console.log(err);
-					console.log(info);
+					(!!callback) && callback(err, info);
 				});
 			}, 1000);
 		});
