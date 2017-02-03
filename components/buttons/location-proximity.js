@@ -1,20 +1,20 @@
-const ACTIONS = require('../../actions');
-const FEATURES = require('../../features');
-const STRINGS = require('../../strings');
+const Actions = require('../actions');
+const Features = require('../features');
+const Strings = require('../strings');
 
 function WelcomeButtons() {
 	const responseButtons = [];
-	if(FEATURES.WITHIN_NEARBY === true) {
+	if(Features.WITHIN_NEARBY === true) {
 		responseButtons.push({
-			payload: ACTIONS.WITHIN_NEARBY,
-			title: STRINGS.WITHIN_NEARBY,
+			payload: Actions.WITHIN_NEARBY,
+			title: Strings.WITHIN_NEARBY,
 			type: 'postback',
 		});
 	}
-	if(FEATURES.WITHIN_COUNTRY === true) {
+	if(Features.WITHIN_COUNTRY === true) {
 		responseButtons.push({
-			payload: ACTIONS.WITHIN_COUNTRY,
-			title: STRINGS.WITHIN_COUNTRY,
+			payload: Actions.WITHIN_COUNTRY,
+			title: Strings.WITHIN_COUNTRY,
 			type: 'postback',
 		});
 	}
