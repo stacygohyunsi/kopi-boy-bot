@@ -22,7 +22,17 @@ describe('KopiBoy::Components::Buttons::Welcome', () => {
 	});
 
 	describe('random café button', componentExists ? () => {
+		let originalState;
+		beforeEach(() => {
+			originalState = Features.CAFE_RANDOM()
+		});
+
+		afterEach(() => {
+			Features.CAFE_RANDOM = () => originalState;
+		});
+
 		it('is returned when feature is turned on', () => {
+			Features.CAFE_RANDOM = () => true;
 			let found = false;
 			const observed = component();
 			expect(observed.filter(button => button.title === Strings.CAFE_RANDOM)).to.have.length(1);
@@ -33,12 +43,21 @@ describe('KopiBoy::Components::Buttons::Welcome', () => {
 			let found = false;
 			const observed = component();
 			expect(observed.filter(button => button.title === Strings.CAFE_RANDOM)).to.have.length(0);
-			Features.CAFE_RANDOM = () => true;
 		});
 	} : null);
 
 	describe('list of cafés button', componentExists ? () => {
+		let originalState;
+		beforeEach(() => {
+			originalState = Features.CAFE_LIST()
+		});
+
+		afterEach(() => {
+			Features.CAFE_LIST = () => originalState;
+		});
+
 		it('is returned when feature is turned on', () => {
+			Features.CAFE_LIST = () => true;
 			let found = false;
 			const observed = component();
 			expect(observed.filter(button => button.title === Strings.CAFE_LIST)).to.have.length(1);
@@ -49,12 +68,21 @@ describe('KopiBoy::Components::Buttons::Welcome', () => {
 			let found = false;
 			const observed = component();
 			expect(observed.filter(button => button.title === Strings.CAFE_LIST)).to.have.length(0);
-			Features.CAFE_LIST = () => true;
 		});
 	} : null);
 
 	describe('add a café button', componentExists ? () => {
+		let originalState;
+		beforeEach(() => {
+			originalState = Features.CAFE_ADD()
+		});
+
+		afterEach(() => {
+			Features.CAFE_ADD = () => originalState;
+		});
+
 		it('is returned when feature is turned on', () => {
+			Features.CAFE_ADD = () => true;
 			let found = false;
 			const observed = component();
 			expect(observed.filter(button => button.title === Strings.CAFE_ADD)).to.have.length(1);
@@ -65,7 +93,6 @@ describe('KopiBoy::Components::Buttons::Welcome', () => {
 			let found = false;
 			const observed = component();
 			expect(observed.filter(button => button.title === Strings.CAFE_ADD)).to.have.length(0);
-			Features.CAFE_ADD = () => true;
 		});
 	} : null);
 })
