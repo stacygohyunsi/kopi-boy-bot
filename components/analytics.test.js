@@ -1,7 +1,7 @@
 const {expect} = require('chai');
 const path = require('path');
 
-describe('KopiBoy::Components::Analytics [#138814139]', () => {
+describe('KopiBoy::Components::Analytics', () => {
 	const expectedComponentLocation = path.join(process.cwd(), '/components/analytics.js');
 	let componentExists = false;
 	let component = null;
@@ -16,11 +16,11 @@ describe('KopiBoy::Components::Analytics [#138814139]', () => {
 		}).to.not.throw();
 	});
 
-	it('implements sendEvent()', componentExists ? () => {
+	it('implements .sendEvent()', componentExists ? () => {
 		expect(component.sendEvent).to.not.be.undefined;
 	} : null);
 
-	it('implements generateFormattedData()', componentExists ? () => {
+	it('implements .generateFormattedData()', componentExists ? () => {
 		expect(component.generateFormattedData).to.not.be.undefined;
 	} : null);	
 

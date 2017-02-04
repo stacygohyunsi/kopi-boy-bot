@@ -61,6 +61,9 @@ bot.on('postback', (payload, reply) => {
 			case Actions.WITHIN_COUNTRY_RANDOM:
 				WithinCountry.handleRandom(reply, profile);
 				break;
+			case Actions.WITHIN_COUNTRY_RANDOM_REPEAT:
+				WithinCountry.handleRandomRepeat(reply, profile);
+				break;
 			case Actions.CAFE_RANDOM:
 				CafeRandom.handle(reply, profile);
 				break;
