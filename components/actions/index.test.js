@@ -28,6 +28,6 @@ describe('KopiBoy::Components::Actions', () => {
 	});
 
 	it('contains action to display all cafés within the country [#138935691]', () => {
-		expect(component.WITHIN_COUNTRY).to.not.be.undefined;
+		expect(component.WITHIN_COUNTRY_RANDOM).to.not.be.undefined;
 	});
 });

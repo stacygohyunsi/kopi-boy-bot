@@ -16,19 +16,19 @@ const ActionWithinCountry = {
 
 		const buttons = [];
 		(place.website_url) && (buttons.push({
-			type:"web_url",
+			type: 'web_url',
 			url: place.website_url,
-			title:"View Website"
+			title: Strings.VIEW_WEBSITE
 		}));
 		(place.contact_number) && (buttons.push({
-			type: "phone_number",
+			type: 'phone_number',
 			payload: place.contact_number,
-			title: "Call Em'"
+			title: Strings.CALL_THIS_CAFE
 		}));
 		buttons.push({
 			type:'postback',
-			payload: Actions.WITHIN_COUNTRY,
-			title: 'Nah, not this one'
+			payload: Actions.WITHIN_COUNTRY_RANDOM,
+			title: Strings.SHOW_ANOTHER
 		});
 
 		return {
@@ -36,7 +36,7 @@ const ActionWithinCountry = {
 			image_url: place.image_url ? place.image_url : null,
 			subtitle: place.address,
 			default_action: {
-				type: "web_url",
+				type: 'web_url',
 				url: place.website_url
 			},
 			buttons
@@ -80,13 +80,13 @@ const ActionWithinCountry = {
 		const payload = ActionWithinCountry.createGenericPayload(elements);
 		return {
 			attachment:{
-				type: "template",
+				type: 'template',
 				payload
 			}
 		};
 	},
 	
-	handle: (reply, profile, callback) => {
+	handleRandom: (reply, profile, callback) => {
 		(typeof reply !== 'function') && (() => { throw new EvalError('Parameter `reply` is not a valid function.') })();
 		(!profile) && (() => { throw new EvalError('Expected argument `profile` was not found.') })();
 		const name = profile ? profile.first_name : 'dear user';

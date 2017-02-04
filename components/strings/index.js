@@ -2,18 +2,24 @@ const Strings = {};
 Strings.KEYS = {
 		NAME: '%_NAME_%'
 };
-Strings.COMING_SOON = 'Sadly this feature is not available yet. Like our Page and leave us comments if you wish to see this feature up and about!',
+Strings.COMING_SOON = 'Sadly this feature is not available yet. Like our Page and leave us comments if you wish to see this feature up and about!';
+
 Strings.WELCOME = `
 Hi, %_NAME_%, KopiBoy is your personal assistant in discovering awesome cafés near you.
 
 How can I help you today?
-`,
-Strings.CAFE_RANDOM = 'Café Roulette',
-Strings.CAFE_RANDOM_ABOUT = 'Up for an adventure aren\'t you? Sure, we\'ll find you cafés: ',
-Strings.CAFE_LIST = 'Cafés Near Me',
-Strings.CAFE_ADD = 'I found a Café!',
-Strings.WITHIN_NEARBY = 'Nearby',
-Strings.WITHIN_COUNTRY = 'Within my Country',
+`;
+
+Strings.CAFE_RANDOM = 'Café Roulette';
+Strings.CAFE_RANDOM_ABOUT = 'Up for an adventure aren\'t you? Sure, we\'ll find you cafés: ';
+Strings.CAFE_LIST = 'Cafés Near Me';
+Strings.CAFE_ADD = 'I found a Café!';
+Strings.WITHIN_NEARBY = 'Nearby';
+Strings.WITHIN_COUNTRY_RANDOM = 'Within my Country';
+
+Strings.CALL_THIS_CAFE = 'Call Café';
+Strings.VIEW_WEBSITE = 'View Website';
+Strings.SHOW_ANOTHER = 'Show Me Another'
 
 Strings.SUCCESS = {
 	CAFE_FOUND: [

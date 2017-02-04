@@ -46,8 +46,8 @@ describe('KopiBoy::Components::Actions::WithinCountry', () => {
 			expect(component.generateReply).to.not.be.undefined;
 		} : null);
 		
-		it('implements .handle()', componentExists ? () => {
-			expect(component.handle).to.not.be.undefined;
+		it('implements .handleRandom()', componentExists ? () => {
+			expect(component.handleRandom).to.not.be.undefined;
 		} : null);
 	})
 
@@ -144,7 +144,7 @@ describe('KopiBoy::Components::Actions::WithinCountry', () => {
 		});
 	} : null);
 
-	describe('.handle()', componentExists && component.handle ? () => {
+	describe('.handleRandom()', componentExists && component.handleRandom ? () => {
 		const replySpy = sinon.spy();
 		const replyMock = (payload, callback) => {
 			replySpy(payload);
@@ -155,24 +155,24 @@ describe('KopiBoy::Components::Actions::WithinCountry', () => {
 
 		it('takes in two arguments, `reply` and `profile` and `callback`', () => {
 			expect(() => {
-				component.handle(() => {}, profile, callback);
+				component.handleRandom(() => {}, profile, callback);
 			}).to.not.throw();
 		});
 
 		it('throws an error if `reply` is not found`', () => {
 			expect(() => {
-				component.handle(null, profile);
+				component.handleRandom(null, profile);
 			}).to.throw(EvalError);
 		});
 
 		it('throws an error if `profile` is not found`', () => {
 			expect(() => {
-				component.handle(replyMock);
+				component.handleRandom(replyMock);
 			}).to.throw(EvalError);
 		});
 
 		it('calls callback after it is done processing', (done) => {
-			component.handle(replyMock, profile, (err, info) => {
+			component.handleRandom(replyMock, profile, (err, info) => {
 				expect(err).to.equal('err');
 				expect(info).to.equal('info');
 				done();
@@ -181,7 +181,7 @@ describe('KopiBoy::Components::Actions::WithinCountry', () => {
 
 		it('calls the supplied `reply` twice', (done) => {
 			const preCallReplySpyCallCount  = replySpy.callCount;
-			component.handle(replyMock, profile, (err, info) => {
+			component.handleRandom(replyMock, profile, (err, info) => {
 				const postCallReplySpyCallCount  = replySpy.callCount;
 				expect(postCallReplySpyCallCount - preCallReplySpyCallCount).to.equal(2);
 				done();

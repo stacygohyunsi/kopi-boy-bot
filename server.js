@@ -58,8 +58,8 @@ bot.on('postback', (payload, reply) => {
 			case Actions.WITHIN_NEARBY:
 				reply({ text: 'nearby' });
 				break;
-			case Actions.WITHIN_COUNTRY:
-				WithinCountry.handle(reply, profile);
+			case Actions.WITHIN_COUNTRY_RANDOM:
+				WithinCountry.handleRandom(reply, profile);
 				break;
 			case Actions.CAFE_RANDOM:
 				CafeRandom.handle(reply, profile);

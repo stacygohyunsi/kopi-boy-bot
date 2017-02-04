@@ -25,15 +25,15 @@ describe('KopiBoy::Components::Buttons::Proximity', () => {
 		it('is returned when feature is turned on', () => {
 			let found = false;
 			const observed = component();
-			expect(observed.filter(button => button.title === Strings.WITHIN_COUNTRY)).to.have.length(1);
+			expect(observed.filter(button => button.title === Strings.WITHIN_COUNTRY_RANDOM)).to.have.length(1);
 		});
 
 		it('is not returned when feature is turned off', () => {
-			Features.WITHIN_COUNTRY = () => false;
+			Features.WITHIN_COUNTRY_RANDOM = () => false;
 			let found = false;
 			const observed = component();
-			expect(observed.filter(button => button.title === Strings.WITHIN_COUNTRY)).to.have.length(0);
-			Features.WITHIN_COUNTRY = () => true;
+			expect(observed.filter(button => button.title === Strings.WITHIN_COUNTRY_RANDOM)).to.have.length(0);
+			Features.WITHIN_COUNTRY_RANDOM = () => true;
 		});
 	} : null);
 

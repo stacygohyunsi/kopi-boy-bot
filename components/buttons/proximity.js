@@ -4,10 +4,10 @@ const Strings = require('../strings');
 
 function ProximityButtons() {
 	const responseButtons = [];
-	if(Features.WITHIN_COUNTRY() === true) {
+	if(Features.WITHIN_COUNTRY_RANDOM() === true) {
 		responseButtons.push({
-			payload: Actions.WITHIN_COUNTRY,
-			title: Strings.WITHIN_COUNTRY,
+			payload: Actions.WITHIN_COUNTRY_RANDOM,
+			title: Strings.WITHIN_COUNTRY_RANDOM,
 			type: 'postback',
 		});
 	}

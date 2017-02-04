@@ -3,7 +3,7 @@ const Features = {
 	CAFE_LIST: () => true,
 	CAFE_ADD: () => true,
 	WITHIN_NEARBY: () => true,
-	WITHIN_COUNTRY: () => true,
+	WITHIN_COUNTRY_RANDOM: () => true,
 };
 
 module.exports = Features;
