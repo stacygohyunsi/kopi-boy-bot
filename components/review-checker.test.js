@@ -16,6 +16,18 @@ describe('KopiBoy::Components::ReviewChecker', () => {
 		}).to.not.throw();
 	});	
 
+	it('contains a HungryGoWhere query URL', componentExists ? () => {
+		expect(component.HUNGRYGOWHERE_URL).to.not.be.undefined;
+	} : null);
+
+	it('contains a Burpple query URL', componentExists ? () => {
+		expect(component.BURPPLE_URL).to.not.be.undefined;
+	} : null);
+
+	it('contains a Yelp query URL', componentExists ? () => {
+		expect(component.YELP_URL).to.not.be.undefined;
+	} : null);
+
 	it('implements .sendReviewURLs()', componentExists ? () => {
 		expect(component.sendReviewURLs).to.not.be.undefined;
 	} : null);
