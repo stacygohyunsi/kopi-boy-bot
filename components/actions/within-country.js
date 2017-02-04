@@ -97,11 +97,11 @@ const ActionWithinCountry = {
 			setTimeout(() => {
 				reply(ActionWithinCountry.generateReply(dataValues), (err, info) => {
 					(callback) ? callback(err, info) : (() => {
-						console.log(err);
-						console.log(info);
+						console.log('Actions.WithinCountry.handleRandom()', err);
+						console.log('Actions.WithinCountry.handleRandom()', info);
 					})();
 				});
-			}, 1000);
+			}, 1500);
 		});
 	}
 };
