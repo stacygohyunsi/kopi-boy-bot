@@ -10,8 +10,12 @@ const Bot = require('messenger-bot');
 const Features = require('./components/features');
 const Strings = require('./components/strings');
 const Actions = require('./components/actions');
+
 const WelcomeButtons = require('./components/buttons/welcome');
-const LocationProximityButtons = require('./components/buttons/location-proximity');
+const ProximityButtons = require('./components/buttons/proximity');
+
+const CafeRandom = require('./components/actions/cafe-random');
+const WithinCountry = require('./components/actions/within-country');
 
 const app = express();
 
@@ -55,23 +59,10 @@ bot.on('postback', (payload, reply) => {
 				reply({ text: 'nearby' });
 				break;
 			case Actions.WITHIN_COUNTRY:
-				Actions.WithinCountry.handle(reply, profile);
+				WithinCountry.handle(reply, profile);
 				break;
 			case Actions.CAFE_RANDOM:
-				const responseText = Strings.CAFE_RANDOM_ABOUT;
-				const responseButtons = LocationProximityButtons();
-				reply({
-					attachment: {
-						type: 'template',
-						payload: {
-							template_type: 'button',
-							text: responseText,
-							buttons: responseButtons
-						}
-					}
-				}, err => {
-					console.log(err);
-				});
+				CafeRandom.handle(reply, profile);
 				break;
 			default:
 				reply({ text: JSON.stringify(payload) });
@@ -85,7 +76,7 @@ bot.on('message', (payload, reply) => {
   bot.getProfile(payload.sender.id, (err, profile) => {
 		const name = `${profile.first_name} ${profile.last_name}`;
 		const responseText = Strings.WELCOME.replace(Strings.KEYS.NAME, name);
-		const responseButtons = new WelcomeButtons();
+		const responseButtons = WelcomeButtons();
 		reply({
 			attachment: {
 				type: 'template',
