@@ -27,7 +27,6 @@ describe('KopiBoy::Components::Analytics [#138814139]', () => {
 	describe('.sendEvent()', () => {
 		it('throws an error if no arguments are supplied', componentExists ? () => {
 			expect(() => {
-				console.log(component);
 				component.sendEvent();
 			}).to.throw();
 		} : null);
