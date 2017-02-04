@@ -1,7 +1,7 @@
 const {expect} = require('chai');
 const path = require('path');
 
-describe('KopiBoy::Components::ReviewChecker [#139038581, #139038537, #139038487]', () => {
+describe('KopiBoy::Components::ReviewChecker', () => {
 	const expectedComponentLocation = path.join(process.cwd(), '/components/review-checker.js');
 	let componentExists = false;
 	let component = null;
@@ -20,66 +20,66 @@ describe('KopiBoy::Components::ReviewChecker [#139038581, #139038537, #139038487
 		expect(component.sendReviewURLs).to.not.be.undefined;
 	} : null);
 
-	it('implements .generateHungryGoWhereURL()', componentExists ? () => {
+	it('implements .generateHungryGoWhereURL() [#139038487]', componentExists ? () => {
 		expect(component.generateHungryGoWhereURL).to.not.be.undefined;
-	} : null);	
+	} : null);
 
-	it('implements .generateBurppleURL()', componentExists ? () => {
-		expect(component.generateBurppleURL).to.not.be.undefined;
-	} : null);	
-
-	it('implements .generateYelpURL()', componentExists ? () => {
-		expect(component.generateYelpURL).to.not.be.undefined;
-	} : null);		
-
-	describe('.generateHungryGoWhereURL()', () => {
-		it('throws an error if no arguments are supplied', componentExists ? () => {
+	describe('.generateHungryGoWhereURL()', componentExists ? () => {
+		it('throws an error if no arguments are supplied', () => {
 			expect(() => {
 				component.generateHungryGoWhereURL();
 			}).to.throw();
-		} : null);
+		});
 
 		it('returns a Hungry Go Where URL string as expected', () => {
 			const name = "the botanist";
 			const expected = component.HUNGRYGOWHERE_URL + encodeURIComponent(name);
 			expect(component.generateHungryGoWhereURL(name)).to.deep.equal(expected);
 		});			
-	});
+	} : null);
 
-	describe('.generateBurppleURL()', () => {
-		it('throws an error if no arguments are supplied', componentExists ? () => {
+	it('implements .generateBurppleURL() [#139038581]', componentExists ? () => {
+		expect(component.generateBurppleURL).to.not.be.undefined;
+	} : null);
+
+	describe('.generateBurppleURL()', componentExists ? () => {
+		it('throws an error if no arguments are supplied', () => {
 			expect(() => {
 				component.generateBurppleURL();
 			}).to.throw();
-		} : null);
+		});
 
 		it('returns a Burpple URL string as expected', () => {
 			const name = "the botanist";
 			const expected = component.BURPPLE_URL + encodeURIComponent(name);
 			expect(component.generateBurppleURL(name)).to.deep.equal(expected);
 		});		
-	});		
+	} : null);
 
-	describe('.generateYelpURL()', () => {
-		it('throws an error if no arguments are supplied', componentExists ? () => {
+	it('implements .generateYelpURL() [#139038537]', componentExists ? () => {
+		expect(component.generateYelpURL).to.not.be.undefined;
+	} : null);
+
+	describe('.generateYelpURL()', componentExists ? () => {
+		it('throws an error if no arguments are supplied', () => {
 			expect(() => {
 				component.generateYelpURL();
 			}).to.throw();
-		} : null);
+		});
 
 		it('returns a Yelp URL string as expected', () => {
 			const name = "the botanist";
 			const expected = component.YELP_URL + encodeURIComponent(name);
 			expect(component.generateYelpURL(name)).to.deep.equal(expected);
 		});
-	});	
+	} : null);
 
-	describe('.sendReviewURLs()', () => {
-		it('throws an error if no arguments are supplied', componentExists ? () => {
+	describe('.sendReviewURLs()', componentExists ? () => {
+		it('throws an error if no arguments are supplied', () => {
 			expect(() => {
 				component.sendReviewURLs();
 			}).to.throw();
-		} : null);
+		});
 
 		it('returns an object as expected', () => {
 			const name = "the botanist";
@@ -96,7 +96,7 @@ describe('KopiBoy::Components::ReviewChecker [#139038581, #139038537, #139038487
 				component.sendReviewURLs(name)
 			).to.deep.equal(expected);
 		});		
-	});
+	} : null);
 
 
 });
