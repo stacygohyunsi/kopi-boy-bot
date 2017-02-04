@@ -13,7 +13,8 @@
     "unseed": "./.bin/db-delete-from-places",
     "seed": "./node_modules/.bin/sequelize --config ./config/sequelize.js db:seed:undo:all; ./node_modules/.bin/sequelize --config ./config/sequelize.js db:seed:all",
     "migrate": "./node_modules/.bin/sequelize --config ./config/sequelize.js db:migrate",
-    "test": "mocha ./components/*.test.js ./components/**/*.test.js ./models/*.test.js --watch",
+    "test": "mocha ./components/*.test.js ./components/**/*.test.js ./models/*.test.js",
+		"test-watch": " npm test -- --watch",
     "postinstall": "./node_modules/bower/bin/bower install",
     "data-import": "node ./.bin/data-import.js"
   },
