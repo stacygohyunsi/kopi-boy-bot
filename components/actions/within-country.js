@@ -45,6 +45,26 @@ const ActionWithinCountry = {
 	},
 
 	createOpeningHoursElement: (place) => {
+		const buttons = [];
+		(place.contact_number) && (buttons.push({
+			type: 'phone_number',
+			payload: place.contact_number,
+			title: Strings.CALL_THIS_CAFE
+		}));
+		(place.contact_number) && (buttons.push({
+			type: 'web_url',
+			payload: `mailto:${place.contact_email}`,
+			title: Strings.EMAIL_THIS_CAFE
+		}));
+
+		return {
+			title: 'Opening Hours',
+			subtitle: place.opening_hours || 'Unavailable. Call/email them for more information!',
+			buttons
+		}
+	},
+
+	createReviewsElement: (place) => {
 		const reviewSiteUrls = ActionWithinCountry.createReviewWebsitesButtons(place.name);
 		const buttons = [{
 			type: 'web_url',
@@ -62,17 +82,11 @@ const ActionWithinCountry = {
 			title: Strings.CHECKOUT_YELP_REVIEWS
 		}];
 
-		(place.contact_number) && (buttons.push({
-			type: 'phone_number',
-			payload: place.contact_number,
-			title: Strings.CALL_THIS_CAFE
-		}));
-
 		return {
-			title: 'Opening Hours',
-			subtitle: place.opening_hours || 'Unavailable',
+			title: 'Get a second opinion',
+			subtitle: 'Not sure about this place? Let\'s help you get a second opinion on...',
 			buttons
-		}
+		};
 	},
 
 	createReviewWebsitesButtons: (cafeName) => {
@@ -95,6 +109,7 @@ const ActionWithinCountry = {
 	generateReply: (place) => {
 		const elements = [ActionWithinCountry.createBasicInfoElement(place)];
 		(place.opening_hours) && elements.push(ActionWithinCountry.createOpeningHoursElement(place));
+		elements.push(ActionWithinCountry.createReviewsElement(place));
 
 		const payload = ActionWithinCountry.createGenericPayload(elements);
 		return {

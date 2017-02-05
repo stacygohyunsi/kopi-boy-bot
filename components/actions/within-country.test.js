@@ -56,6 +56,10 @@ describe('KopiBoy::Components::Actions::WithinCountry', () => {
 		expect(component.createReviewWebsitesButtons).to.not.be.undefined;
 	} : null);
 
+	it('implements .createReviewsElement()', componentExists ? () => {
+		expect(component.createReviewsElement).to.not.be.undefined;
+	} : null);
+
 	describe('.createBasicInfoElement()', componentExists && component.createBasicInfoElement ? () => {
 		it('takes in a data row from `place` table and returns a Facebook messenger element', () => {
 			const observed = component.createBasicInfoElement({
