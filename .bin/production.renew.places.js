@@ -47,7 +47,7 @@ connection.connect(err => {
 		/// delete places.js entry in SequelizeData table
 		++processAwaitCounter;
 		(placesSeeders.length > 0) && (() => {
-			let deleteSequelizeDataQuery = `DELETE FROM \`SequelizeData\` WHERE`;
+			let deleteSequelizeDataQuery = 'DELETE FROM `kopiboy`.`SequelizeData` WHERE';
 			placesSeeders.forEach(seederFile => {
 				deleteSequelizeDataQuery += ` name = ${connection.escape(seederFile)} OR `
 			});
