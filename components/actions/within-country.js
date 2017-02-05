@@ -57,11 +57,14 @@ const ActionWithinCountry = {
 			title: Strings.EMAIL_THIS_CAFE
 		}));
 
-		return {
+		const element = {
 			title: 'Opening Hours',
-			subtitle: place.opening_hours || 'Unavailable. Call/email them for more information!',
-			buttons
+			subtitle: place.opening_hours || 'Unavailable. Call/email them for more information!'
+		};
+		if(buttons.length > 0) {
+			element.buttons = buttons;
 		}
+		return element;
 	},
 
 	createReviewsElement: (place) => {
