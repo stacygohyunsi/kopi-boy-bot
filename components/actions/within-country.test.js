@@ -27,31 +27,33 @@ describe('KopiBoy::Components::Actions::WithinCountry', () => {
 		}).to.not.throw();
 	});
 
-	describe('component methods', () => {
-		it('implements .createBasicInfoElement()', componentExists ? () => {
-			expect(component.createBasicInfoElement).to.not.be.undefined;
-		} : null);
-		
-		it('implements .createOpeningHoursElement()', componentExists ? () => {
-			expect(component.createOpeningHoursElement).to.not.be.undefined;
-		} : null);
-		
-		it('implements .createGenericPayload()', componentExists ? () => {
-			expect(component.createGenericPayload).to.not.be.undefined;
-		} : null);
-		
-		it('implements .generateReply()', componentExists ? () => {
-			expect(component.generateReply).to.not.be.undefined;
-		} : null);
-		
-		it('implements .handleRandom()', componentExists ? () => {
-			expect(component.handleRandom).to.not.be.undefined;
-		} : null);
+	it('implements .createBasicInfoElement()', componentExists ? () => {
+		expect(component.createBasicInfoElement).to.not.be.undefined;
+	} : null);
+	
+	it('implements .createOpeningHoursElement()', componentExists ? () => {
+		expect(component.createOpeningHoursElement).to.not.be.undefined;
+	} : null);
+	
+	it('implements .createGenericPayload()', componentExists ? () => {
+		expect(component.createGenericPayload).to.not.be.undefined;
+	} : null);
+	
+	it('implements .generateReply()', componentExists ? () => {
+		expect(component.generateReply).to.not.be.undefined;
+	} : null);
+	
+	it('implements .handleRandom()', componentExists ? () => {
+		expect(component.handleRandom).to.not.be.undefined;
+	} : null);
 
-		it('implements .handleRandomRepeat()', componentExists ? () => {
-			expect(component.handleRandomRepeat).to.not.be.undefined;
-		} : null);
-	})
+	it('implements .handleRandomRepeat()', componentExists ? () => {
+		expect(component.handleRandomRepeat).to.not.be.undefined;
+	} : null);
+
+	it('implements .createReviewWebsitesButtons()', componentExists ? () => {
+		expect(component.createReviewWebsitesButtons).to.not.be.undefined;
+	} : null);
 
 	describe('.createBasicInfoElement()', componentExists && component.createBasicInfoElement ? () => {
 		it('takes in a data row from `place` table and returns a Facebook messenger element', () => {
@@ -215,6 +217,37 @@ describe('KopiBoy::Components::Actions::WithinCountry', () => {
 				expect(postCallReplySpyCallCount - preCallReplySpyCallCount).to.equal(1);
 				done();
 			});
+		});
+	} : null);
+
+	describe('.createReviewWebsitesButtons()', componentExists && component.createReviewWebsitesButtons ? () => {
+		it('throws an error if no arguments are supplied', () => {
+			expect(() => {
+				component.createReviewWebsitesButtons();
+			}).to.throw(EvalError);
+		});
+
+		it('takes in one argument of type string representing the name of the café', () => {
+			expect(() => {
+				component.createReviewWebsitesButtons(name);
+			}).to.not.throw();
+		});
+
+		it('throws an error if input argument is not of type string', () => {
+			expect(() => {
+				expect(component.createReviewWebsitesButtons('')).to.not.throw();
+				expect(component.createReviewWebsitesButtons(1)).to.throw();
+				expect(component.createReviewWebsitesButtons({})).to.throw();
+				expect(component.createReviewWebsitesButtons(() => {})).to.throw();
+			}).to.not.throw();
+		});
+
+		it('returns an Object<{burpple : String, hungryGoWhere : String, yelp : String}>', () => {
+			expect(() => {
+				expect(component.createReviewWebsitesButtons(name)).to.have.keys([
+					'burpple', 'hungryGoWhere', 'yelp'
+				]);
+			}).to.not.throw();
 		});
 	} : null);
 });
