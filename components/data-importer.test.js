@@ -51,7 +51,11 @@ describe('KopiBoy::Components::DataImporter [#138593941]', () => {
 
 		after(() => {
 			fs.unlinkSync(tmpFile);
-			fs.rmdirSync(tmpDirectory);
+			try {
+				fs.rmdirSync(tmpDirectory);
+			} catch(ex) {
+				console.warn(ex);
+			}
 		})
 
 		it('takes in two arguments, a path to a CSV file and a callback with signature (error : Error, data : Array)', (done) => {

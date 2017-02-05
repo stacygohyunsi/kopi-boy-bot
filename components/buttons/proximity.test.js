@@ -22,7 +22,17 @@ describe('KopiBoy::Components::Buttons::Proximity', () => {
 	});
 
 	describe('within country button', componentExists ? () => {
+		let originalState;
+		beforeEach(() => {
+			originalState = Features.WITHIN_COUNTRY_RANDOM()
+		});
+
+		afterEach(() => {
+			Features.WITHIN_COUNTRY_RANDOM = () => originalState;
+		});
+
 		it('is returned when feature is turned on', () => {
+			Features.WITHIN_COUNTRY_RANDOM = () => true;
 			let found = false;
 			const observed = component();
 			expect(observed.filter(button => button.title === Strings.WITHIN_COUNTRY_RANDOM)).to.have.length(1);
@@ -33,23 +43,31 @@ describe('KopiBoy::Components::Buttons::Proximity', () => {
 			let found = false;
 			const observed = component();
 			expect(observed.filter(button => button.title === Strings.WITHIN_COUNTRY_RANDOM)).to.have.length(0);
-			Features.WITHIN_COUNTRY_RANDOM = () => true;
 		});
 	} : null);
 
 	describe('within nearby button', componentExists ? () => {
+		let originalState;
+		beforeEach(() => {
+			originalState = Features.WITHIN_NEARBY_RANDOM()
+		});
+
+		afterEach(() => {
+			Features.WITHIN_NEARBY_RANDOM = () => originalState;
+		});
+
 		it('is returned when feature is turned on', () => {
+			Features.WITHIN_NEARBY_RANDOM = () => true;
 			let found = false;
 			const observed = component();
-			expect(observed.filter(button => button.title === Strings.WITHIN_NEARBY)).to.have.length(1);
+			expect(observed.filter(button => button.title === Strings.WITHIN_NEARBY_RANDOM)).to.have.length(1);
 		});
 
 		it('is not returned when feature is turned off', () => {
-			Features.WITHIN_NEARBY = () => false;
+			Features.WITHIN_NEARBY_RANDOM = () => false;
 			let found = false;
 			const observed = component();
-			expect(observed.filter(button => button.title === Strings.WITHIN_NEARBY)).to.have.length(0);
-			Features.WITHIN_NEARBY = () => true;
+			expect(observed.filter(button => button.title === Strings.WITHIN_NEARBY_RANDOM)).to.have.length(0);
 		});
 	} : null);
 })

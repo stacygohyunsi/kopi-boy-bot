@@ -5,8 +5,6 @@ const ActionsCafeRandom = {
 	handle: function(reply, profile, callback) {
 		const responseText = Strings.CAFE_RANDOM_ABOUT;
 		const responseButtons = ProximityButtons();
-		console.log(responseText);
-		console.log(responseButtons);
 		reply({
 			attachment: {
 				type: 'template',

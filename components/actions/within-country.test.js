@@ -2,6 +2,8 @@ const {expect} = require('chai');
 const path = require('path');
 const sinon = require('sinon');
 
+const Actions = require('./index');
+
 describe('KopiBoy::Components::Actions::WithinCountry', () => {
 	const expectedComponentLocation = path.join(__dirname, './within-country.js');
 	let componentExists = false;
@@ -30,10 +32,6 @@ describe('KopiBoy::Components::Actions::WithinCountry', () => {
 			expect(component.createBasicInfoElement).to.not.be.undefined;
 		} : null);
 		
-		it('implements .createLocationElement()', componentExists ? () => {
-			expect(component.createLocationElement).to.not.be.undefined;
-		} : null);
-		
 		it('implements .createOpeningHoursElement()', componentExists ? () => {
 			expect(component.createOpeningHoursElement).to.not.be.undefined;
 		} : null);
@@ -49,6 +47,10 @@ describe('KopiBoy::Components::Actions::WithinCountry', () => {
 		it('implements .handleRandom()', componentExists ? () => {
 			expect(component.handleRandom).to.not.be.undefined;
 		} : null);
+
+		it('implements .handleRandomRepeat()', componentExists ? () => {
+			expect(component.handleRandomRepeat).to.not.be.undefined;
+		} : null);
 	})
 
 	describe('.createBasicInfoElement()', componentExists && component.createBasicInfoElement ? () => {
@@ -62,7 +64,7 @@ describe('KopiBoy::Components::Actions::WithinCountry', () => {
 			expect(observed.default_action.type).to.equal('web_url');
 			expect(observed.default_action.url).to.equal(website_url);
 			expect(observed.buttons[0].url).to.equal(website_url);
-			expect(observed.buttons[1].payload).to.equal(contact_number);
+			expect(observed.buttons[1].payload).to.equal(Actions.WITHIN_COUNTRY_RANDOM_REPEAT);
 		});
 		it('fails when the property `name` is not available', () => {
 			expect(() => {
@@ -84,24 +86,6 @@ describe('KopiBoy::Components::Actions::WithinCountry', () => {
 			expect(() => {
 				const observed = component.createBasicInfoElement({
 					name, address, image_url, contact_number
-				});
-			}).to.throw(EvalError);
-		});
-	} : null);
-
-	describe('.createLocationElement()', componentExists && component.createLocationElement ? () => {
-		it('fails when the property `latitude` is not available', () => {
-			expect(() => {
-				const observed = component.createLocationElement({
-					longitude
-				});
-			}).to.throw(EvalError);
-		});
-
-		it('fails when the property `longitude` is not available', () => {
-			expect(() => {
-				const observed = component.createLocationElement({
-					latitude
 				});
 			}).to.throw(EvalError);
 		});
@@ -184,6 +168,51 @@ describe('KopiBoy::Components::Actions::WithinCountry', () => {
 			component.handleRandom(replyMock, profile, (err, info) => {
 				const postCallReplySpyCallCount  = replySpy.callCount;
 				expect(postCallReplySpyCallCount - preCallReplySpyCallCount).to.equal(2);
+				done();
+			});
+		});
+	} : null);
+
+	describe('.handleRandomRepeat()', componentExists && component.handleRandom ? () => {
+		const replySpy = sinon.spy();
+		const replyMock = (payload, callback) => {
+			replySpy(payload);
+			(callback) && callback('err', 'info');
+		};
+		const callback = sinon.spy();
+		const profile = { name: 'profile.name' };
+
+		it('takes in two arguments, `reply` and `profile` and `callback`', () => {
+			expect(() => {
+				component.handleRandom(() => {}, profile, callback);
+			}).to.not.throw();
+		});
+
+		it('throws an error if `reply` is not found`', () => {
+			expect(() => {
+				component.handleRandom(null, profile);
+			}).to.throw(EvalError);
+		});
+
+		it('throws an error if `profile` is not found`', () => {
+			expect(() => {
+				component.handleRandom(replyMock);
+			}).to.throw(EvalError);
+		});
+
+		it('calls callback after it is done processing', (done) => {
+			component.handleRandom(replyMock, profile, (err, info) => {
+				expect(err).to.equal('err');
+				expect(info).to.equal('info');
+				done();
+			});
+		});
+
+		it('calls the supplied `reply` once', (done) => {
+			const preCallReplySpyCallCount  = replySpy.callCount;
+			component.handleRandomRepeat(replyMock, profile, (err, info) => {
+				const postCallReplySpyCallCount  = replySpy.callCount;
+				expect(postCallReplySpyCallCount - preCallReplySpyCallCount).to.equal(1);
 				done();
 			});
 		});
