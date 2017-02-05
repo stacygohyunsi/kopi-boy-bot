@@ -51,7 +51,7 @@ const ActionWithinCountry = {
 			payload: place.contact_number,
 			title: Strings.CALL_THIS_CAFE
 		}));
-		(place.contact_number) && (buttons.push({
+		(place.contact_email) && (buttons.push({
 			type: 'web_url',
 			payload: `mailto:${place.contact_email}`,
 			title: Strings.EMAIL_THIS_CAFE
