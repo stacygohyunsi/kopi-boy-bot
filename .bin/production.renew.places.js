@@ -36,7 +36,7 @@ connection.connect(err => {
 
 		/// delete all rows from places table
 		++processAwaitCounter;
-		connection.query('DELETE FROM `kopiboy`.`places`;', (err, res) => {
+		connection.query('DELETE FROM `places`;', (err, res) => {
 			(err) && (() => { console.error(err); })();
 			(!err) && (() => {
 				console.log('Places entries removal SUCCESSFUL');
@@ -47,7 +47,7 @@ connection.connect(err => {
 		/// delete places.js entry in SequelizeData table
 		++processAwaitCounter;
 		(placesSeeders.length > 0) && (() => {
-			let deleteSequelizeDataQuery = 'DELETE FROM `kopiboy`.`SequelizeData` WHERE';
+			let deleteSequelizeDataQuery = 'DELETE FROM `SequelizeData` WHERE';
 			placesSeeders.forEach(seederFile => {
 				deleteSequelizeDataQuery += ` name = ${connection.escape(seederFile)} OR `
 			});
