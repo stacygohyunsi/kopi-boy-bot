@@ -97,7 +97,7 @@ describe('KopiBoy::Components::Actions::WithinCountry', () => {
 	describe('.createOpeningHoursElement()', componentExists && component.createOpeningHoursElement ? () => {
 		it('outputs an object with title and subtitle', () => {
 			const observed = component.createOpeningHoursElement({
-				opening_hours
+				name, opening_hours
 			});
 			expect(observed.title).to.equal('Opening Hours');
 			expect(observed.subtitle).to.equal(opening_hours);
