@@ -235,10 +235,10 @@ describe('KopiBoy::Components::Actions::WithinCountry', () => {
 		});
 
 		it('throws an error if input argument is not of type string', () => {
-			expect(component.createReviewWebsitesButtons('')).to.not.throw();
-			expect(component.createReviewWebsitesButtons(1)).to.throw();
-			expect(component.createReviewWebsitesButtons({})).to.throw();
-			expect(component.createReviewWebsitesButtons(() => {})).to.throw();
+			expect(() => component.createReviewWebsitesButtons('')).to.not.throw();
+			expect(() => component.createReviewWebsitesButtons(1)).to.throw();
+			expect(() => component.createReviewWebsitesButtons({})).to.throw();
+			expect(() => component.createReviewWebsitesButtons(() => {})).to.throw();
 		});
 
 		it('returns an Object<{burpple : String, hungryGoWhere : String, yelp : String}>', () => {
