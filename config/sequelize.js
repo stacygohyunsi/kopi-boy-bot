@@ -18,7 +18,8 @@ module.exports = {
   },
   "production": {
     use_env_variable: 'CLEARDB_DATABASE_URL',
-		dialect: 'mysql'
+		dialect: 'mysql',
+    seederStorage: "sequelize"
   }
 };
 
