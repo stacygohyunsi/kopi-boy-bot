@@ -5,6 +5,7 @@ const Actions = require('../actions');
 const Strings = require('../strings');
 
 const MapOpener = require('../map-opener');
+const ReviewChecker = require('../review-checker');
 
 const ActionWithinCountry = {
 	createBasicInfoElement: (place) => {
@@ -44,7 +45,23 @@ const ActionWithinCountry = {
 	},
 
 	createOpeningHoursElement: (place) => {
-		const buttons = [];
+		const reviewSiteUrls = ActionWithinCountry.createReviewWebsitesButtons(place.name);
+		const buttons = [{
+			type: 'web_url',
+			url: reviewSiteUrls.burpple,
+			title: Strings.CHECKOUT_BURPPLE_REVIEWS
+		},
+		{
+			type: 'web_url',
+			url: reviewSiteUrls.hungryGoWhere,
+			title: Strings.CHECKOUT_HUNGRYGOWHERE_REVIEWS
+		},
+		{
+			type: 'web_url',
+			url: reviewSiteUrls.yelp,
+			title: Strings.CHECKOUT_YELP_REVIEWS
+		}];
+
 		(place.contact_number) && (buttons.push({
 			type: 'phone_number',
 			payload: place.contact_number,
@@ -55,6 +72,16 @@ const ActionWithinCountry = {
 			title: 'Opening Hours',
 			subtitle: place.opening_hours || 'Unavailable',
 			buttons
+		}
+	},
+
+	createReviewWebsitesButtons: (cafeName) => {
+		(arguments.length === 0) && (() => { throw new Error('Café name must be specified'); })();
+		(typeof cafeName !== 'string') && (() => { throw new EvalError('Café name must be of type String'); })();
+		return {
+			burpple: ReviewChecker.generateBurppleURL(cafeName),
+			hungryGoWhere: ReviewChecker.generateHungryGoWhereURL(cafeName),
+			yelp: ReviewChecker.generateYelpURL(cafeName)
 		}
 	},
 

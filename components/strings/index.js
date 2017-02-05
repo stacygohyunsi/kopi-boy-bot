@@ -14,10 +14,13 @@ Strings.CAFE_RANDOM = 'Café Roulette';
 Strings.CAFE_RANDOM_ABOUT = 'Up for an adventure aren\'t you? Sure, we\'ll find you cafés: ';
 Strings.CAFE_LIST = 'Cafés Near Me';
 Strings.CAFE_ADD = 'I found a Café!';
+Strings.CHECKOUT_BURPPLE_REVIEWS = 'View on Burpple';
+Strings.CHECKOUT_HUNGRYGOWHERE_REVIEWS = 'View on HungryGoWhere';
+Strings.CHECKOUT_YELP_REVIEWS = 'View on Yelp';
 Strings.WITHIN_NEARBY_RANDOM = 'Nearby';
 Strings.WITHIN_COUNTRY_RANDOM = 'Within my Country';
 
-Strings.CALL_THIS_CAFE = 'Call Café';
+Strings.CALL_THIS_CAFE = 'Call';
 Strings.GET_DIRECTIONS = 'Get Directions';
 Strings.VIEW_WEBSITE = 'View Website';
 Strings.SHOW_ANOTHER = 'Show Me Another'
