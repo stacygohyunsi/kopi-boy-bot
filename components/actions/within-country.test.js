@@ -3,6 +3,7 @@ const path = require('path');
 const sinon = require('sinon');
 
 const Actions = require('./index');
+const ReviewChecker = require('../review-checker');
 
 describe('KopiBoy::Components::Actions::WithinCountry', () => {
 	const expectedComponentLocation = path.join(__dirname, './within-country.js');
@@ -243,11 +244,24 @@ describe('KopiBoy::Components::Actions::WithinCountry', () => {
 		});
 
 		it('returns an Object<{burpple : String, hungryGoWhere : String, yelp : String}>', () => {
-			expect(() => {
-				expect(component.createReviewWebsitesButtons(name)).to.have.keys([
-					'burpple', 'hungryGoWhere', 'yelp'
-				]);
-			}).to.not.throw();
+			expect(component.createReviewWebsitesButtons(name)).to.have.keys([
+				'burpple', 'hungryGoWhere', 'yelp'
+			]);
+		});
+
+		it('returns the Burpple query URL correctly', () => {
+			const observed = component.createReviewWebsitesButtons('random query');
+			expect(observed.burpple).to.equal(ReviewChecker.generateBurppleURL('random query'));
+		});
+
+		it('returns the HungryGoWhere query URL correctly', () => {
+			const observed = component.createReviewWebsitesButtons('random query');
+			expect(observed.hungryGoWhere).to.equal(ReviewChecker.generateHungryGoWhereURL('random query'));
+		});
+
+		it('returns the Yelp query URL correctly', () => {
+			const observed = component.createReviewWebsitesButtons('random query');
+			expect(observed.yelp).to.equal(ReviewChecker.generateYelpURL('random query'));
 		});
 	} : null);
 });
