@@ -16,6 +16,7 @@ const ProximityButtons = require('./components/buttons/proximity');
 
 const CafeRandom = require('./components/actions/cafe-random');
 const WithinCountry = require('./components/actions/within-country');
+const analytics = require('./components/analytics');
 
 const app = express();
 
@@ -59,12 +60,21 @@ bot.on('postback', (payload, reply) => {
 				reply({ text: 'nearby' });
 				break;
 			case Actions.WITHIN_COUNTRY_RANDOM:
+				analytics.sendEvent("withinCountry","withinCountry", payload.sender.id, function(err, httpResponse) {
+					if (err) {console.log("ERR", err)};
+				}); 				
 				WithinCountry.handleRandom(reply, profile);
 				break;
 			case Actions.WITHIN_COUNTRY_RANDOM_REPEAT:
+				analytics.sendEvent("withinCountryRepeat","withinCountryRepeat", payload.sender.id, function(err, httpResponse) {
+					if (err) {console.log("ERR", err)};
+				}); 					
 				WithinCountry.handleRandomRepeat(reply, profile);
 				break;
 			case Actions.CAFE_RANDOM:
+				analytics.sendEvent("cafeRoulette","cafeRoulette", payload.sender.id, function(err, httpResponse) {
+					if (err) {console.log("ERR", err)};
+				}); 
 				CafeRandom.handle(reply, profile);
 				break;
 			default:
@@ -80,6 +90,9 @@ bot.on('message', (payload, reply) => {
 		const name = `${profile.first_name} ${profile.last_name}`;
 		const responseText = Strings.WELCOME.replace(Strings.KEYS.NAME, name);
 		const responseButtons = WelcomeButtons();
+		analytics.sendEvent("welcome", payload.sender.id, payload.sender.id, function(err, httpResponse) {
+			if (err) {console.log("ERR", err)};
+		}); 		
 		reply({
 			attachment: {
 				type: 'template',
