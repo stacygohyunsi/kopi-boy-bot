@@ -2,12 +2,12 @@ const Features = {
 	CAFE_RANDOM: () => true,
 	CAFE_LIST: () => false,
 	CAFE_ADD: () => false,
-	WITHIN_NEARBY_LIST: () => false,
-	WITHIN_1KM_LIST: () => false,
-	WITHIN_5KM_LIST: () => false,
-	WITHIN_NEARBY_RANDOM: () => false,
-	WITHIN_1KM_RANDOM: () => false,
-	WITHIN_5KM_RANDOM: () => false,
+	WITHIN_200M_LIST: () => false,
+	WITHIN_500M_LIST: () => false,
+	WITHIN_2KM_LIST: () => false,
+	WITHIN_200M_RANDOM: () => true,
+	WITHIN_500M_RANDOM: () => false,
+	WITHIN_2KM_RANDOM: () => false,
 	WITHIN_COUNTRY_RANDOM: () => true,
 };
 

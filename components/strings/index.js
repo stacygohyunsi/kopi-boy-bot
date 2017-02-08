@@ -17,7 +17,7 @@ Strings.CAFE_ADD = 'I found a Café!';
 Strings.CHECKOUT_BURPPLE_REVIEWS = 'Burpple';
 Strings.CHECKOUT_HUNGRYGOWHERE_REVIEWS = 'HungryGoWhere';
 Strings.CHECKOUT_YELP_REVIEWS = 'Yelp';
-Strings.WITHIN_NEARBY_RANDOM = 'Nearby';
+Strings.WITHIN_200M_RANDOM = 'Nearby';
 Strings.WITHIN_COUNTRY_RANDOM = 'Within my Country';
 
 Strings.EMAIL_THIS_CAFE = 'Send Email';

@@ -49,25 +49,25 @@ describe('KopiBoy::Components::Buttons::Proximity', () => {
 	describe('within nearby button', componentExists ? () => {
 		let originalState;
 		beforeEach(() => {
-			originalState = Features.WITHIN_NEARBY_RANDOM()
+			originalState = Features.WITHIN_200M_RANDOM()
 		});
 
 		afterEach(() => {
-			Features.WITHIN_NEARBY_RANDOM = () => originalState;
+			Features.WITHIN_200M_RANDOM = () => originalState;
 		});
 
 		it('is returned when feature is turned on', () => {
-			Features.WITHIN_NEARBY_RANDOM = () => true;
+			Features.WITHIN_200M_RANDOM = () => true;
 			let found = false;
 			const observed = component();
-			expect(observed.filter(button => button.title === Strings.WITHIN_NEARBY_RANDOM)).to.have.length(1);
+			expect(observed.filter(button => button.title === Strings.WITHIN_200M_RANDOM)).to.have.length(1);
 		});
 
 		it('is not returned when feature is turned off', () => {
-			Features.WITHIN_NEARBY_RANDOM = () => false;
+			Features.WITHIN_200M_RANDOM = () => false;
 			let found = false;
 			const observed = component();
-			expect(observed.filter(button => button.title === Strings.WITHIN_NEARBY_RANDOM)).to.have.length(0);
+			expect(observed.filter(button => button.title === Strings.WITHIN_200M_RANDOM)).to.have.length(0);
 		});
 	} : null);
 })

@@ -11,10 +11,10 @@ function ProximityButtons() {
 			type: 'postback',
 		});
 	}
-	if(Features.WITHIN_NEARBY_RANDOM() === true) {
+	if(Features.WITHIN_200M_RANDOM() === true) {
 		responseButtons.push({
-			payload: Actions.WITHIN_NEARBY_RANDOM,
-			title: Strings.WITHIN_NEARBY_RANDOM,
+			payload: Actions.WITHIN_200M_RANDOM,
+			title: Strings.WITHIN_200M_RANDOM,
 			type: 'postback',
 		});
 	}
