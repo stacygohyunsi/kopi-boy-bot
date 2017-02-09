@@ -13,7 +13,7 @@
     "unseed": "./.bin/db-delete-from-places",
     "seed": "./node_modules/.bin/sequelize --config ./config/sequelize.js db:seed:all",
     "migrate": "./node_modules/.bin/sequelize --config ./config/sequelize.js db:migrate",
-    "test": "mocha ./components/*.test.js ./components/**/*.test.js ./models/*.test.js",
+    "test": "./node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- -- -u exports -R ./components/*.test.js ./components/**/*.test.js ./models/*.test.js",
     "test-watch": " npm test -- --watch",
     "postinstall": "./.bin/postinstall",
     "data-import": "node ./.bin/data-import.js",
