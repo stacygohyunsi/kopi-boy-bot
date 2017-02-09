@@ -31,7 +31,7 @@ describe('KopiBoy::Components::Analytics', () => {
 			}).to.throw();
 		} : null);
 		it('calls the :callback argument after it is done', (done) => {
-			component.sendEvent('action', 'label', 'cid', () => {
+			component.sendEvent('test', 'run', 'cid', () => {
 				done();
 			});
 		});

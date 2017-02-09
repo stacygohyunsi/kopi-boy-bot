@@ -29,6 +29,10 @@ describe('KopiBoy::Components::Features', () => {
 	it('implements .CAFE_ADD()', () => {
 		expect(component.CAFE_ADD).to.not.be.undefined;
 	});
+
+	it('implements .WITHIN_PROXIMITY_LIST()', () => {
+		expect(component.WITHIN_PROXIMITY_LIST).to.not.be.undefined;
+	});
 	
 	it('implements .WITHIN_200M_LIST()', () => {
 		expect(component.WITHIN_200M_LIST).to.not.be.undefined;
@@ -42,6 +46,10 @@ describe('KopiBoy::Components::Features', () => {
 		expect(component.WITHIN_500M_LIST).to.not.be.undefined;
 	});
 	
+	it('implements .WITHIN_PROXIMITY_RANDOM()', () => {
+		expect(component.WITHIN_PROXIMITY_RANDOM).to.not.be.undefined;
+	});
+
 	it('implements .WITHIN_200M_RANDOM()', () => {
 		expect(component.WITHIN_200M_RANDOM).to.not.be.undefined;
 	});

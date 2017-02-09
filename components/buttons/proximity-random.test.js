@@ -5,7 +5,7 @@ const Features = require('../features');
 const Strings = require('../strings');
 
 describe('KopiBoy::Components::Buttons::Proximity', () => {
-	const expectedComponentLocation = path.resolve('./components/buttons/proximity.js');
+	const expectedComponentLocation = path.resolve('./components/buttons/proximity-random.js');
 	let componentExists = false;
 	const component = (() => {
 		try {
@@ -49,22 +49,22 @@ describe('KopiBoy::Components::Buttons::Proximity', () => {
 	describe('within nearby button', componentExists ? () => {
 		let originalState;
 		beforeEach(() => {
-			originalState = Features.WITHIN_200M_RANDOM()
+			originalState = Features.WITHIN_PROXIMITY_RANDOM()
 		});
 
 		afterEach(() => {
-			Features.WITHIN_200M_RANDOM = () => originalState;
+			Features.WITHIN_PROXIMITY_RANDOM = () => originalState;
 		});
 
 		it('is returned when feature is turned on', () => {
-			Features.WITHIN_200M_RANDOM = () => true;
+			Features.WITHIN_PROXIMITY_RANDOM = () => true;
 			let found = false;
 			const observed = component();
-			expect(observed.filter(button => button.title === Strings.WITHIN_200M_RANDOM)).to.have.length(1);
+			expect(observed.filter(button => button.title === Strings.WITHIN_PROXIMITY_RANDOM)).to.have.length(1);
 		});
 
 		it('is not returned when feature is turned off', () => {
-			Features.WITHIN_200M_RANDOM = () => false;
+			Features.WITHIN_PROXIMITY_RANDOM = () => false;
 			let found = false;
 			const observed = component();
 			expect(observed.filter(button => button.title === Strings.WITHIN_200M_RANDOM)).to.have.length(0);

@@ -31,6 +31,14 @@ describe('KopiBoy::Components::Actions', () => {
 		expect(component.WITHIN_200M_RANDOM).to.not.be.undefined;
 	});
 
+	it('contains action to display nearby cafés', () => {
+		expect(component.WITHIN_500M_RANDOM).to.not.be.undefined;
+	});
+
+	it('contains action to display slighty further away cafés', () => {
+		expect(component.WITHIN_2KM_RANDOM).to.not.be.undefined;
+	});
+
 	it('contains action to display all cafés within the country [#138935691]', () => {
 		expect(component.WITHIN_COUNTRY_RANDOM).to.not.be.undefined;
 	});

@@ -12,10 +12,11 @@ const Strings = require('./components/strings');
 const Actions = require('./components/actions');
 
 const WelcomeButtons = require('./components/buttons/welcome');
-const ProximityButtons = require('./components/buttons/proximity');
+const ProximityRandomButtons = require('./components/buttons/proximity-random');
 
 const CafeRandom = require('./components/actions/cafe-random');
 const WithinCountry = require('./components/actions/within-country');
+const WithinProximity = require('./components/actions/within-proximity');
 
 const app = express();
 
@@ -57,6 +58,9 @@ bot.on('postback', (payload, reply) => {
 				break;
 			case Actions.WITHIN_NEARBY:
 				reply({ text: 'nearby' });
+				break;
+			case Actions.WITHIN_PROXIMITY_RANDOM:
+				WithinProximity.handleRandom(reply, profile);
 				break;
 			case Actions.WITHIN_COUNTRY_RANDOM:
 				WithinCountry.handleRandom(reply, profile);

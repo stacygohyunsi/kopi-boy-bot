@@ -36,10 +36,6 @@ describe('KopiBoy::Components::Actions::WithinCountry', () => {
 		expect(component.createOpeningHoursElement).to.not.be.undefined;
 	} : null);
 	
-	it('implements .createGenericPayload()', componentExists ? () => {
-		expect(component.createGenericPayload).to.not.be.undefined;
-	} : null);
-	
 	it('implements .generateReply()', componentExists ? () => {
 		expect(component.generateReply).to.not.be.undefined;
 	} : null);
@@ -105,15 +101,6 @@ describe('KopiBoy::Components::Actions::WithinCountry', () => {
 			});
 			expect(observed.title).to.equal('Opening Hours');
 			expect(observed.subtitle).to.equal(opening_hours);
-		});
-	} : null);
-
-	describe('.createGenericPayload()', componentExists && component.createGenericPayload ? () => {
-		it('takes in an array of elements and adds it to the elements property of the returned object', () => {
-			testInput = ['a', 'b', 'c'];
-			const observed = component.createGenericPayload(testInput);
-			expect(observed.template_type).to.equal('generic');
-			expect(observed.elements).to.deep.equal(testInput);
 		});
 	} : null);
 

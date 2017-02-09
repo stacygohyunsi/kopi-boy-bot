@@ -7,6 +7,13 @@ const Strings = require('../strings');
 const MapOpener = require('../map-opener');
 const ReviewChecker = require('../review-checker');
 
+const {
+	generateGenericTemplateType,
+	generatePostbackButton,
+	generateTemplateAttachment,
+	generateWebUrlButton
+} = require('./utility');
+
 const ActionWithinCountry = {
 	createBasicInfoElement: (place) => {
 		(!place.name) && (() => { throw new EvalError('Expected property `name` is not defined.')})();
@@ -16,21 +23,18 @@ const ActionWithinCountry = {
 		// (!place.contact_number) && (() => { throw new EvalError('Expected property `contact_number` is not defined.' )})();
 
 		const buttons = [];
-		(place.website_url) && (buttons.push({
-			type: 'web_url',
-			url: place.website_url,
-			title: Strings.VIEW_WEBSITE
-		}));
-		(place.latitude && place.longitude) && (buttons.push({
-			type: 'web_url',
-			url: MapOpener.getUrl(place.latitude, place.longitude).locationFallback,
-			title: Strings.GET_DIRECTIONS
-		}));
-		buttons.push({
-			type:'postback',
-			payload: Actions.WITHIN_COUNTRY_RANDOM_REPEAT,
-			title: Strings.SHOW_ANOTHER
-		});
+		(place.website_url) && (buttons.push(generateWebUrlButton(
+			place.website_url,
+			Strings.VIEW_WEBSITE
+		)));
+		(place.latitude && place.longitude) && (buttons.push(generateWebUrlButton(
+			MapOpener.getUrl(place.latitude, place.longitude).locationFallback,
+			Strings.GET_DIRECTIONS
+		)));
+		buttons.push(generatePostbackButton(
+			Actions.WITHIN_COUNTRY_RANDOM_REPEAT,
+			Strings.SHOW_ANOTHER
+		));
 
 		return {
 			title: place.name,
@@ -102,25 +106,13 @@ const ActionWithinCountry = {
 		}
 	},
 
-	createGenericPayload: (elements) => {
-		return {
-			template_type: 'generic',
-			elements
-		};
-	},
-
 	generateReply: (place) => {
 		const elements = [ActionWithinCountry.createBasicInfoElement(place)];
 		(place.opening_hours) && elements.push(ActionWithinCountry.createOpeningHoursElement(place));
 		elements.push(ActionWithinCountry.createReviewsElement(place));
 
-		const payload = ActionWithinCountry.createGenericPayload(elements);
-		return {
-			attachment:{
-				type: 'template',
-				payload
-			}
-		};
+		const payload = generateGenericTemplateType(elements);
+		return generateTemplateAttachment(payload);
 	},
 	
 	handleRandom: (reply, profile, callback) => {
