@@ -6,10 +6,10 @@ describe('KopiBoy::Models::Places', () => {
 	let models;
 
 	it('exists', () => {
-		(() => {
+		expect(() => {
 			models = require(expectedComponentLocation);
 			expect(models.places).to.not.be.undefined;
-		}).should.not.throw();
+		}).to.not.throw();
 	});
 
 	describe('structure', () => {

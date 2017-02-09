@@ -24,11 +24,19 @@ describe('KopiBoy::Components::Actions', () => {
 	});
 
 	it('contains action to display only nearby cafés [#138564095]', () => {
-		expect(component.WITHIN_NEARBY_LIST).to.not.be.undefined;
+		expect(component.WITHIN_200M_LIST).to.not.be.undefined;
 	});
 
 	it('contains action to display only nearby cafés [#138564089]', () => {
-		expect(component.WITHIN_NEARBY_RANDOM).to.not.be.undefined;
+		expect(component.WITHIN_200M_RANDOM).to.not.be.undefined;
+	});
+
+	it('contains action to display nearby cafés', () => {
+		expect(component.WITHIN_500M_RANDOM).to.not.be.undefined;
+	});
+
+	it('contains action to display slighty further away cafés', () => {
+		expect(component.WITHIN_2KM_RANDOM).to.not.be.undefined;
 	});
 
 	it('contains action to display all cafés within the country [#138935691]', () => {

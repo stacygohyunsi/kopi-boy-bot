@@ -5,7 +5,7 @@ module.exports = {
   	database: "kopiboy",
   	host: "127.0.0.1",
   	dialect: "mysql",
-    logging: console.log,
+    logging: (() => {}),
     seederStorage: "sequelize"
   },
   "test": {

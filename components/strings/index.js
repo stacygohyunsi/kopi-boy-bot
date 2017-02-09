@@ -17,8 +17,12 @@ Strings.CAFE_ADD = 'I found a Café!';
 Strings.CHECKOUT_BURPPLE_REVIEWS = 'Burpple';
 Strings.CHECKOUT_HUNGRYGOWHERE_REVIEWS = 'HungryGoWhere';
 Strings.CHECKOUT_YELP_REVIEWS = 'Yelp';
-Strings.WITHIN_NEARBY_RANDOM = 'Nearby';
+Strings.WITHIN_200M_RANDOM = 'Within 200 metres';
+Strings.WITHIN_500M_RANDOM = 'Within 500 metres'
+Strings.WITHIN_2KM_RANDOM = 'Within 2 kilometres'
+Strings.WITHIN_PROXIMITY_RANDOM = 'Near Me';
 Strings.WITHIN_COUNTRY_RANDOM = 'Within my Country';
+Strings.WITHIN_NEVERMIND = 'Nevermind';
 
 Strings.EMAIL_THIS_CAFE = 'Send Email';
 Strings.CALL_THIS_CAFE = 'Give A Call';

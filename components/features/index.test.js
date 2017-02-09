@@ -29,29 +29,37 @@ describe('KopiBoy::Components::Features', () => {
 	it('implements .CAFE_ADD()', () => {
 		expect(component.CAFE_ADD).to.not.be.undefined;
 	});
-	
-	it('implements .WITHIN_NEARBY_LIST()', () => {
-		expect(component.WITHIN_NEARBY_LIST).to.not.be.undefined;
+
+	it('implements .WITHIN_PROXIMITY_LIST()', () => {
+		expect(component.WITHIN_PROXIMITY_LIST).to.not.be.undefined;
 	});
 	
-	it('implements .WITHIN_1KM_LIST()', () => {
-		expect(component.WITHIN_1KM_LIST).to.not.be.undefined;
+	it('implements .WITHIN_200M_LIST()', () => {
+		expect(component.WITHIN_200M_LIST).to.not.be.undefined;
 	});
 	
-	it('implements .WITHIN_5KM_LIST()', () => {
-		expect(component.WITHIN_5KM_LIST).to.not.be.undefined;
+	it('implements .WITHIN_2KM_LIST()', () => {
+		expect(component.WITHIN_2KM_LIST).to.not.be.undefined;
 	});
 	
-	it('implements .WITHIN_NEARBY_RANDOM()', () => {
-		expect(component.WITHIN_NEARBY_RANDOM).to.not.be.undefined;
+	it('implements .WITHIN_500M_LIST()', () => {
+		expect(component.WITHIN_500M_LIST).to.not.be.undefined;
 	});
 	
-	it('implements .WITHIN_1KM_RANDOM()', () => {
-		expect(component.WITHIN_1KM_RANDOM).to.not.be.undefined;
+	it('implements .WITHIN_PROXIMITY_RANDOM()', () => {
+		expect(component.WITHIN_PROXIMITY_RANDOM).to.not.be.undefined;
+	});
+
+	it('implements .WITHIN_200M_RANDOM()', () => {
+		expect(component.WITHIN_200M_RANDOM).to.not.be.undefined;
 	});
 	
-	it('implements .WITHIN_5KM_RANDOM()', () => {
-		expect(component.WITHIN_1KM_RANDOM).to.not.be.undefined;
+	it('implements .WITHIN_500M_RANDOM()', () => {
+		expect(component.WITHIN_500M_RANDOM).to.not.be.undefined;
+	});
+	
+	it('implements .WITHIN_2KM_RANDOM()', () => {
+		expect(component.WITHIN_500M_RANDOM).to.not.be.undefined;
 	});
 	
 	it('implements .WITHIN_COUNTRY_RANDOM()', () => {

@@ -16,27 +16,27 @@ describe('KopiBoy::Components::ReviewChecker', () => {
 		}).to.not.throw();
 	});	
 
-	it('contains a HungryGoWhere query URL', componentExists ? () => {
+	it('contains a HungryGoWhere query URL', () => {
 		expect(component.HUNGRYGOWHERE_URL).to.not.be.undefined;
-	} : null);
+	});
 
-	it('contains a Burpple query URL', componentExists ? () => {
+	it('contains a Burpple query URL', () => {
 		expect(component.BURPPLE_URL).to.not.be.undefined;
-	} : null);
+	});
 
-	it('contains a Yelp query URL', componentExists ? () => {
+	it('contains a Yelp query URL', () => {
 		expect(component.YELP_URL).to.not.be.undefined;
-	} : null);
+	});
 
-	it('implements .sendReviewURLs()', componentExists ? () => {
+	it('implements .sendReviewURLs()', () => {
 		expect(component.sendReviewURLs).to.not.be.undefined;
-	} : null);
+	});
 
-	it('implements .generateHungryGoWhereURL() [#139038487]', componentExists ? () => {
+	it('implements .generateHungryGoWhereURL() [#139038487]', () => {
 		expect(component.generateHungryGoWhereURL).to.not.be.undefined;
-	} : null);
+	});
 
-	describe('.generateHungryGoWhereURL()', componentExists ? () => {
+	describe('.generateHungryGoWhereURL()', () => {
 		it('throws an error if no arguments are supplied', () => {
 			expect(() => {
 				component.generateHungryGoWhereURL();
@@ -48,13 +48,13 @@ describe('KopiBoy::Components::ReviewChecker', () => {
 			const expected = component.HUNGRYGOWHERE_URL + encodeURIComponent(name);
 			expect(component.generateHungryGoWhereURL(name)).to.deep.equal(expected);
 		});			
-	} : null);
+	});
 
-	it('implements .generateBurppleURL() [#139038581]', componentExists ? () => {
+	it('implements .generateBurppleURL() [#139038581]', () => {
 		expect(component.generateBurppleURL).to.not.be.undefined;
-	} : null);
+	});
 
-	describe('.generateBurppleURL()', componentExists ? () => {
+	describe('.generateBurppleURL()', () => {
 		it('throws an error if no arguments are supplied', () => {
 			expect(() => {
 				component.generateBurppleURL();
@@ -66,13 +66,13 @@ describe('KopiBoy::Components::ReviewChecker', () => {
 			const expected = component.BURPPLE_URL + encodeURIComponent(name);
 			expect(component.generateBurppleURL(name)).to.deep.equal(expected);
 		});		
-	} : null);
+	});
 
-	it('implements .generateYelpURL() [#139038537]', componentExists ? () => {
+	it('implements .generateYelpURL() [#139038537]', () => {
 		expect(component.generateYelpURL).to.not.be.undefined;
-	} : null);
+	});
 
-	describe('.generateYelpURL()', componentExists ? () => {
+	describe('.generateYelpURL()', () => {
 		it('throws an error if no arguments are supplied', () => {
 			expect(() => {
 				component.generateYelpURL();
@@ -84,9 +84,9 @@ describe('KopiBoy::Components::ReviewChecker', () => {
 			const expected = component.YELP_URL + encodeURIComponent(name);
 			expect(component.generateYelpURL(name)).to.deep.equal(expected);
 		});
-	} : null);
+	});
 
-	describe('.sendReviewURLs()', componentExists ? () => {
+	describe('.sendReviewURLs()', () => {
 		it('throws an error if no arguments are supplied', () => {
 			expect(() => {
 				component.sendReviewURLs();
@@ -108,7 +108,7 @@ describe('KopiBoy::Components::ReviewChecker', () => {
 				component.sendReviewURLs(name)
 			).to.deep.equal(expected);
 		});		
-	} : null);
+	});
 
 
 });

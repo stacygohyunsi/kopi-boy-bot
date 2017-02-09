@@ -5,15 +5,11 @@ const Features = require('../features');
 const Strings = require('../strings');
 
 describe('KopiBoy::Components::Buttons::Proximity', () => {
-	const expectedComponentLocation = path.resolve('./components/buttons/proximity.js');
-	let componentExists = false;
-	const component = (() => {
-		try {
-			const _component = require(expectedComponentLocation);
-			componentExists = true;
-			return _component;
-		} catch(ex) { return null; }
-	})();
+	const expectedComponentLocation = path.join(__dirname, './proximity-random.js');
+	let component = null;
+	try {
+		component = require(expectedComponentLocation);
+	} catch(ex) { }
 	
 	it('exists', () => {
 		expect(() => {
@@ -21,7 +17,7 @@ describe('KopiBoy::Components::Buttons::Proximity', () => {
 		}).to.not.throw();
 	});
 
-	describe('within country button', componentExists ? () => {
+	describe('within country button', () => {
 		let originalState;
 		beforeEach(() => {
 			originalState = Features.WITHIN_COUNTRY_RANDOM()
@@ -44,30 +40,30 @@ describe('KopiBoy::Components::Buttons::Proximity', () => {
 			const observed = component();
 			expect(observed.filter(button => button.title === Strings.WITHIN_COUNTRY_RANDOM)).to.have.length(0);
 		});
-	} : null);
+	});
 
-	describe('within nearby button', componentExists ? () => {
+	describe('within nearby button', () => {
 		let originalState;
 		beforeEach(() => {
-			originalState = Features.WITHIN_NEARBY_RANDOM()
+			originalState = Features.WITHIN_PROXIMITY_RANDOM()
 		});
 
 		afterEach(() => {
-			Features.WITHIN_NEARBY_RANDOM = () => originalState;
+			Features.WITHIN_PROXIMITY_RANDOM = () => originalState;
 		});
 
 		it('is returned when feature is turned on', () => {
-			Features.WITHIN_NEARBY_RANDOM = () => true;
+			Features.WITHIN_PROXIMITY_RANDOM = () => true;
 			let found = false;
 			const observed = component();
-			expect(observed.filter(button => button.title === Strings.WITHIN_NEARBY_RANDOM)).to.have.length(1);
+			expect(observed.filter(button => button.title === Strings.WITHIN_PROXIMITY_RANDOM)).to.have.length(1);
 		});
 
 		it('is not returned when feature is turned off', () => {
-			Features.WITHIN_NEARBY_RANDOM = () => false;
+			Features.WITHIN_PROXIMITY_RANDOM = () => false;
 			let found = false;
 			const observed = component();
-			expect(observed.filter(button => button.title === Strings.WITHIN_NEARBY_RANDOM)).to.have.length(0);
+			expect(observed.filter(button => button.title === Strings.WITHIN_200M_RANDOM)).to.have.length(0);
 		});
-	} : null);
+	});
 })
