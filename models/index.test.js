@@ -5,8 +5,8 @@ describe('KopiBoy::Models', () => {
 	const expectedComponentLocation = path.resolve('./models');
 	let models;
 	it('has Models [#138604129]', () => {
-		(() => {
+		expect(() => {
 			models = require(expectedComponentLocation);
-		}).should.not.throw();
+		}).to.not.throw();
 	});
 });

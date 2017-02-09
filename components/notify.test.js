@@ -3,14 +3,14 @@ chai.use(require('sinon-chai'));
 const sinon = require('sinon');
 const expect = chai.expect;
 const path = require('path');
+const rewire = require('rewire');
+const moduleRewired = rewire('./notify.js');
 
 describe('KopiBoy::Components::Notify', () => {
 	const expectedComponentLocation = path.join(process.cwd(), '/components/notify.js');
-	let componentExists = false;
 	let component = null;
 	try {
 		component = require(expectedComponentLocation);
-		componentExists = true;
 	} catch(ex) { }
 
 	it('exists at the right location', () => {
@@ -29,10 +29,26 @@ describe('KopiBoy::Components::Notify', () => {
 	});
 
 	describe('instantiation', () => {
-		it('must be called with a valid platform name', () => {
-			expect(() => { component('fail'); }).to.throw(TypeError);
-			expect(() => { component('telegram'); }).to.not.throw();
+		it('cannot be called with an invalid platform name', () => {
+			expect(() => { component('fail'); }).to.throw(EvalError);
+		});
+
+		it('results in calling of static platform method', () => {
+			component.platform = function() {};
+			const platformStub = sinon.stub(component, 'platform');
+			component('platform');
+			expect(platformStub).to.be.calledOnce;
+			platformStub.restore();
 		});
 	});
 
+	describe('.telegram()', () => {
+		it('cannot be called without an option', () => {
+			expect(() => { component.telegram(null, null); }).to.throw(EvalError);
+		});
+		it('cannot be called without a token in the option', () => {
+			expect(() => { component.telegram(null, {}); }).to.throw();
+			expect(() => { component.telegram(null, { token: 'a' }); }).to.not.throw();
+		});
+	});
 });
