@@ -4,14 +4,14 @@ const Analytics = {};
 Analytics.GOOGLE_ANALYTICS_URL = 'http://www.google-analytics.com/collect';
 Analytics.GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-74732860-10';
 
-Analytics.generateFormattedData = function(action, label, cid) {
+Analytics.generateFormattedData = function(action, label, clientId) {
 	(arguments.length === 0) && (() => { throw new Error('At least `action` needs to be defined'); })();
 	return {
 		url: Analytics.GOOGLE_ANALYTICS_URL, 
 		form: {
 			v:'1', 
 			tid: Analytics.GOOGLE_ANALYTICS_PROPERTY_ID, 
-			cid: cid,
+			cid: clientId,
 			t: 'event', 
 			ec: 'dev', 
 			ea: action, 
@@ -20,10 +20,10 @@ Analytics.generateFormattedData = function(action, label, cid) {
 	}
 };
 
-Analytics.sendEvent = function(action, label, cid, callback) {
+Analytics.sendEvent = function(action, label, clientId, callback) {
 	(arguments.length === 0) && (() => { throw new Error('At least `action` needs to be defined'); })();
 	request.post(
-		Analytics.generateFormattedData(action, label, cid),
+		Analytics.generateFormattedData(action, label, clientId),
 		function(err, httpResponse, body){
 		(callback) && callback(err, httpResponse);
 		}
