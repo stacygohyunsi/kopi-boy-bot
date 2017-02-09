@@ -1,6 +1,8 @@
 const Actions = require('./index');
 const Strings = require('../strings');
 
+const ProximityRandomButtons = require('../buttons/proximity-random');
+
 const {
 	generateListTemplateType,
 	generatePostbackButton,
@@ -58,6 +60,38 @@ const WithinProximityAction = {
 		);
 		
 		return generateTemplateAttachment(payload);
+	},
+
+	handle200mRandom: function(reply, profile, callback) {
+		reply({ text: `It's coming soon, ${profile.first_name}! Hold it in there~` });
+	},
+
+	handle500mRandom: function(reply, profile, callback) {
+		reply({ text: `It's coming soon, ${profile.first_name}! Hold it in there~` });
+	},
+
+	handle2kmRandom: function(reply, profile, callback) {
+		reply({ text: `It's coming soon, ${profile.first_name}! Hold it in there~` });
+	},
+
+	handleNevermind: function(reply, profile, callback) {
+		(!reply) && (() => { throw new EvalError('Required parameter `reply` was not found.'); })();
+		(!profile) && (() => { throw new EvalError('Required parameter `profile` was not found.'); })();
+		const responseText = 'Sure, let\'s find you cafés:';
+		const responseButtons = ProximityRandomButtons();
+
+		reply({
+			attachment: {
+				type: 'template',
+				payload: {
+					template_type: 'button',
+					text: responseText,
+					buttons: responseButtons
+				}
+			}
+		}, (err, info) => {
+			(callback) ? callback(err, info) : (() => { })();
+		});
 	},
 
 	handleRandom: function(reply, profile, callback) {

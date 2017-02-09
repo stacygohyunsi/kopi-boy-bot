@@ -15,10 +15,7 @@ const ActionsCafeRandom = {
 				}
 			}
 		}, (err, info) => {
-			(callback) ? callback(err, info) : (() => {
-				console.log(err);
-				console.log(info);
-			})();
+			(callback) ? callback(err, info) : (() => { })();
 		});
 	}
 };
