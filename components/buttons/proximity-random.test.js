@@ -6,11 +6,9 @@ const Strings = require('../strings');
 
 describe('KopiBoy::Components::Buttons::Proximity', () => {
 	const expectedComponentLocation = path.join(__dirname, './proximity-random.js');
-	let componentExists = false;
 	let component = null;
 	try {
 		component = require(expectedComponentLocation);
-		componentExists = true;
 	} catch(ex) { }
 	
 	it('exists', () => {

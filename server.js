@@ -8,12 +8,10 @@ const express = require('express');
 const path = require('path');
 const Bot = require('messenger-bot');
 
-const Features = require('./components/features');
 const Strings = require('./components/strings');
 const Actions = require('./components/actions');
 
 const WelcomeButtons = require('./components/buttons/welcome');
-const ProximityRandomButtons = require('./components/buttons/proximity-random');
 
 const CafeRandom = require('./components/actions/cafe-random');
 const WithinCountryActions = require('./components/actions/within-country');
@@ -66,19 +64,19 @@ bot.on('postback', (payload, reply) => {
 				WithinProximityActions.handleRandom(reply, profile);
 				break;
 			case Actions.WITHIN_COUNTRY_RANDOM:
-				analytics.sendEvent("withinCountry","withinCountry", payload.sender.id, function(err, httpResponse) {
+				analytics.sendEvent("withinCountry","withinCountry", payload.sender.id, function(err) {
 					if (err) {console.log("ERR", err)};
 				}); 				
 				WithinCountryActions.handleRandom(reply, profile);
 				break;
 			case Actions.WITHIN_COUNTRY_RANDOM_REPEAT:
-				analytics.sendEvent("withinCountryRepeat","withinCountryRepeat", payload.sender.id, function(err, httpResponse) {
+				analytics.sendEvent("withinCountryRepeat","withinCountryRepeat", payload.sender.id, function(err) {
 					if (err) {console.log("ERR", err)};
 				}); 					
 				WithinCountryActions.handleRandomRepeat(reply, profile);
 				break;
 			case Actions.CAFE_RANDOM:
-				analytics.sendEvent("cafeRoulette","cafeRoulette", payload.sender.id, function(err, httpResponse) {
+				analytics.sendEvent("cafeRoulette","cafeRoulette", payload.sender.id, function(err) {
 					if (err) {console.log("ERR", err)};
 				}); 
 				CafeRandom.handle(reply, profile);
@@ -96,7 +94,7 @@ bot.on('message', (payload, reply) => {
 		const name = `${profile.first_name} ${profile.last_name}`;
 		const responseText = Strings.WELCOME.replace(Strings.KEYS.NAME, name);
 		const responseButtons = WelcomeButtons();
-		analytics.sendEvent("welcome", payload.sender.id, payload.sender.id, function(err, httpResponse) {
+		analytics.sendEvent("welcome", payload.sender.id, payload.sender.id, function(err) {
 			if (err) {console.log("ERR", err)};
 		}); 		
 		reply({
