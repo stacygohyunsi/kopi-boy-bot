@@ -13,13 +13,18 @@ const Actions = require('./components/actions');
 
 const WelcomeButtons = require('./components/buttons/welcome');
 
-const CafeRandom = require('./components/actions/cafe-random');
+const CafeRandomActions = require('./components/actions/cafe-random');
 const WithinCountryActions = require('./components/actions/within-country');
 const WithinProximityActions = require('./components/actions/within-proximity');
+const OtherActions = require('./components/actions/other');
 const analytics = require('./components/analytics');
 
 const TelegramConfig = require('./config/telegram');
 const Notify = require('./components/notify');
+
+const {
+	generateTemplateAttachment
+} = require('./components/actions/utility');
 
 const app = express();
 
@@ -42,74 +47,53 @@ const config = {
 
 const bot = new Bot(config[process.env.NODE_ENV]);
 
-bot.on('error', (err) => {
-  console.log(err.message);
-});
+const postbackHandlers = {
+	[Actions.CAFE_RANDOM]: CafeRandomActions.handle,
+
+	[Actions.WITHIN_COUNTRY_RANDOM]: WithinCountryActions.handleRandom,
+	[Actions.WITHIN_COUNTRY_RANDOM_REPEAT]: WithinCountryActions.handleRandomRepeat,
+
+	[Actions.WITHIN_PROXIMITY_RANDOM]: WithinProximityActions.handleRandom,
+	[Actions.WITHIN_200M_RANDOM]: WithinProximityActions.handle200mRandom,
+	[Actions.WITHIN_500M_RANDOM]: WithinProximityActions.handle500mRandom,
+	[Actions.WITHIN_2KM_RANDOM]: WithinProximityActions.handle2kmRandom,
+	[Actions.WITHIN_NEVERMIND]: WithinProximityActions.handleNevermind
+};
 
 bot.on('postback', (payload, reply) => {
 	bot.getProfile(payload.sender.id, (err, profile) => {
+		const action = payload.postback.payload;
+		const label = payload.postback.payload;
+		const handler = postbackHandlers[action];
+		const clientId = payload.sender.id
 		Object.assign(profile, { sender: payload.sender });
-		
-		switch(payload.postback.payload) {
-			case Actions.WITHIN_200M_RANDOM:
-				WithinProximityActions.handle200mRandom(reply, profile);
-				break;
-			case Actions.WITHIN_500M_RANDOM:
-				WithinProximityActions.handle500mRandom(reply, profile);
-				break;
-			case Actions.WITHIN_2KM_RANDOM:
-				WithinProximityActions.handle2kmRandom(reply, profile);
-				break;
-			case Actions.WITHIN_PROXIMITY_RANDOM:
-				WithinProximityActions.handleRandom(reply, profile);
-				break;
-			case Actions.WITHIN_COUNTRY_RANDOM:
-				analytics.sendEvent("withinCountry","withinCountry", payload.sender.id, function(err) {
-					if (err) {console.log("ERR", err)};
-				}); 				
-				WithinCountryActions.handleRandom(reply, profile);
-				break;
-			case Actions.WITHIN_COUNTRY_RANDOM_REPEAT:
-				analytics.sendEvent("withinCountryRepeat","withinCountryRepeat", payload.sender.id, function(err) {
-					if (err) {console.log("ERR", err)};
-				}); 					
-				WithinCountryActions.handleRandomRepeat(reply, profile);
-				break;
-			case Actions.CAFE_RANDOM:
-				analytics.sendEvent("cafeRoulette","cafeRoulette", payload.sender.id, function(err) {
-					if (err) {console.log("ERR", err)};
-				}); 
-				CafeRandom.handle(reply, profile);
-				break;
-			default:
-				reply({ text: JSON.stringify(payload) });
-				break;
-		}
+		handler ? handler(reply, profile) : OtherActions.handleUnknown();
+		analytics.sendEvent(action, label, clientId, function(err) {
+			if (err) { console.log("ERR", err) };
+		});
 	});
 });
 
 bot.on('message', (payload, reply) => {
-	console.log('message incoming!');
   bot.getProfile(payload.sender.id, (err, profile) => {
+		const clientId = payload.sender.id;
 		const name = `${profile.first_name} ${profile.last_name}`;
-		const responseText = Strings.WELCOME.replace(Strings.KEYS.NAME, name);
-		const responseButtons = WelcomeButtons();
-		analytics.sendEvent("welcome", payload.sender.id, payload.sender.id, function(err) {
+		const text = Strings.WELCOME.replace(Strings.KEYS.NAME, name);
+		const buttons = WelcomeButtons();
+		analytics.sendEvent("welcome", clientId, clientId, function(err) {
 			if (err) {console.log("ERR", err)};
-		}); 		
-		reply({
-			attachment: {
-				type: 'template',
-				payload: {
-					template_type: 'button',
-					text: responseText,
-					buttons: responseButtons
-				}
-			}
-		}, err => {
-			console.log(err);
+		});
+		reply(generateTemplateAttachment({
+			template_type: 'button',
+			text, buttons
+		}), err => {
+			if(err) { console.log(err); }
 		});
   })
+});
+
+bot.on('error', (err) => {
+  console.log(err.message);
 });
 
 app.use("/fbbot", bot.middleware());
