@@ -99,6 +99,10 @@ bot.on('error', (err) => {
 app.use("/fbbot", bot.middleware());
 app.use("/_coverage", express.static(path.resolve('./coverage/lcov-report')));
 
+if (process.env.NODE_ENV === "development") {
+	app.use("/", require("./config/details.js"));
+}
+
 /** ADMIN INTERFACE */
 // app.use("/bower_components",express.static("bower_components")); // Shared libraries
 // app.use("/resources",express.static("resources")); // Shared libraries
