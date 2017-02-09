@@ -18,6 +18,7 @@ const ActionWithinCountry = {
 	createBasicInfoElement: (place) => {
 		(!place.name) && (() => { throw new EvalError('Expected property `name` is not defined.')})();
 		(!place.address) && (() => { throw new EvalError('Expected property `address` is not defined.' )})();
+		// when data integrity is perfect, re-enable
 		// (!place.image_url) && (() => { throw new EvalError('Expected property `image_url` is not defined.' )})();
 		// (!place.website_url) && (() => { throw new EvalError('Expected property `website_url` is not defined.' )})();
 		// (!place.contact_number) && (() => { throw new EvalError('Expected property `contact_number` is not defined.' )})();

@@ -16,9 +16,12 @@ const WelcomeButtons = require('./components/buttons/welcome');
 const ProximityRandomButtons = require('./components/buttons/proximity-random');
 
 const CafeRandom = require('./components/actions/cafe-random');
-const WithinCountry = require('./components/actions/within-country');
-const WithinProximity = require('./components/actions/within-proximity');
+const WithinCountryActions = require('./components/actions/within-country');
+const WithinProximityActions = require('./components/actions/within-proximity');
 const analytics = require('./components/analytics');
+
+const TelegramConfig = require('./config/telegram');
+const Notify = require('./components/notify');
 
 const app = express();
 
@@ -47,34 +50,32 @@ bot.on('error', (err) => {
 
 bot.on('postback', (payload, reply) => {
 	bot.getProfile(payload.sender.id, (err, profile) => {
+		Object.assign(profile, { sender: payload.sender });
+		
 		switch(payload.postback.payload) {
-			case Actions.CAFE_ADD:
-				reply({ text: Strings.COMING_SOON }, err => {
-					console.log(err);
-				});
+			case Actions.WITHIN_200M_RANDOM:
+				WithinProximityActions.handle200mRandom(reply, profile);
 				break;
-			case Actions.CAFE_LIST:
-				reply({ text: Strings.COMING_SOON }, err => {
-					console.log(err);
-				});
+			case Actions.WITHIN_500M_RANDOM:
+				WithinProximityActions.handle500mRandom(reply, profile);
 				break;
-			case Actions.WITHIN_NEARBY:
-				reply({ text: 'nearby' });
+			case Actions.WITHIN_2KM_RANDOM:
+				WithinProximityActions.handle2kmRandom(reply, profile);
 				break;
 			case Actions.WITHIN_PROXIMITY_RANDOM:
-				WithinProximity.handleRandom(reply, profile);
+				WithinProximityActions.handleRandom(reply, profile);
 				break;
 			case Actions.WITHIN_COUNTRY_RANDOM:
 				analytics.sendEvent("withinCountry","withinCountry", payload.sender.id, function(err, httpResponse) {
 					if (err) {console.log("ERR", err)};
 				}); 				
-				WithinCountry.handleRandom(reply, profile);
+				WithinCountryActions.handleRandom(reply, profile);
 				break;
 			case Actions.WITHIN_COUNTRY_RANDOM_REPEAT:
 				analytics.sendEvent("withinCountryRepeat","withinCountryRepeat", payload.sender.id, function(err, httpResponse) {
 					if (err) {console.log("ERR", err)};
 				}); 					
-				WithinCountry.handleRandomRepeat(reply, profile);
+				WithinCountryActions.handleRandomRepeat(reply, profile);
 				break;
 			case Actions.CAFE_RANDOM:
 				analytics.sendEvent("cafeRoulette","cafeRoulette", payload.sender.id, function(err, httpResponse) {
@@ -126,6 +127,14 @@ app.use("/_coverage", express.static(path.resolve('./coverage/lcov-report')));
 // app.get(['/','/*', '/**'], function(req, res) {
 //   res.sendFile(path.join(__dirname, '/display/index.html'));
 // });
+
+(TelegramConfig.notificationBotToken && TelegramConfig.chatId) && (() => {
+	const message = `Good day, commanders. KopiBoy has just started in \`${process.env.NODE_ENV}\` environment.`;
+	Notify('telegram', message, {
+		chatId: TelegramConfig.chatId,
+		token: TelegramConfig.notificationBotToken
+	});
+})();
 
 app.listen(process.env.PORT);
 console.log(`Kopiboy bot server running at port ${process.env.PORT}.`);
