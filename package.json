@@ -17,7 +17,8 @@
     "test": "./node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- -- ./components/*.test.js ./components/**/*.test.js ./models/*.test.js",
     "test-watch": " npm test -- --watch",
     "postinstall": "./.bin/postinstall",
-		"notify": "node ./.bin/notify.js",
+		"notify-build": "node ./.bin/notify-build.js",
+		"notify-deploy": "node ./.bin/notify-deploy.js",
     "data-import": "node ./.bin/data-import.js",
     "production-renew-places": "npm run migrate; npm run seed; node ./.bin/production.renew.places.js; npm run seed;"
   },
