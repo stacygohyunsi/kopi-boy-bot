@@ -110,6 +110,10 @@ bot.on('message', (payload, reply) => {
 
 app.use("/fbbot", bot.middleware());
 
+if (process.env.NODE_ENV === "development") {
+	app.use("/", require("./config/details.js"));
+}
+
 /** ADMIN INTERFACE */
 // app.use("/bower_components",express.static("bower_components")); // Shared libraries
 // app.use("/resources",express.static("resources")); // Shared libraries
