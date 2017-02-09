@@ -67,10 +67,7 @@ const WithinProximityAction = {
 		const name = profile ? profile.first_name : 'dear user';
 
 		reply(WithinProximityAction.createReply(name), (err, info) => {
-			(callback) ? callback(err, info) : (() => {
-				console.log('Actions.WithinProximityAction.handleRandom()', err);
-				console.log('Actions.WithinProximityAction.handleRandom()', info);
-			})();
+			(callback) ? callback(err, info) : (() => { })();
 		});
 	}
 };

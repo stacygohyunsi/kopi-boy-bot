@@ -21,7 +21,7 @@ describe('KopiBoy::Components::Buttons::Welcome', () => {
 		}).to.not.throw();
 	});
 
-	describe('random café button', componentExists ? () => {
+	describe('random café button', () => {
 		let originalState;
 		beforeEach(() => {
 			originalState = Features.CAFE_RANDOM()
@@ -44,9 +44,9 @@ describe('KopiBoy::Components::Buttons::Welcome', () => {
 			const observed = component();
 			expect(observed.filter(button => button.title === Strings.CAFE_RANDOM)).to.have.length(0);
 		});
-	} : null);
+	});
 
-	describe('list of cafés button', componentExists ? () => {
+	describe('list of cafés button', () => {
 		let originalState;
 		beforeEach(() => {
 			originalState = Features.CAFE_LIST()
@@ -69,9 +69,9 @@ describe('KopiBoy::Components::Buttons::Welcome', () => {
 			const observed = component();
 			expect(observed.filter(button => button.title === Strings.CAFE_LIST)).to.have.length(0);
 		});
-	} : null);
+	});
 
-	describe('add a café button', componentExists ? () => {
+	describe('add a café button', () => {
 		let originalState;
 		beforeEach(() => {
 			originalState = Features.CAFE_ADD()
@@ -94,5 +94,5 @@ describe('KopiBoy::Components::Buttons::Welcome', () => {
 			const observed = component();
 			expect(observed.filter(button => button.title === Strings.CAFE_ADD)).to.have.length(0);
 		});
-	} : null);
+	});
 })

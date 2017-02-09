@@ -41,16 +41,16 @@ describe('KopiBoy::Components::Utility', () => {
 		expect(component.generateWebUrlButton).to.be.a.function;
 	});
 
-	describe('.generateGenericTemplateType()', componentExists && component.createGenericPayload ? () => {
+	describe('.generateGenericTemplateType()', () => {
 		it('takes in an array of elements and adds it to the elements property of the returned object', () => {
 			testInput = ['a', 'b', 'c'];
 			const observed = component.generateGenericTemplateType(testInput);
 			expect(observed.template_type).to.equal('generic');
 			expect(observed.elements).to.deep.equal(testInput);
 		});
-	} : null);
+	});
 
-	describe('.generateListTemplateType()', componentExists && component.generateListTemplateType ? () => {
+	describe('.generateListTemplateType()', () => {
 		it('takes in an array of elements and adds it to the elements property of the returned object', () => {
 			const testInputElements = ['a', 'b', 'c'];
 			const testInputButtons = ['b', 'u', 't', 't', 'o', 'n', 's'];
@@ -59,9 +59,9 @@ describe('KopiBoy::Components::Utility', () => {
 			expect(observed.elements).to.deep.equal(testInputElements);
 			expect(observed.buttons).to.deep.equal(testInputButtons);
 		});
-	} : null);
+	});
 
-	describe('.generatePostbackButton()', componentExists && component.generatePostbackButton ? () => {
+	describe('.generatePostbackButton()', () => {
 		it('takes in an array of elements and adds it to the elements property of the returned object', () => {
 			const testInputPayload = 'input-payload';
 			const testInputTitle = 'input-title';
@@ -70,5 +70,5 @@ describe('KopiBoy::Components::Utility', () => {
 			expect(observed.payload).to.deep.equal(testInputPayload);
 			expect(observed.title).to.deep.equal(testInputTitle);
 		});
-	} : null);
+	});
 });

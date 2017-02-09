@@ -22,37 +22,37 @@ describe('KopiBoy::Components::Actions::WithinProximity', () => {
 		}).to.not.throw();
 	});
 
-	it('implements .generateMessageElement()', componentExists ? () => {
+	it('implements .generateMessageElement()', () => {
 		expect(component.generateMessageElement).to.not.be.undefined;
 		expect(component.generateMessageElement).to.be.a.function;
-	} : null);
+	});
 
-	it('implements .generate200mElement()', componentExists ? () => {
+	it('implements .generate200mElement()', () => {
 		expect(component.generate200mElement).to.not.be.undefined;
 		expect(component.generate200mElement).to.be.a.function;
-	} : null);
+	});
 
-	it('implements .generate500mElement()', componentExists ? () => {
+	it('implements .generate500mElement()', () => {
 		expect(component.generate500mElement).to.not.be.undefined;
 		expect(component.generate500mElement).to.be.a.function;
-	} : null);
+	});
 
-	it('implements .generate2kmElement()', componentExists ? () => {
+	it('implements .generate2kmElement()', () => {
 		expect(component.generate2kmElement).to.not.be.undefined;
 		expect(component.generate2kmElement).to.be.a.function;
-	} : null);
+	});
 
-	it('implements .createReply()', componentExists ? () => {
+	it('implements .createReply()', () => {
 		expect(component.createReply).to.not.be.undefined;
 		expect(component.createReply).to.be.a.function;
-	} : null);
+	});
 
-	it('implements .handleRandom()', componentExists ? () => {
+	it('implements .handleRandom()', () => {
 		expect(component.handleRandom).to.not.be.undefined;
 		expect(component.handleRandom).to.be.a.function;
-	} : null);
+	});
 
-	describe('.generateMessageElement()', componentExists && component.generate200mElement ? () => {
+	describe('.generateMessageElement()', () => {
 		it('returns an element with a title and image', () => {
 			const observed = component.generateMessageElement();
 			expect(observed.title).to.be.okay;
@@ -70,9 +70,9 @@ describe('KopiBoy::Components::Actions::WithinProximity', () => {
 			const observed = component.generateMessageElement();
 			expect(observed.title).to.contain('dear user');
 		});
-	}: null);
+	});
 
-	describe('.generate200mElement()', componentExists && component.generate200mElement ? () => {
+	describe('.generate200mElement()', () => {
 		it('returns an element with a title, subtitle and buttons', () => {
 			const observed = component.generate200mElement();
 			expect(observed.title).to.be.okay;
@@ -82,9 +82,9 @@ describe('KopiBoy::Components::Actions::WithinProximity', () => {
 			expect(observed.buttons).to.be.instanceOf(Array);
 			expect(observed.buttons).to.have.length(1);
 		});
-	}: null);
+	});
 
-	describe('.generate500mElement()', componentExists && component.generate500mElement ? () => {
+	describe('.generate500mElement()', () => {
 		it('returns an element with a title, subtitle and buttons', () => {
 			const observed = component.generate500mElement();
 			expect(observed.title).to.be.okay;
@@ -94,9 +94,9 @@ describe('KopiBoy::Components::Actions::WithinProximity', () => {
 			expect(observed.buttons).to.be.instanceOf(Array);
 			expect(observed.buttons).to.have.length(1);
 		});
-	}: null);
+	});
 
-	describe('.generate2kmElement()', componentExists && component.generate2kmElement ? () => {
+	describe('.generate2kmElement()', () => {
 		it('returns an element with a title, subtitle and buttons', () => {
 			const observed = component.generate2kmElement();
 			expect(observed.title).to.be.okay;
@@ -106,9 +106,9 @@ describe('KopiBoy::Components::Actions::WithinProximity', () => {
 			expect(observed.buttons).to.be.instanceOf(Array);
 			expect(observed.buttons).to.have.length(1);
 		});
-	}: null);
+	});
 
-	describe('.createReply()', componentExists && component.createReply ? () => {
+	describe('.createReply()', () => {
 		it('returns a payload with template of type `list`', () => {
 			const observed = component.createReply('name');
 			const {attachment} = observed;
@@ -155,9 +155,9 @@ describe('KopiBoy::Components::Actions::WithinProximity', () => {
 			expect(generate2kmElementSpy).to.be.calledOnce;
 			generate2kmElementSpy.restore();
 		});
-	}: null);
+	});
 
-	describe('.handleRandom()', componentExists && component.handleRandom ? () => {
+	describe('.handleRandom()', () => {
 		const reply = sinon.spy();
 		const profile = {};
 		
@@ -189,5 +189,5 @@ describe('KopiBoy::Components::Actions::WithinProximity', () => {
 		});
 
 
-	} : null);
+	});
 });

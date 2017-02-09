@@ -5,6 +5,7 @@ require('newrelic');
 // const superagent = require('superagent');
 // const moment = require('moment');
 const express = require('express');
+const path = require('path');
 const Bot = require('messenger-bot');
 
 const Features = require('./components/features');
@@ -113,6 +114,7 @@ bot.on('message', (payload, reply) => {
 });
 
 app.use("/fbbot", bot.middleware());
+app.use("/_coverage", express.static(path.resolve('./coverage/lcov-report')));
 
 /** ADMIN INTERFACE */
 // app.use("/bower_components",express.static("bower_components")); // Shared libraries

@@ -16,20 +16,20 @@ describe('KopiBoy::Components::Analytics', () => {
 		}).to.not.throw();
 	});
 
-	it('implements .sendEvent()', componentExists ? () => {
+	it('implements .sendEvent()', () => {
 		expect(component.sendEvent).to.not.be.undefined;
-	} : null);
+	});
 
-	it('implements .generateFormattedData()', componentExists ? () => {
+	it('implements .generateFormattedData()', () => {
 		expect(component.generateFormattedData).to.not.be.undefined;
-	} : null);	
+	});	
 
 	describe('.sendEvent()', () => {
-		it('throws an error if no arguments are supplied', componentExists ? () => {
+		it('throws an error if no arguments are supplied', () => {
 			expect(() => {
 				component.sendEvent();
 			}).to.throw();
-		} : null);
+		});
 		it('calls the :callback argument after it is done', (done) => {
 			component.sendEvent('test', 'run', 'cid', () => {
 				done();
@@ -38,11 +38,11 @@ describe('KopiBoy::Components::Analytics', () => {
 	});
 
 	describe('.generateFormattedData()', () => {
-		it('throws an error if no arguments are supplied', componentExists ? () => {
+		it('throws an error if no arguments are supplied', () => {
 			expect(() => {
 				component.generateFormattedData();
 			}).to.throw();
-		} : null);
+		});
 		it('returns an object as expected', () => {
 			const action = "action";
 			const label = "label"; 

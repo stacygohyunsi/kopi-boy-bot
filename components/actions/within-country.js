@@ -97,7 +97,7 @@ const ActionWithinCountry = {
 	},
 
 	createReviewWebsitesButtons: (cafeName) => {
-		(arguments.length === 0) && (() => { throw new Error('Café name must be specified'); })();
+		(arguments.length === 0) && (() => { throw new EvalError('Café name must be specified'); })();
 		(typeof cafeName !== 'string') && (() => { throw new EvalError('Café name must be of type String'); })();
 		return {
 			burpple: ReviewChecker.generateBurppleURL(cafeName),
@@ -126,10 +126,7 @@ const ActionWithinCountry = {
 			reply({ text: leadText });
 			setTimeout(() => {
 				reply(ActionWithinCountry.generateReply(dataValues), (err, info) => {
-					(callback) ? callback(err, info) : (() => {
-						console.log('Actions.WithinCountry.handleRandom()', err);
-						console.log('Actions.WithinCountry.handleRandom()', info);
-					})();
+					(callback) ? callback(err, info) : (() => { })();
 				});
 			}, 1500);
 		});
@@ -142,10 +139,7 @@ const ActionWithinCountry = {
 		const name = profile ? profile.first_name : 'dear user';
 		Models.places.find({ order: [ Sequelize.fn('RAND') ] }).then((res) => {
 			reply(ActionWithinCountry.generateReply(res.dataValues), (err, info) => {
-				(callback) ? callback(err, info) : (() => {
-					console.log('Actions.WithinCountry.handleRandomRepeat()', err);
-					console.log('Actions.WithinCountry.handleRandomRepeat()', info);
-				})();
+				(callback) ? callback(err, info) : (() => { })();
 			});
 		});
 	}
