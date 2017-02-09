@@ -55,7 +55,7 @@ describe('KopiBoy::Components::Utility', () => {
 			const testInputElements = ['a', 'b', 'c'];
 			const testInputButtons = ['b', 'u', 't', 't', 'o', 'n', 's'];
 			const observed = component.generateListTemplateType(testInputElements, testInputButtons);
-			expect(observed.template_type).to.equal('generic');
+			expect(observed.template_type).to.equal('list');
 			expect(observed.elements).to.deep.equal(testInputElements);
 			expect(observed.buttons).to.deep.equal(testInputButtons);
 		});
