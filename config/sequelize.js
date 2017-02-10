@@ -4,8 +4,8 @@ module.exports = {
   	password: "kopiboy",
   	database: "kopiboy",
   	host: "127.0.0.1",
-  	dialect: "mysql",
     logging: (() => {}),
+  	dialect: "mysql",
     seederStorage: "sequelize"
   },
   "test": {
