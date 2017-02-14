@@ -3,7 +3,7 @@ const analytics = require('./analytics');
 const WelcomeButtons = require('./buttons/welcome');
 const {
 	generateTemplateAttachment
-} = require('./utility');
+} = require('./actions/utility');
 
 const Utterance = {
 	handleText: function(bot, reply, senderMessengerId) {
