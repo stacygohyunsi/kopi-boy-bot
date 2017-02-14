@@ -65,7 +65,7 @@ bot.on('postback', (payload, reply) => {
 		const action = payload.postback.payload;
 		const label = payload.postback.payload;
 		const handler = postbackHandlers[action];
-		const clientId = payload.sender.id
+		const clientId = payload.sender.id;
 		Object.assign(profile, { sender: payload.sender });
 		handler ? handler(reply, profile) : OtherActions.handleUnknown();
 		analytics.sendEvent(action, label, clientId, function(err) {
