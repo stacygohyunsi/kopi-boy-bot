@@ -8,10 +8,9 @@ const express = require('express');
 const path = require('path');
 const Bot = require('messenger-bot');
 
-const Strings = require('./components/strings');
 const Actions = require('./components/actions');
 
-const WelcomeButtons = require('./components/buttons/welcome');
+const Utterance = require('./components/utterance');
 
 const CafeRandomActions = require('./components/actions/cafe-random');
 const WithinCountryActions = require('./components/actions/within-country');
@@ -61,6 +60,7 @@ const postbackHandlers = {
 };
 
 bot.on('postback', (payload, reply) => {
+	console.log('postback incoming');
 	bot.getProfile(payload.sender.id, (err, profile) => {
 		const action = payload.postback.payload;
 		const label = payload.postback.payload;
@@ -75,21 +75,23 @@ bot.on('postback', (payload, reply) => {
 });
 
 bot.on('message', (payload, reply) => {
-  bot.getProfile(payload.sender.id, (err, profile) => {
-		const clientId = payload.sender.id;
-		const name = `${profile.first_name} ${profile.last_name}`;
-		const text = Strings.WELCOME.replace(Strings.KEYS.NAME, name);
-		const buttons = WelcomeButtons();
-		analytics.sendEvent("welcome", clientId, clientId, function(err) {
-			if (err) {console.log("ERR", err)};
-		});
-		reply(generateTemplateAttachment({
-			template_type: 'button',
-			text, buttons
-		}), err => {
-			if(err) { console.log(err); }
-		});
-  })
+	const isText = (typeof payload.message.text !== 'undefined')
+	const isAttachments = (typeof payload.message.attachments !== 'undefined');
+
+	if(isText) {
+		Utterance.handleText(bot, reply, payload.sender.id);
+	} else if(isAttachments) {
+		/// TODO remove below line when bottom TODO is complete
+		Utterance.handleText(bot, reply, payload.sender.id);
+		/// TODO add in condition (if it is a location, add to Redis and associate with payload.sender.id)
+		/*
+		const {attachments} = payload.message;
+		attachments.forEach(attachment => {
+			if(attachment.type) {
+
+			}
+		});*/
+	}
 });
 
 bot.on('error', (err) => {
