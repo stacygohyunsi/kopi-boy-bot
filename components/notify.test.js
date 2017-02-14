@@ -48,7 +48,6 @@ describe('KopiBoy::Components::Notify', () => {
 		});
 		it('cannot be called without a token in the option', () => {
 			expect(() => { component.telegram(null, {}); }).to.throw();
-			expect(() => { component.telegram(null, { token: 'a' }); }).to.not.throw();
 		});
 	});
 });
