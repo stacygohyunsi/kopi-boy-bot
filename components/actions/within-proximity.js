@@ -1,3 +1,5 @@
+const redis = require('redis');
+
 const Actions = require('./index');
 const Strings = require('../strings');
 
@@ -8,6 +10,8 @@ const {
 	generatePostbackButton,
 	generateTemplateAttachment
 } = require('./utility');
+
+
 
 const WithinProximityAction = {
 	generateMessageElement: function(name) {
@@ -71,7 +75,13 @@ const WithinProximityAction = {
 	},
 
 	handle2kmRandom: function(reply, profile, callback) {
-		reply({ text: `It's coming soon, ${profile.first_name}! Hold it in there~` });
+
+		reply({ text: `Awesome, ${profile.first_name}, one last thing. Could you send me your location so I know where you are?`});
+		
+	},
+
+	handleLocationReception: function() {
+		
 	},
 
 	handleNevermind: function(reply, profile, callback) {
