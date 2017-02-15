@@ -7,9 +7,9 @@ require('newrelic');
 const express = require('express');
 const path = require('path');
 const Bot = require('messenger-bot');
+const redisConnect = require('./redis-connect');
 
 const Actions = require('./components/actions');
-
 const Utterance = require('./components/utterance');
 
 const CafeRandomActions = require('./components/actions/cafe-random');
@@ -61,8 +61,15 @@ const postbackHandlers = {
 
 bot.on('postback', (payload, reply) => {
 	console.log('postback incoming');
+	const action = payload.postback.payload;
+	redisConnect.get(payload.sender.id, function(err, resp) {
+			resp = resp ? JSON.parse(resp) : [];
+			if (Array.isArray(resp)) {
+				resp.push(action);
+				redisConnect.set(payload.sender.id, JSON.stringify(resp));
+			}
+	});	
 	bot.getProfile(payload.sender.id, (err, profile) => {
-		const action = payload.postback.payload;
 		const label = payload.postback.payload;
 		const handler = postbackHandlers[action];
 		const clientId = payload.sender.id;
@@ -75,22 +82,25 @@ bot.on('postback', (payload, reply) => {
 });
 
 bot.on('message', (payload, reply) => {
+	console.log("message");
 	const isText = (typeof payload.message.text !== 'undefined')
 	const isAttachments = (typeof payload.message.attachments !== 'undefined');
 
 	if(isText) {
 		Utterance.handleText(bot, reply, payload.sender.id);
 	} else if(isAttachments) {
-		/// TODO remove below line when bottom TODO is complete
-		Utterance.handleText(bot, reply, payload.sender.id);
-		/// TODO add in condition (if it is a location, add to Redis and associate with payload.sender.id)
-		/*
-		const {attachments} = payload.message;
-		attachments.forEach(attachment => {
-			if(attachment.type) {
+		bot.getProfile(payload.sender.id, (err, profile) => {
+			if (err) { console.log("ERR", err) };
+			const {attachments} = payload.message;
+			attachments.forEach(attachment => {
+				if(attachment.type === 'location') {
+					const {coordinates} = attachment.payload;
+					WithinProximityActions.handleLocationReception(reply, profile, payload, coordinates, () => {
 
-			}
-		});*/
+					});
+				}
+			});			
+		});
 	}
 });
 
