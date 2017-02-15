@@ -1,7 +1,7 @@
-const redis = require('redis');
-
+const redisConnect = require('../../redis-connect');
 const Actions = require('./index');
 const Strings = require('../strings');
+const distance = require('../location-calculator');
 
 const ProximityRandomButtons = require('../buttons/proximity-random');
 
@@ -10,7 +10,6 @@ const {
 	generatePostbackButton,
 	generateTemplateAttachment
 } = require('./utility');
-
 
 
 const WithinProximityAction = {
@@ -80,8 +79,29 @@ const WithinProximityAction = {
 		
 	},
 
-	handleLocationReception: function() {
-		
+	handleLocationReception: function(reply, profile, payload, coordinates, callback) {
+		(!reply) && (() => { throw new EvalError('Required parameter `reply` was not found.'); })();
+		(!profile) && (() => { throw new EvalError('Required parameter `profile` was not found.'); })();
+		(!coordinates) && (() => { throw new EvalError('Required parameter `coordinates` was not found.'); })();
+		redisConnect.get(payload.sender.id, function(err, resp) {
+			if (err) {console.log("ERR", err);}
+			const actionsArray = JSON.parse(resp);
+			const locationAction = actionsArray[actionsArray.length - 1];
+			const proximities = {
+				WITHIN_200M_RANDOM: 200,
+				WITHIN_500M_RANDOM: 500,
+				WITHIN_2KM_RANDOM: 2000
+			}
+			const proximity = proximities[locationAction] ? proximities[locationAction] : null;
+			if (proximity !== null) {
+				const latitudes = distance.getLatitudeBounds({latitude:coordinates.lat, longitude:coordinates.long}, proximity);
+				const longitudes = distance.getLongitudeBounds({latitude:coordinates.lat, longitude:coordinates.long}, proximity);
+				console.log(latitudes);
+				console.log(longitudes);
+			}
+		});
+
+		//TODO: make query to the db to get the cafe
 	},
 
 	handleNevermind: function(reply, profile, callback) {
