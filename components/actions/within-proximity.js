@@ -1,5 +1,8 @@
+const Sequelize = require('sequelize');
+
 const redisConnect = require('../../redis-connect');
 const Actions = require('./index');
+const Models = require('../../models');
 const Strings = require('../strings');
 const distance = require('../location-calculator');
 
@@ -61,7 +64,7 @@ const WithinProximityAction = {
 				generatePostbackButton(Actions.WITHIN_NEVERMIND, Strings.WITHIN_NEVERMIND)
 			]
 		);
-		
+
 		return generateTemplateAttachment(payload);
 	},
 
@@ -75,14 +78,15 @@ const WithinProximityAction = {
 
 	handle2kmRandom: function(reply, profile, callback) {
 
-		reply({ text: `Awesome, ${profile.first_name}, one last thing. Could you send me your location so I know where you are?`});
-		
+		reply({ text: `Awesome, ${profile.first_name}, one last thing. Could you send me your location so I know where you are?` });
+
 	},
 
-	handleLocationReception: function(reply, profile, payload, coordinates, callback) {
+	handleLocationReception: function (reply, profile, payload, coordinates, callback) {
 		(!reply) && (() => { throw new EvalError('Required parameter `reply` was not found.'); })();
 		(!profile) && (() => { throw new EvalError('Required parameter `profile` was not found.'); })();
 		(!coordinates) && (() => { throw new EvalError('Required parameter `coordinates` was not found.'); })();
+
 		redisConnect.get(payload.sender.id, function(err, resp) {
 			if (err) {console.log("ERR", err);}
 			const actionsArray = JSON.parse(resp);
@@ -94,14 +98,34 @@ const WithinProximityAction = {
 			}
 			const proximity = proximities[locationAction] ? proximities[locationAction] : null;
 			if (proximity !== null) {
-				const latitudes = distance.getLatitudeBounds({latitude:coordinates.lat, longitude:coordinates.long}, proximity);
-				const longitudes = distance.getLongitudeBounds({latitude:coordinates.lat, longitude:coordinates.long}, proximity);
+				const latitudes = distance.getLatitudeBounds({ latitude:coordinates.lat, longitude:coordinates.long }, proximity);
+				const longitudes = distance.getLongitudeBounds({ latitude:coordinates.lat, longitude:coordinates.long }, proximity);
 				console.log(latitudes);
 				console.log(longitudes);
-			}
-		});
+				Models.places.find({
+					latitude: {
+						$gt: latitudes.lowerLatitude,
+						$lt: latitudes.upperLatitude
+					},
+					longitude: {
+						$gt: longitudes.leftLongitude,
+						$lt: longtiudes.rightLongtiude
+					},
+					order: [ Sequelize.fn('RAND') ]
+				}).then((res) => {
+					const { dataValues } = res;
 
-		//TODO: make query to the db to get the cafe
+					(callback) ? callback() : (() => {
+						
+					})();
+				});
+			} else {
+				reply({
+					text: 'Sorry, an error occurred and we could not find a café for you, we\'re terribly sorry.'
+				})
+			}
+			//TODO: make query to the db to get the cafe
+		});
 	},
 
 	handleNevermind: function(reply, profile, callback) {
