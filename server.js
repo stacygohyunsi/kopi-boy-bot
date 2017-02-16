@@ -21,9 +21,9 @@ const analytics = require('./components/analytics');
 const TelegramConfig = require('./config/telegram');
 const Notify = require('./components/notify');
 
-const {
-	generateTemplateAttachment
-} = require('./components/actions/utility');
+// const {
+// 	generateTemplateAttachment
+// } = require('./components/actions/utility');
 
 const app = express();
 
