@@ -21,7 +21,7 @@ Strings.WITHIN_200M_RANDOM = 'Within 200 metres';
 Strings.WITHIN_500M_RANDOM = 'Within 500 metres'
 Strings.WITHIN_2KM_RANDOM = 'Within 2 kilometres'
 Strings.WITHIN_PROXIMITY_RANDOM = 'Near Me';
-Strings.WITHIN_COUNTRY_RANDOM = 'Within my Country';
+Strings.WITHIN_COUNTRY_RANDOM = 'Within Singapore';
 Strings.WITHIN_NEVERMIND = 'Nevermind';
 
 Strings.EMAIL_THIS_CAFE = 'Send Email';
