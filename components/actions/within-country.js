@@ -115,14 +115,14 @@ const ActionWithinCountry = {
 		const payload = generateGenericTemplateType(elements);
 		return generateTemplateAttachment(payload);
 	},
-	
+
 	handleRandom: (reply, profile, callback) => {
 		(typeof reply !== 'function') && (() => { throw new EvalError('Parameter `reply` is not a valid function.') })();
 		(!profile) && (() => { throw new EvalError('Expected argument `profile` was not found.') })();
 
 		const name = profile ? profile.first_name : 'dear user';
 		Models.places.find({ order: [ Sequelize.fn('RAND') ] }).then((res) => {
-			const {dataValues} = res;
+			const { dataValues } = res;
 			const leadText = Strings.SUCCESS.cafeFound(name);
 			reply({ text: leadText });
 			setTimeout(() => {
@@ -132,7 +132,7 @@ const ActionWithinCountry = {
 			}, 1500);
 		});
 	},
-	
+
 	handleRandomRepeat: (reply, profile, callback) => {
 		(typeof reply !== 'function') && (() => { throw new EvalError('Parameter `reply` is not a valid function.') })();
 		(!profile) && (() => { throw new EvalError('Expected argument `profile` was not found.') })();

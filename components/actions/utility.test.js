@@ -1,5 +1,5 @@
 const path = require('path');
-const {expect} = require('chai');
+const { expect } = require('chai');
 
 describe('KopiBoy::Components::Utility', () => {
 	const expectedComponentLocation = path.join(__dirname, './utility.js');
@@ -9,7 +9,7 @@ describe('KopiBoy::Components::Utility', () => {
 		component = require(expectedComponentLocation);
 		componentExists = true;
 	} catch(ex) { }
-	
+
 	it('exists at the right location', () => {
 		expect(() => {
 			require(expectedComponentLocation);

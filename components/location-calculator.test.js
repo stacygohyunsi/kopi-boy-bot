@@ -1,4 +1,4 @@
-const {expect} = require('chai');
+const { expect } = require('chai');
 const path = require('path');
 
 describe('KopiBoy::Components::LocationCalculator', () => {

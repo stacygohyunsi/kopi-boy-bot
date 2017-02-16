@@ -1,4 +1,4 @@
-const {expect} = require('chai');
+const { expect } = require('chai');
 const path = require('path');
 
 describe('KopiBoy::Components::ReviewChecker', () => {
@@ -14,7 +14,7 @@ describe('KopiBoy::Components::ReviewChecker', () => {
 		expect(() => {
 			component = require(expectedComponentLocation);
 		}).to.not.throw();
-	});	
+	});
 
 	it('contains a HungryGoWhere query URL', () => {
 		expect(component.HUNGRYGOWHERE_URL).to.not.be.undefined;
@@ -47,7 +47,7 @@ describe('KopiBoy::Components::ReviewChecker', () => {
 			const name = "the botanist";
 			const expected = component.HUNGRYGOWHERE_URL + encodeURIComponent(name);
 			expect(component.generateHungryGoWhereURL(name)).to.deep.equal(expected);
-		});			
+		});
 	});
 
 	it('implements .generateBurppleURL() [#139038581]', () => {
@@ -65,7 +65,7 @@ describe('KopiBoy::Components::ReviewChecker', () => {
 			const name = "the botanist";
 			const expected = component.BURPPLE_URL + encodeURIComponent(name);
 			expect(component.generateBurppleURL(name)).to.deep.equal(expected);
-		});		
+		});
 	});
 
 	it('implements .generateYelpURL() [#139038537]', () => {
@@ -100,14 +100,14 @@ describe('KopiBoy::Components::ReviewChecker', () => {
 			const yelp = component.generateYelpURL(name);
 
 			const expected = {
-				hungryGoWhere: hungryGoWhere, 
-				burpple: burpple, 
+				hungryGoWhere: hungryGoWhere,
+				burpple: burpple,
 				yelp: yelp
 			};
 			expect(
 				component.sendReviewURLs(name)
 			).to.deep.equal(expected);
-		});		
+		});
 	});
 
 

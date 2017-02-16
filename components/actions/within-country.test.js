@@ -1,4 +1,4 @@
-const {expect} = require('chai');
+const { expect } = require('chai');
 const path = require('path');
 const sinon = require('sinon');
 
@@ -31,15 +31,15 @@ describe('KopiBoy::Components::Actions::WithinCountry', () => {
 	it('implements .createBasicInfoElement()', () => {
 		expect(component.createBasicInfoElement).to.not.be.undefined;
 	});
-	
+
 	it('implements .createOpeningHoursElement()', () => {
 		expect(component.createOpeningHoursElement).to.not.be.undefined;
 	});
-	
+
 	it('implements .generateReply()', () => {
 		expect(component.generateReply).to.not.be.undefined;
 	});
-	
+
 	it('implements .handleRandom()', () => {
 		expect(component.handleRandom).to.not.be.undefined;
 	});

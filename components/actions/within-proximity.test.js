@@ -111,20 +111,20 @@ describe('KopiBoy::Components::Actions::WithinProximity', () => {
 	describe('.createReply()', () => {
 		it('returns a payload with template of type `list`', () => {
 			const observed = component.createReply('name');
-			const {attachment} = observed;
+			const { attachment } = observed;
 			expect(attachment.type).to.equal('template');
 			expect(attachment.payload.template_type).to.equal('list');
 		});
 
 		it('returns a payload with not more than 4 elements', () => {
 			const observed = component.createReply('name');
-			const {attachment} = observed;
+			const { attachment } = observed;
 			expect(attachment.payload.elements.length).to.be.lessThan(5);
 		});
 
 		it('has a returned list of elements where the user\'s name is in the first message element', () => {
 			const observed = component.createReply('name');
-			const {attachment} = observed;
+			const { attachment } = observed;
 			expect(attachment.payload.elements[0].title).to.contain('name');
 		});
 
@@ -160,7 +160,7 @@ describe('KopiBoy::Components::Actions::WithinProximity', () => {
 	describe('.handleRandom()', () => {
 		const reply = sinon.spy();
 		const profile = {};
-		
+
 		it('takes in a `reply` function and a `profile` object as arguments', () => {
 			expect(() => {
 				component.handleRandom(reply, profile);
@@ -183,7 +183,7 @@ describe('KopiBoy::Components::Actions::WithinProximity', () => {
 			const preCallCount = reply.callCount;
 			component.handleRandom(reply, profile);
 			const postCallCount = reply.callCount;
-			const {attachment} = reply.args[reply.args.length - 1][0];
+			const { attachment } = reply.args[reply.args.length - 1][0];
 			expect(postCallCount - preCallCount).to.equal(1);
 			console.log(attachment.payload.buttons);
 		});

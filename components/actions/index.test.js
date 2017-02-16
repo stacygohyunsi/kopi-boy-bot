@@ -1,4 +1,4 @@
-const {expect} = require('chai');
+const { expect } = require('chai');
 const path = require('path');
 
 describe('KopiBoy::Components::Actions', () => {
@@ -46,5 +46,5 @@ describe('KopiBoy::Components::Actions', () => {
 	it('contains action to display all cafés within the country again', () => {
 		expect(component.WITHIN_COUNTRY_RANDOM_REPEAT).to.not.be.undefined;
 	});
-	
+
 });

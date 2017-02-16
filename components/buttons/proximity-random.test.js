@@ -1,4 +1,4 @@
-const {expect} = require('chai');
+const { expect } = require('chai');
 const path = require('path');
 
 const Features = require('../features');
@@ -10,7 +10,7 @@ describe('KopiBoy::Components::Buttons::Proximity', () => {
 	try {
 		component = require(expectedComponentLocation);
 	} catch(ex) { }
-	
+
 	it('exists', () => {
 		expect(() => {
 			require(expectedComponentLocation);

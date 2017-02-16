@@ -1,8 +1,8 @@
 const redis = require('redis');
 const redisConfig = require('./config/redis');
 
-const redisConnect = (function() {  
-	
+const redisConnect = (function() {
+
 	// connect to REDIS
 	let redisClient;
 

@@ -14,7 +14,7 @@ var radii = {
 
 const distance = {
 	getDistance(o1, o2) {
-		return haversine(o1, o2, {unit: 'meter'});
+		return haversine(o1, o2, { unit: 'meter' });
 	},
 	getLatitudeBounds(obj, d) {
 		const metric = 'meter';
@@ -24,7 +24,7 @@ const distance = {
 			lowerLatitude: obj.latitude - degChange,
 			upperLatitude: obj.latitude + degChange
 		}
-	}, 
+	},
 	getLongitudeBounds(obj, d) {
 		const metric = 'meter';
 		metricPerDeg = (2*PI/360) * radii[metric] * cos(obj.latitude * PI/180);
@@ -33,7 +33,7 @@ const distance = {
 			leftLongitude: obj.longitude - degChange,
 			rightLongitude: obj.longitude + degChange
 		}
-	}	
+	}
 }
 
 module.exports = distance;

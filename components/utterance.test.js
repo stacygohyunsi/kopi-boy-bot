@@ -1,5 +1,5 @@
 const path = require('path');
-const {expect} = require('chai');
+const { expect } = require('chai');
 
 describe('KopiBoy::Components::Utterance', () => {
 	const expectedComponentLocation = path.join(__dirname, './utterance.js');
@@ -30,7 +30,7 @@ describe('KopiBoy::Components::Utterance', () => {
 	});
 
 	xdescribe('.handleDefault()', () => {
-		
+
 	});
 
 	xdescribe('.handleLocation()', () => {

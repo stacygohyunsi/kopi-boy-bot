@@ -7,14 +7,14 @@ Analytics.GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-74732860-10';
 Analytics.generateFormattedData = function(action, label, clientId) {
 	(arguments.length === 0) && (() => { throw new Error('At least `action` needs to be defined'); })();
 	return {
-		url: Analytics.GOOGLE_ANALYTICS_URL, 
+		url: Analytics.GOOGLE_ANALYTICS_URL,
 		form: {
-			v:'1', 
-			tid: Analytics.GOOGLE_ANALYTICS_PROPERTY_ID, 
+			v:'1',
+			tid: Analytics.GOOGLE_ANALYTICS_PROPERTY_ID,
 			cid: clientId,
-			t: 'event', 
-			ec: 'dev', 
-			ea: action, 
+			t: 'event',
+			ec: 'dev',
+			ea: action,
 			el: label
 		}
 	}

@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const {expect} = require('chai');
+const { expect } = require('chai');
 
 describe('KopiBoy::Components::DataImporter [#138593941]', () => {
 	const expectedComponentLocation = path.join(process.cwd(), '/components/data-importer.js');
@@ -30,7 +30,7 @@ describe('KopiBoy::Components::DataImporter [#138593941]', () => {
 		const tmpDirectory = path.join(currentWorkingDirectory, '/tmp');
 		const tmpFile = path.join(tmpDirectory, '/test.csv');
 
-		before(() => {	
+		before(() => {
 			try {
 				fs.mkdirSync(tmpDirectory);
 			} catch(ex) {

@@ -38,7 +38,7 @@ Strings.SUCCESS = {
 	cafeFound: (nameOfUser) => Strings.SUCCESS.CAFE_FOUND[
 		Math.floor(Math.random() * Strings.SUCCESS.CAFE_FOUND.length - 0.001)
 	].replace(new RegExp(Strings.KEYS.NAME, 'gi'), nameOfUser),
-	
+
 	CAFES_FOUND: [
 		'After some soul searching, we\'ve cobbled together a list of cafés for you:'
 	],

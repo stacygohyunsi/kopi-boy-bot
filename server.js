@@ -68,7 +68,7 @@ bot.on('postback', (payload, reply) => {
 				resp.push(action);
 				redisConnect.set(payload.sender.id, JSON.stringify(resp));
 			}
-	});	
+	});
 	bot.getProfile(payload.sender.id, (err, profile) => {
 		const label = payload.postback.payload;
 		const handler = postbackHandlers[action];
@@ -91,15 +91,15 @@ bot.on('message', (payload, reply) => {
 	} else if(isAttachments) {
 		bot.getProfile(payload.sender.id, (err, profile) => {
 			if (err) { console.log("ERR", err) };
-			const {attachments} = payload.message;
+			const { attachments } = payload.message;
 			attachments.forEach(attachment => {
 				if(attachment.type === 'location') {
-					const {coordinates} = attachment.payload;
+					const { coordinates } = attachment.payload;
 					WithinProximityActions.handleLocationReception(reply, profile, payload, coordinates, () => {
-
+						reply('It\'s coming soon!');
 					});
 				}
-			});			
+			});
 		});
 	}
 });
