@@ -69,18 +69,19 @@ const WithinProximityAction = {
 	},
 
 	handle200mRandom: function(reply, profile, callback) {
-		reply({ text: `It's coming soon, ${profile.first_name}! Hold it in there~` });
+		reply({ text: `Awesome, ${profile.first_name}, one last thing. Could you send me your location so I know where you are?` });
+		(callback) ? callback() : (() => {})();
 	},
 
 	handle500mRandom: function(reply, profile, callback) {
-		reply({ text: `It's coming soon, ${profile.first_name}! Hold it in there~` });
+		reply({ text: `Awesome, ${profile.first_name}, one last thing. Could you send me your location so I know where you are?` });
+		(callback) ? callback() : (() => {})();
 	},
 
 	handle2kmRandom: function(reply, profile, callback) {
-
 		reply({ text: `Awesome, ${profile.first_name}, one last thing. Could you send me your location so I know where you are?` });
-
-	},
+		(callback) ? callback() : (() => {})();
+},
 
 	handleLocationReception: function (reply, profile, payload, coordinates, callback) {
 		(!reply) && (() => { throw new EvalError('Required parameter `reply` was not found.'); })();
@@ -97,32 +98,38 @@ const WithinProximityAction = {
 				WITHIN_2KM_RANDOM: 2000
 			}
 			const proximity = proximities[locationAction] ? proximities[locationAction] : null;
+			let latitudes;
+			let longitudes;
 			if (proximity !== null) {
-				const latitudes = distance.getLatitudeBounds({ latitude:coordinates.lat, longitude:coordinates.long }, proximity);
-				const longitudes = distance.getLongitudeBounds({ latitude:coordinates.lat, longitude:coordinates.long }, proximity);
+				latitudes = distance.getLatitudeBounds({ latitude:coordinates.lat, longitude:coordinates.long }, proximity);
+				longitudes = distance.getLongitudeBounds({ latitude:coordinates.lat, longitude:coordinates.long }, proximity);
 				console.log(latitudes);
 				console.log(longitudes);
+			}
+			let text;
+			if (typeof latitudes === 'undefined' || typeof longitudes === 'undefined') {
+				text = 'Oops, something went wrong with my internals, and my creators have been notified so I\'ll be fixed soon. Apologies for the inconvenience.';
+				reply({ text });
+			} else {
 				Models.places.find({
-					latitude: {
-						$gt: latitudes.lowerLatitude,
-						$lt: latitudes.upperLatitude
-					},
-					longitude: {
-						$gt: longitudes.leftLongitude,
-						$lt: longtiudes.rightLongtiude
+					where: {
+						latitude: {
+							$gt: latitudes.lowerLatitude,
+							$lt: latitudes.upperLatitude,
+							$and: {
+								longitude: {
+									$gt: longitudes.leftLongitude,
+									$lt: longitudes.rightLongtiude
+								}
+							}
+						}
 					},
 					order: [ Sequelize.fn('RAND') ]
 				}).then((res) => {
 					const { dataValues } = res;
-
-					(callback) ? callback() : (() => {
-						
-					})();
+					console.log(dataValues);
+					(callback) ? callback() : (() => {})();
 				});
-			} else {
-				reply({
-					text: 'Sorry, an error occurred and we could not find a café for you, we\'re terribly sorry.'
-				})
 			}
 			//TODO: make query to the db to get the cafe
 		});
