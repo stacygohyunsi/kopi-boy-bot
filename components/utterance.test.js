@@ -14,12 +14,12 @@ describe('KopiBoy::Components::Utterance', () => {
 		}).to.not.throw();
 	});
 
-	it('implements .handleDefault()', () => {
+	xit('implements .handleDefault()', () => {
 		expect(component.handleDefault).to.not.be.undefined;
 		expect(component.handleDefault).to.be.a.function;
 	});
 
-	it('implements .handleLocation()', () => {
+	xit('implements .handleLocation()', () => {
 		expect(component.handleLocation).to.not.be.undefined;
 		expect(component.handleLocation).to.be.a.function;
 	});
