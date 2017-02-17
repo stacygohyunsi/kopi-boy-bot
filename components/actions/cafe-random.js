@@ -1,10 +1,16 @@
+const analytics = require('../analytics');
 const ProximityRandomButtons = require('../buttons/proximity-random');
 const Strings = require('../strings');
 
-const ActionsCafeRandom = {
+const CafeRandomActions = {
 	handle: function(reply, profile, callback) {
-		const responseText = Strings.CAFE_RANDOM_ABOUT;
+		const clientId = profile.id;
+		const name = `${profile.first_name}`;
+		const responseText = Strings.CAFE_RANDOM_ABOUT.replace(Strings.KEYS.NAME, name);
 		const responseButtons = ProximityRandomButtons();
+		analytics.sendEvent("welcome", clientId, clientId, function(err) {
+			if (err) { console.error("ERR", err); };
+		});
 		reply({
 			attachment: {
 				type: 'template',
@@ -20,4 +26,4 @@ const ActionsCafeRandom = {
 	}
 };
 
-module.exports = ActionsCafeRandom;
+module.exports = CafeRandomActions;

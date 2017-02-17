@@ -174,19 +174,21 @@ const WithinProximityAction = {
 		return generateTemplateAttachment(payload);
 	},
 
+	handleLocationRequest: function(reply, profile, callback) {
+		const name = profile.first_name;
+		reply({ text: Strings.LOCATION_REQUEST.replace(Strings.KEYS.NAME, name) }, (callback) ? callback : (() => {}));
+	},
+
 	handle200mRandom: function(reply, profile, callback) {
-		reply({ text: `Awesome, ${profile.first_name}, one last thing. Could you send me your location so I know where you are?` });
-		(callback) ? callback() : (() => {})();
+		WithinProximityAction.handleLocationRequest(reply, profile, callback);
 	},
 
 	handle500mRandom: function(reply, profile, callback) {
-		reply({ text: `Awesome, ${profile.first_name}, one last thing. Could you send me your location so I know where you are?` });
-		(callback) ? callback() : (() => {})();
+		WithinProximityAction.handleLocationRequest(reply, profile, callback);
 	},
 
 	handle2kmRandom: function(reply, profile, callback) {
-		reply({ text: `Awesome, ${profile.first_name}, one last thing. Could you send me your location so I know where you are?` });
-		(callback) ? callback() : (() => {})();
+		WithinProximityAction.handleLocationRequest(reply, profile, callback);
 	},
 
 	handleLocationReception: function (reply, profile, payload, coordinates, callback) {

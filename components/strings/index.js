@@ -5,23 +5,29 @@ Strings.KEYS = {
 Strings.COMING_SOON = 'Sadly this feature is not available yet. Like our Page and leave us comments if you wish to see this feature up and about!';
 
 Strings.WELCOME = `
-Hi, %_NAME_%, KopiBoy is your personal assistant in discovering awesome cafés near you.
+Hi, ${Strings.KEYS.NAME}, KopiBoy is your personal assistant in discovering awesome cafés near you.
 
 How can I help you today?
 `;
 
 Strings.CAFE_RANDOM = 'Café Roulette';
-Strings.CAFE_RANDOM_ABOUT = 'Up for an adventure aren\'t you? Sure, we\'ll find you cafés: ';
+Strings.CAFE_RANDOM_ABOUT = `
+🖐🏽 Hi, ${Strings.KEYS.NAME}, I'm KopiBoy and I exist to discover amazing cafés in Singapore for you
+to hang out at or catch up with friends!
+
+Let's find you a cafe:
+`;
 Strings.CAFE_LIST = 'Cafés Near Me';
 Strings.CAFE_ADD = 'I found a Café!';
 Strings.CHECKOUT_BURPPLE_REVIEWS = 'Burpple';
 Strings.CHECKOUT_HUNGRYGOWHERE_REVIEWS = 'HungryGoWhere';
 Strings.CHECKOUT_YELP_REVIEWS = 'Yelp';
+Strings.LOCATION_REQUEST = `Awesome, ${Strings.KEYS.NAME}, one last thing. Could you send me your location so I know where you are?`;
 Strings.WITHIN_200M_RANDOM = 'Within 200 metres';
 Strings.WITHIN_500M_RANDOM = 'Within 500 metres'
 Strings.WITHIN_2KM_RANDOM = 'Within 2 kilometres'
-Strings.WITHIN_PROXIMITY_RANDOM = 'Near Me';
-Strings.WITHIN_COUNTRY_RANDOM = 'Within Singapore';
+Strings.WITHIN_PROXIMITY_RANDOM = 'Nearby Me Lah';
+Strings.WITHIN_COUNTRY_RANDOM = 'Anywhere Also Can';
 Strings.WITHIN_NEVERMIND = 'Nevermind';
 
 Strings.EMAIL_THIS_CAFE = 'Send Email';

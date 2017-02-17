@@ -1,6 +1,8 @@
 const Strings = require('./strings');
-const analytics = require('./analytics');
-const WelcomeButtons = require('./buttons/welcome');
+// const analytics = require('./analytics');
+// const WelcomeButtons = require('./buttons/welcome');
+const CafeRandomActions = require('./actions/cafe-random');
+
 const {
 	generateTemplateAttachment
 } = require('./actions/utility');
@@ -13,9 +15,14 @@ const Utterance = {
 
 		bot.getProfile(senderMessengerId, (err, profile) => {
 			const clientId = senderMessengerId;
-			const name = `${profile.first_name} ${profile.last_name}`;
-			const text = Strings.WELCOME.replace(Strings.KEYS.NAME, name);
-			const buttons = WelcomeButtons();
+			// const name = `${profile.first_name} ${profile.last_name}`;
+			// const text = Strings.WELCOME.replace(Strings.KEYS.NAME, name);
+			Object.assign(profile, { id: clientId });
+			CafeRandomActions.handle(reply, profile, (err, info) => {
+				if(err) { console.error(err); }
+				else { console.info(info); }
+			});
+			/*const buttons = WelcomeButtons();
 			analytics.sendEvent("welcome", clientId, clientId, function(err) {
 				if (err) {console.log("ERR", err)};
 			});
@@ -24,7 +31,7 @@ const Utterance = {
 				text, buttons
 			}), err => {
 				if(err) { console.log(err); }
-			});
+			});*/
 		});
 	}
 };
