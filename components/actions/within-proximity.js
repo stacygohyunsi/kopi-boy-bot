@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 
-const redisConnect = require('../../redis-connect');
+const Analytics = require('../analytics');
+const Cache = require('../cache').get()
 const Actions = require('./index');
 const Models = require('../../models');
 const Strings = require('../strings');
@@ -20,44 +21,6 @@ const {
 
 
 const WithinProximityAction = {
-	generateMessageElement: function(name) {
-		return {
-			title: `So, ${name || 'dear user'}, an Adventure!`,
-			image_url: 'https://scontent-sit4-1.xx.fbcdn.net/v/t1.0-9/16508075_742760355874278_8508412211420611200_n.png?oh=af5c4b5876ce0e2145eaaf06a33db37d&oe=590FF3FE'
-		};
-	},
-
-	generate200mElement: function() {
-		return {
-			title: `Really Nearby`,
-			subtitle: 'Within a 5 minute walk from where you are.',
-			buttons: [
-				generatePostbackButton(Actions.WITHIN_200M_RANDOM, Strings.WITHIN_200M_RANDOM)
-			]
-		};
-	},
-
-	generate500mElement: function() {
-		return {
-			title: `Slightly Further`,
-			subtitle: 'Within a 15 minute walk from where you are.',
-			buttons: [
-				generatePostbackButton(Actions.WITHIN_500M_RANDOM, Strings.WITHIN_500M_RANDOM)
-			]
-		};
-	},
-
-	generate2kmElement: function() {
-		return {
-			title: `Even Further`,
-			subtitle: 'Within a 30 minutes walk or 5 minute drive from where you are.',
-			buttons: [
-				generatePostbackButton(Actions.WITHIN_2KM_RANDOM, Strings.WITHIN_2KM_RANDOM)
-			]
-		};
-	},
-
-
 	createBasicInfoElement: (place) => {
 		(!place.name) && (() => { throw new EvalError('Expected property `name` is not defined.')})();
 		(!place.address) && (() => { throw new EvalError('Expected property `address` is not defined.' )})();
@@ -92,6 +55,31 @@ const WithinProximityAction = {
 		};
 	},
 
+	createOpeningHoursElement: (place) => {
+		(!place) && (() => { throw new EvalError('Required parameter `place` could not be found.') })();
+
+		const buttons = [];
+		(place.contact_number) && (buttons.push({
+			type: 'phone_number',
+			payload: place.contact_number,
+			title: Strings.CALL_THIS_CAFE
+		}));
+		(place.contact_email) && (buttons.push({
+			type: 'web_url',
+			payload: `mailto:${place.contact_email}`,
+			title: Strings.EMAIL_THIS_CAFE
+		}));
+
+		const element = {
+			title: Strings.LABEL_OPENING_HOURS,
+			subtitle: place.opening_hours || Strings.LABEL_OPENING_HOURS_UNAVAILABLE
+		};
+		if(buttons.length > 0) {
+			element.buttons = buttons;
+		}
+		return element;
+	},
+
 	createReply: function(name) {
 		const payload = generateListTemplateType(
 			[
@@ -107,30 +95,10 @@ const WithinProximityAction = {
 		return generateTemplateAttachment(payload);
 	},
 
-	createOpeningHoursElement: (place) => {
-		const buttons = [];
-		(place.contact_number) && (buttons.push({
-			type: 'phone_number',
-			payload: place.contact_number,
-			title: Strings.CALL_THIS_CAFE
-		}));
-		(place.contact_email) && (buttons.push({
-			type: 'web_url',
-			payload: `mailto:${place.contact_email}`,
-			title: Strings.EMAIL_THIS_CAFE
-		}));
-
-		const element = {
-			title: 'Opening Hours',
-			subtitle: place.opening_hours || 'Unavailable. Call/email them for more information!'
-		};
-		if(buttons.length > 0) {
-			element.buttons = buttons;
-		}
-		return element;
-	},
-
 	createReviewsElement: (place) => {
+		(!place) && (() => { throw new EvalError('Required paramtere `place` was not found.')})();
+		(!place.name) && (() => { throw new EvalError('Required property `name` of `place` parameter was not found.') })();
+
 		const reviewSiteUrls = WithinProximityAction.createReviewWebsitesButtons(place.name);
 		const buttons = [{
 			type: 'web_url',
@@ -149,20 +117,57 @@ const WithinProximityAction = {
 		}];
 
 		return {
-			title: 'Get a second opinion',
-			subtitle: 'Not sure about this place? Let\'s help you get a second opinion on...',
+			title: Strings.LABEL_REVIEWS,
+			subtitle: Strings.LABEL_REVIEWS_MORE,
 			buttons
 		};
 	},
 
 	createReviewWebsitesButtons: (cafeName) => {
-		(arguments.length === 0) && (() => { throw new EvalError('Café name must be specified'); })();
 		(typeof cafeName !== 'string') && (() => { throw new EvalError('Café name must be of type String'); })();
+
 		return {
 			burpple: ReviewChecker.generateBurppleURL(cafeName),
 			hungryGoWhere: ReviewChecker.generateHungryGoWhereURL(cafeName),
 			yelp: ReviewChecker.generateYelpURL(cafeName)
 		}
+	},
+
+	generateMessageElement: function(name) {
+		return {
+			title: Strings.DIALOG.random(name),
+			image_url: Strings.URL_IMAGE.PROXIMITY
+		};
+	},
+
+	generate200mElement: function() {
+		return {
+			title: Strings.LABEL_WITHIN_200M,
+			subtitle: Strings.LABEL_WITHIN_200M_DESC,
+			buttons: [
+				generatePostbackButton(Actions.WITHIN_200M_RANDOM, Strings.WITHIN_200M_RANDOM)
+			]
+		};
+	},
+
+	generate500mElement: function() {
+		return {
+			title: Strings.LABEL_WITHIN_500M,
+			subtitle: Strings.LABEL_WITHIN_500M_DESC,
+			buttons: [
+				generatePostbackButton(Actions.WITHIN_500M_RANDOM, Strings.WITHIN_500M_RANDOM)
+			]
+		};
+	},
+
+	generate2kmElement: function() {
+		return {
+			title: Strings.LABEL_WITHIN_2KM,
+			subtitle: Strings.LABEL_WITHIN_2KM_DESC,
+			buttons: [
+				generatePostbackButton(Actions.WITHIN_2KM_RANDOM, Strings.WITHIN_2KM_RANDOM)
+			]
+		};
 	},
 
 	generateReply: (place) => {
@@ -175,8 +180,15 @@ const WithinProximityAction = {
 	},
 
 	handleLocationRequest: function(reply, profile, callback) {
+		(!reply) && (() => { throw new EvalError('Required parameter `reply` was not found.'); })();
+		(!profile) && (() => { throw new EvalError('Required parameter `profile` was not found.'); })();
+
 		const name = profile.first_name;
-		reply({ text: Strings.LOCATION_REQUEST.replace(Strings.KEYS.NAME, name) }, (callback) ? callback : (() => {}));
+		reply({ text: Strings.LOCATION_REQUEST.replace(Strings.KEYS.NAME, name) }, (callback) ? callback : ((err, info) => {
+			if(err) {
+				Analytics.sendEvent(Strings.SYSTEM.error('Actions::WithinProximity::handleLocationRequest'),0,0);
+			}
+		}));
 	},
 
 	handle200mRandom: function(reply, profile, callback) {
@@ -196,7 +208,7 @@ const WithinProximityAction = {
 		(!profile) && (() => { throw new EvalError('Required parameter `profile` was not found.'); })();
 		(!coordinates) && (() => { throw new EvalError('Required parameter `coordinates` was not found.'); })();
 
-		redisConnect.get(payload.sender.id, function(err, resp) {
+		Cache.get(payload.sender.id, function(err, resp) {
 			if (err) {console.log("ERR", err);}
 			const actionsArray = JSON.parse(resp);
 			const locationAction = actionsArray[actionsArray.length - 1];
