@@ -93,7 +93,7 @@ bot.on('message', (payload, reply) => {
 			attachments.forEach(attachment => {
 				if(attachment.type === 'location') {
 					const { coordinates } = attachment.payload;
-					WithinProximityActions.handleLocationReception(reply, profile, payload, coordinates, () => {
+					Utterance.handleLocation(reply, profile, coordinates, () => {
 						reply('It\'s coming soon!');
 					});
 				}
