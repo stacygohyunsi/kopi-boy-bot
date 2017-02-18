@@ -36,6 +36,11 @@ Strings.GET_DIRECTIONS = 'Get Directions';
 Strings.VIEW_WEBSITE = 'View Website';
 Strings.SHOW_ANOTHER = 'Show Me Another'
 
+Strings.SYSTEM = {
+	ERROR: `SYSTEM_ERROR AT ${Strings.KEYS.NAME}`,
+	error: (errorKey) => Strings.SYSTEM.ERROR.replace(new RegExp(Strings.KEYS.NAME, 'gi'), errorKey)
+};
+
 Strings.SUCCESS = {
 	CAFE_FOUND: [
 		`Awesome possum, ${Strings.KEYS.NAME}, we've found you a kopi place we think you'll love:`,
