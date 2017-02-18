@@ -23,6 +23,16 @@ Strings.CHECKOUT_BURPPLE_REVIEWS = 'Burpple';
 Strings.CHECKOUT_HUNGRYGOWHERE_REVIEWS = 'HungryGoWhere';
 Strings.CHECKOUT_YELP_REVIEWS = 'Yelp';
 Strings.LOCATION_REQUEST = `Awesome, ${Strings.KEYS.NAME}, one more thing, can send me your location/a location you wanna check out?`;
+Strings.LABEL_OPENING_HOURS = 'Opening Hours';
+Strings.LABEL_OPENING_HOURS_UNAVAILABLE = 'Unavailable. Call/email them for more information!';
+Strings.LABEL_REVIEWS = 'Get a second opinion';
+Strings.LABEL_REVIEWS_MORE = 'Not sure about this place? Let\'s help you get a second opinion on...';
+Strings.LABEL_WITHIN_200M = 'Really Nearby';
+Strings.LABEL_WITHIN_200M_DESC = 'Within a 5 minute walk from where you are.';
+Strings.LABEL_WITHIN_500M = 'Slightly Further';
+Strings.LABEL_WITHIN_500M_DESC = 'Within a 15 minute walk from where you are.';
+Strings.LABEL_WITHIN_2KM = 'Even Further';
+Strings.LABEL_WITHIN_2KM_DESC = 'Within a 30 minutes walk or 5 minute drive from where you are.';
 Strings.WITHIN_200M_RANDOM = 'Within 200 metres';
 Strings.WITHIN_500M_RANDOM = 'Within 500 metres'
 Strings.WITHIN_2KM_RANDOM = 'Within 2 kilometres'
@@ -36,8 +46,17 @@ Strings.GET_DIRECTIONS = 'Get Directions';
 Strings.VIEW_WEBSITE = 'View Website';
 Strings.SHOW_ANOTHER = 'Show Me Another'
 
+Strings.DIALOG = {
+	RANDOM: `So, ${Strings.KEYS.NAME}, an Adventure!`,
+	random: (name) => Strings.DIALOG.RANDOM.replace(new RegExp(Strings.KEYS.NAME, 'gi'), (name || 'dear user'))
+}
+
+Strings.URL_IMAGE = {
+	PROXIMITY: 'https://scontent-sit4-1.xx.fbcdn.net/v/t1.0-9/16508075_742760355874278_8508412211420611200_n.png?oh=af5c4b5876ce0e2145eaaf06a33db37d&oe=590FF3FE'
+};
+
 Strings.SYSTEM = {
-	ERROR: `SYSTEM_ERROR AT ${Strings.KEYS.NAME}`,
+	ERROR: `SYSTEM_ERROR_AT_${Strings.KEYS.NAME}`,
 	error: (errorKey) => Strings.SYSTEM.ERROR.replace(new RegExp(Strings.KEYS.NAME, 'gi'), errorKey)
 };
 
