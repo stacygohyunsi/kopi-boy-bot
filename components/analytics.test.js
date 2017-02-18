@@ -70,7 +70,7 @@ describe('KopiBoy::Components::Analytics', () => {
 					tid: component.GOOGLE_ANALYTICS_PROPERTY_ID,
 					cid,
 					t: 'event',
-					ec: (process.env.NODE_ENV === 'production') ? 'live' : 'dev',
+					ec: process.env.NODE_ENV,
 					ea: action,
 					el: label
 				}

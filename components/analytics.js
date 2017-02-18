@@ -13,7 +13,7 @@ Analytics.generateFormattedData = function(action, label, clientId) {
 			tid: Analytics.GOOGLE_ANALYTICS_PROPERTY_ID,
 			cid: clientId,
 			t: 'event',
-			ec: 'dev',
+			ec: process.env.NODE_ENV,
 			ea: action,
 			el: label
 		}
