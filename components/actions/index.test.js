@@ -23,6 +23,10 @@ describe('KopiBoy::Components::Actions', () => {
 		expect(component.CAFE_ADD).to.not.be.undefined;
 	});
 
+	it('contains action associated with welcome message', () => {
+		expect(component.WELCOME).to.not.be.undefined;
+	});
+
 	it('contains action to display only nearby cafés [#138564095]', () => {
 		expect(component.WITHIN_200M_LIST).to.not.be.undefined;
 	});
