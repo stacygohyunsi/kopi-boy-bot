@@ -6,14 +6,14 @@ const sinon = require('sinon');
 
 const Actions = require('./index');
 const ReviewChecker = require('../review-checker');
+const Strings = require('../strings');
+const Utility = require('./utility');
 
 describe('KopiBoy::Components::Actions::WithinProximity', () => {
 	const expectedComponentLocation = path.join(__dirname, './within-proximity.js');
-	let componentExists = false;
 	let component = null;
 	try {
 		component = require(expectedComponentLocation);
-		componentExists = true;
 	} catch(ex) { }
 
 	it('exists at the correct location', () => {
@@ -22,34 +22,271 @@ describe('KopiBoy::Components::Actions::WithinProximity', () => {
 		}).to.not.throw();
 	});
 
-	it('implements .generateMessageElement()', () => {
-		expect(component.generateMessageElement).to.not.be.undefined;
-		expect(component.generateMessageElement).to.be.a.function;
+	it('implements the correct functions', () => {
+		const expectedComponentKeys = [
+			'createBasicInfoElement',
+			'createOpeningHoursElement',
+			'createReply',
+			'createReviewsElement',
+			'createReviewWebsitesButtons',
+			'generateMessageElement',
+			'generate200mElement',
+			'generate500mElement',
+			'generate2kmElement',
+			'generateReply',
+			'handleLocationRequest',
+			'handle200mRandom',
+			'handle500mRandom',
+			'handle2kmRandom',
+			'handleLocationReception',
+			'handleNevermind',
+			'handleRandom'
+		];
+		const observedComponentKeys = Object.keys(component);
+		expect(observedComponentKeys).to.deep.equal(expectedComponentKeys);
+		expectedComponentKeys.forEach(fn => {
+			expect(fn).to.be.a.function;
+		})
 	});
 
-	it('implements .generate200mElement()', () => {
-		expect(component.generate200mElement).to.not.be.undefined;
-		expect(component.generate200mElement).to.be.a.function;
+	describe('.createBasicInfoElement()', () => {
+		let place;
+
+		before(() => {
+			place = {
+				name: 'place.name',
+				image_url: 'place.image_url',
+				address: 'place.address',
+				website_url: 'place.website_url',
+				latitude: 0.1111,
+				longitude: 0.2222
+			};
+		});
+
+		it('throws an error when the property `name` is not available in the `place` parameter', () => {
+			expect(() => {
+				component.createBasicInfoElement({
+					address: ''
+				});
+			}).to.throw(EvalError);
+		});
+
+		it('throws an error when the property `address` is not available in the `place` parameter', () => {
+			expect(() => {
+				component.createBasicInfoElement({
+					name: ''
+				});
+			}).to.throw(EvalError);
+		});
+
+		it('returns an object with the correct properties when `place` is fully populated', () => {
+			const observed = component.createBasicInfoElement(place);
+			expect(observed.title).to.deep.equal(place.name);
+			expect(observed.image_url).to.deep.equal(place.image_url);
+			expect(observed.subtitle).to.deep.equal(place.address);
+			expect(observed.default_action.url).to.deep.equal(place.website_url);
+			expect(observed.default_action.type).to.deep.equal('web_url');
+			expect(observed.buttons).to.have.length(3);
+		});
+
+		it('returns an object with the correct properties when `place` lacks location coordinates', () => {
+			const placeWithoutLatitude = Object.assign({}, place);
+			delete placeWithoutLatitude['latitude'];
+			const observed = component.createBasicInfoElement(placeWithoutLatitude);
+			expect(observed.buttons).to.have.length(2);
+			expect(observed.buttons[0].title).to.deep.equal(Strings.VIEW_WEBSITE);
+			expect(observed.buttons[1].title).to.deep.equal(Strings.SHOW_ANOTHER);
+		});
+
+		it('returns an object with the correct properties when `place` lacks a website URL', () => {
+			const placeWithoutWebsite = Object.assign({}, place);
+			delete placeWithoutWebsite['website_url'];
+			const observed = component.createBasicInfoElement(placeWithoutWebsite);
+			expect(observed.buttons).to.have.length(2);
+			expect(observed.buttons[0].title).to.deep.equal(Strings.GET_DIRECTIONS);
+			expect(observed.buttons[1].title).to.deep.equal(Strings.SHOW_ANOTHER);
+		});
+
+		it('returns an object with the correct properties when `place` lacks both website URL and location coordinates', () => {
+			const minimalPlace = Object.assign({}, place);
+			delete minimalPlace['latitude'];
+			delete minimalPlace['website_url'];
+			const observed = component.createBasicInfoElement(minimalPlace);
+			expect(observed.buttons).to.have.length(1);
+			expect(observed.buttons[0].title).to.deep.equal(Strings.SHOW_ANOTHER);
+		});
 	});
 
-	it('implements .generate500mElement()', () => {
-		expect(component.generate500mElement).to.not.be.undefined;
-		expect(component.generate500mElement).to.be.a.function;
+	describe('.createOpeningHoursElement()', () => {
+		let place;
+
+		before(() => {
+			place = {
+				contact_number: 'place.contact_number',
+				contact_email: 'place.contact_email',
+				opening_hours: 'place.opening_hours'
+			};
+		});
+
+		it('throws an error when the `place` parameter is not provided', () => {
+			expect(() => {
+				component.createOpeningHoursElement();
+			}).to.throw(EvalError);
+		});
+
+		it('returns the correct object when a fully populated `place` is provided', () => {
+			const observed = component.createOpeningHoursElement(place);
+			expect(observed.title).to.deep.equal(Strings.LABEL_OPENING_HOURS);
+			expect(observed.subtitle).to.deep.equal(place.opening_hours);
+			expect(observed.buttons).to.have.length(2);
+			expect(observed.buttons[0].title).to.deep.equal(Strings.CALL_THIS_CAFE);
+			expect(observed.buttons[0].payload).to.deep.equal(place.contact_number);
+			expect(observed.buttons[0].type).to.deep.equal('phone_number');
+			expect(observed.buttons[1].title).to.deep.equal(Strings.EMAIL_THIS_CAFE);
+			expect(observed.buttons[1].payload).to.deep.equal(`mailto:${place.contact_email}`);
+			expect(observed.buttons[1].type).to.deep.equal('web_url');
+		});
+
+		it('returns the correct object when a `place` without Opening Hours is provided', () => {
+			const placeWithoutOpeningHours = Object.assign({}, place);
+			delete placeWithoutOpeningHours['opening_hours'];
+			const observed = component.createOpeningHoursElement(placeWithoutOpeningHours);
+			expect(observed.title).to.deep.equal(Strings.LABEL_OPENING_HOURS);
+			expect(observed.subtitle).to.deep.equal(Strings.LABEL_OPENING_HOURS_UNAVAILABLE);
+			expect(observed.buttons).to.have.length(2);
+			expect(observed.buttons[0].title).to.deep.equal(Strings.CALL_THIS_CAFE);
+			expect(observed.buttons[0].payload).to.deep.equal(place.contact_number);
+			expect(observed.buttons[0].type).to.deep.equal('phone_number');
+			expect(observed.buttons[1].title).to.deep.equal(Strings.EMAIL_THIS_CAFE);
+			expect(observed.buttons[1].payload).to.deep.equal(`mailto:${place.contact_email}`);
+			expect(observed.buttons[1].type).to.deep.equal('web_url');
+		});
+
+		it('returns the correct object when a `place` without Email is provided', () => {
+			const placeWithoutEmail = Object.assign({}, place);
+			delete placeWithoutEmail['contact_email'];
+			const observed = component.createOpeningHoursElement(placeWithoutEmail);
+			expect(observed.title).to.deep.equal(Strings.LABEL_OPENING_HOURS);
+			expect(observed.subtitle).to.deep.equal(place.opening_hours);
+			expect(observed.buttons).to.have.length(1);
+			expect(observed.buttons[0].title).to.deep.equal(Strings.CALL_THIS_CAFE);
+			expect(observed.buttons[0].payload).to.deep.equal(place.contact_number);
+			expect(observed.buttons[0].type).to.deep.equal('phone_number');
+		});
+
+		it('returns the correct object when a `place` without Number is provided', () => {
+			const placeWithoutNumber = Object.assign({}, place);
+			delete placeWithoutNumber['contact_number'];
+			const observed = component.createOpeningHoursElement(placeWithoutNumber);
+			expect(observed.title).to.deep.equal(Strings.LABEL_OPENING_HOURS);
+			expect(observed.subtitle).to.deep.equal(place.opening_hours);
+			expect(observed.buttons).to.have.length(1);
+			expect(observed.buttons[0].title).to.deep.equal(Strings.EMAIL_THIS_CAFE);
+			expect(observed.buttons[0].payload).to.deep.equal(`mailto:${place.contact_email}`);
+			expect(observed.buttons[0].type).to.deep.equal('web_url');
+		});
+
+		it('returns the correct object when there is no Number, Email or Opening Hours', () => {
+			const observed = component.createOpeningHoursElement({});
+			expect(observed.title).to.deep.equal(Strings.LABEL_OPENING_HOURS);
+			expect(observed.subtitle).to.deep.equal(Strings.LABEL_OPENING_HOURS_UNAVAILABLE);
+			expect(Object.keys(observed)).to.deep.equal(['title', 'subtitle']);
+		});
 	});
 
-	it('implements .generate2kmElement()', () => {
-		expect(component.generate2kmElement).to.not.be.undefined;
-		expect(component.generate2kmElement).to.be.a.function;
+	describe('.createReply()', () => {
+		it('returns a payload with template of type `list`', () => {
+			const observed = component.createReply('name');
+			const { attachment } = observed;
+			expect(attachment.type).to.equal('template');
+			expect(attachment.payload.template_type).to.equal('list');
+		});
+
+		it('returns a payload with not more than 4 elements', () => {
+			const observed = component.createReply('name');
+			const { attachment } = observed;
+			expect(attachment.payload.elements.length).to.be.lessThan(5);
+		});
+
+		it('has a returned list of elements where the user\'s name is in the first message element', () => {
+			const observed = component.createReply('name');
+			const { attachment } = observed;
+			expect(attachment.payload.elements[0].title).to.contain('name');
+		});
+
+		it('calls .generateMessageElement() once', () => {
+			const generateMessageElementSpy = sinon.stub(component, 'generateMessageElement');
+			component.createReply('name');
+			expect(generateMessageElementSpy).to.be.calledOnce;
+			generateMessageElementSpy.restore();
+		});
+
+		it('calls .generate200mElement() once', () => {
+			const generate200mElementSpy = sinon.stub(component, 'generate200mElement');
+			component.createReply('name');
+			expect(generate200mElementSpy).to.be.calledOnce;
+			generate200mElementSpy.restore();
+		});
+
+		it('calls .generate500mElement() once', () => {
+			const generate500mElementSpy = sinon.stub(component, 'generate500mElement');
+			component.createReply('name');
+			expect(generate500mElementSpy).to.be.calledOnce;
+			generate500mElementSpy.restore();
+		});
+
+		it('calls .generate2kmElement() once', () => {
+			const generate2kmElementSpy = sinon.stub(component, 'generate2kmElement');
+			component.createReply('name');
+			expect(generate2kmElementSpy).to.be.calledOnce;
+			generate2kmElementSpy.restore();
+		});
 	});
 
-	it('implements .createReply()', () => {
-		expect(component.createReply).to.not.be.undefined;
-		expect(component.createReply).to.be.a.function;
+	describe('.createReviewsElement()', () => {
+		let place;
+
+		before(() => {
+			place = {
+				name: 'place.name'
+			};
+		});
+
+		it('throws an error if the `place` argument does not exist', () => {
+			expect(() => {
+				component.createReviewsElement();
+			}).to.throw(EvalError);
+		});
+
+		it('throws an error if property `name` of the `place` argument does not exist', () => {
+			expect(() => {
+				component.createReviewsElement({});
+			}).to.throw(EvalError);
+		});
+
+		it('returns the correct object if the `place` argument was provided correctly', () => {
+			const observed = component.createReviewsElement(place);
+			expect(observed.title).to.deep.equal(Strings.LABEL_REVIEWS);
+			expect(observed.subtitle).to.deep.equal(Strings.LABEL_REVIEWS_MORE);
+			expect(observed.buttons).to.have.length(3);
+			expect(observed.buttons[0].title).to.deep.equal(Strings.CHECKOUT_BURPPLE_REVIEWS);
+			expect(observed.buttons[1].title).to.deep.equal(Strings.CHECKOUT_HUNGRYGOWHERE_REVIEWS);
+			expect(observed.buttons[2].title).to.deep.equal(Strings.CHECKOUT_YELP_REVIEWS);
+		});
 	});
 
-	it('implements .handleRandom()', () => {
-		expect(component.handleRandom).to.not.be.undefined;
-		expect(component.handleRandom).to.be.a.function;
+	describe('.createReviewWebsitesButtons()', () => {
+		it('throws an error if `cafeName` parameter is not a string', () => {
+			expect(() => { component.createReviewWebsitesButtons(); }).to.throw(EvalError);
+			expect(() => { component.createReviewWebsitesButtons(1); }).to.throw(EvalError);
+			expect(() => { component.createReviewWebsitesButtons('string'); }).to.not.throw();
+		})
+
+		it('returns an object with the correct properties', () => {
+			expect(component.createReviewWebsitesButtons('cafe_name')).to.have.keys([
+				'burpple', 'hungryGoWhere', 'yelp'
+			]);
+		})
 	});
 
 	describe('.generateMessageElement()', () => {
@@ -108,53 +345,167 @@ describe('KopiBoy::Components::Actions::WithinProximity', () => {
 		});
 	});
 
-	describe('.createReply()', () => {
-		it('returns a payload with template of type `list`', () => {
-			const observed = component.createReply('name');
-			const { attachment } = observed;
-			expect(attachment.type).to.equal('template');
-			expect(attachment.payload.template_type).to.equal('list');
+	describe('.generateReply()', () => {
+		let createBasicInfoElementSpy;
+		let createOpeningHoursElementSpy;
+		let createReviewsElementSpy;
+		let generateGenericTemplateTypeSpy;
+		let generateTemplateAttachmentSpy;
+		let place;
+
+		before(() => {
+			createBasicInfoElementSpy = sinon.stub(component, 'createBasicInfoElement');
+			createOpeningHoursElementSpy = sinon.stub(component, 'createOpeningHoursElement');
+			createReviewsElementSpy = sinon.stub(component, 'createReviewsElement');
+			place = {
+				name: 'place.name',
+				image_url: 'place.image_url',
+				address: 'place.address',
+				website_url: 'place.website_url',
+				contact_number: 'place.contact_number',
+				contact_email: 'place.contact_email',
+				opening_hours: 'place.opening_hours',
+				latitude: 0.1111,
+				longitude: 0.2222
+			};
 		});
 
-		it('returns a payload with not more than 4 elements', () => {
-			const observed = component.createReply('name');
-			const { attachment } = observed;
-			expect(attachment.payload.elements.length).to.be.lessThan(5);
+		afterEach(() => {
+			createBasicInfoElementSpy.reset();
+			createOpeningHoursElementSpy.reset();
+			createReviewsElementSpy.reset();
 		});
 
-		it('has a returned list of elements where the user\'s name is in the first message element', () => {
-			const observed = component.createReply('name');
-			const { attachment } = observed;
-			expect(attachment.payload.elements[0].title).to.contain('name');
+		after(() => {
+			createBasicInfoElementSpy.restore();
+			createOpeningHoursElementSpy.restore();
+			createReviewsElementSpy.restore();
 		});
 
-		it('calls .generateMessageElement() once', () => {
-			const generateMessageElementSpy = sinon.stub(component, 'generateMessageElement');
-			component.createReply('name');
-			expect(generateMessageElementSpy).to.be.calledOnce;
-			generateMessageElementSpy.restore();
+		it('calls createBasicInfoElement', () => {
+			component.generateReply(place);
+			expect(createBasicInfoElementSpy).to.have.been.calledOnce;
 		});
 
-		it('calls .generate200mElement() once', () => {
-			const generate200mElementSpy = sinon.stub(component, 'generate200mElement');
-			component.createReply('name');
-			expect(generate200mElementSpy).to.be.calledOnce;
-			generate200mElementSpy.restore();
+		it('calls createOpeningHoursElement', () => {
+			component.generateReply(place);
+			expect(createOpeningHoursElementSpy).to.have.been.calledOnce;
 		});
 
-		it('calls .generate500mElement() once', () => {
-			const generate500mElementSpy = sinon.stub(component, 'generate500mElement');
-			component.createReply('name');
-			expect(generate500mElementSpy).to.be.calledOnce;
-			generate500mElementSpy.restore();
+		it('does not call createOpeningHoursElement if opening hours are not available', () => {
+			const placeWithoutOpeningHours = Object.assign({}, place);
+			delete placeWithoutOpeningHours['opening_hours'];
+			component.generateReply(placeWithoutOpeningHours);
+			expect(createOpeningHoursElementSpy).to.not.have.been.called;
 		});
 
-		it('calls .generate2kmElement() once', () => {
-			const generate2kmElementSpy = sinon.stub(component, 'generate2kmElement');
-			component.createReply('name');
-			expect(generate2kmElementSpy).to.be.calledOnce;
-			generate2kmElementSpy.restore();
+		it('calls createReviewsElement', () => {
+			component.generateReply(place);
+			expect(createReviewsElementSpy).to.have.been.calledOnce;
 		});
+	});
+
+	describe('.handleLocationRequest()', () => {
+		const reply = sinon.spy();
+		const profile = {
+			first_name: 'profile.name'
+		};
+
+		afterEach(() => {
+			reply.reset();
+		});
+
+		it('takes in a `reply` function and a `profile` object as arguments', () => {
+			expect(() => {
+				component.handleLocationRequest(reply, profile);
+			}).to.not.throw();
+		});
+
+		it('throws an exception if `reply` function is not present', () => {
+			expect(() => {
+				component.handleLocationRequest(null, profile);
+			}).to.throw(EvalError);
+		});
+
+		it('throws an exception if `profile` object is not present', () => {
+			expect(() => {
+				component.handleLocationRequest(reply, null);
+			}).to.throw(EvalError);
+		});
+
+		it('calls `reply` with the right parameters', () => {
+			component.handleLocationRequest(reply, profile);
+			expect(reply).to.have.been.calledWith({
+				text: Strings.LOCATION_REQUEST.replace(Strings.KEYS.NAME, profile.first_name)
+			})
+		});
+	});
+
+	describe('.handle<DISTANCE>Random()', () => {
+		let handleLocationRequestMock;
+		const reply = sinon.spy();
+		const profile = {
+			first_name: 'profile.name'
+		};
+
+		before(() => {
+			handleLocationRequestMock = sinon.stub(component, 'handleLocationRequest');
+		});
+
+		afterEach(() => {
+			handleLocationRequestMock.reset();
+		});
+
+		after(() => {
+			handleLocationRequestMock.restore();
+		});
+
+		it('calls handleLocationRequest for 200m', () => {
+			component.handle200mRandom(reply, profile);
+			expect(handleLocationRequestMock).to.have.been.calledOnce;
+		});
+
+		it('calls handleLocationRequest for 500m', () => {
+			component.handle500mRandom(reply, profile);
+			expect(handleLocationRequestMock).to.have.been.calledOnce;
+		});
+
+		it('calls handleLocationRequest for 2km', () => {
+			component.handle2kmRandom(reply, profile);
+			expect(handleLocationRequestMock).to.have.been.calledOnce;
+		});
+	});
+
+	describe('.handleLocationReception()', () => {
+		const reply = sinon.spy();
+		const profile = {};
+		const payload = {};
+		const coordinates = {};
+
+		it('throws an exception if `reply` function is not present', () => {
+			expect(() => {
+				component.handleLocationReception(null, profile, payload, coordinates);
+			}).to.throw(EvalError);
+		});
+
+		it('throws an exception if `profile` object is not present', () => {
+			expect(() => {
+				component.handleLocationReception(reply, null, payload, coordinates);
+			}).to.throw(EvalError);
+		});
+
+		it('throws an exception if `payload` object is not present', () => {
+			expect(() => {
+				component.handleLocationReception(reply, profile, null, coordinates);
+			}).to.throw(EvalError);
+		});
+
+		it('throws an exception if `coordinates` object is not present', () => {
+			expect(() => {
+				component.handleLocationReception(reply, profile, payload, null);
+			}).to.throw(EvalError);
+		});
+
 	});
 
 	describe('.handleRandom()', () => {
@@ -185,7 +536,6 @@ describe('KopiBoy::Components::Actions::WithinProximity', () => {
 			const postCallCount = reply.callCount;
 			const { attachment } = reply.args[reply.args.length - 1][0];
 			expect(postCallCount - preCallCount).to.equal(1);
-			console.log(attachment.payload.buttons);
 		});
 
 

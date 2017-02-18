@@ -7,8 +7,8 @@ require('newrelic');
 const express = require('express');
 const path = require('path');
 const Bot = require('messenger-bot');
-const redisConnect = require('./redis-connect');
 
+const Cache = require('./components/cache').get();
 const Actions = require('./components/actions');
 const Utterance = require('./components/utterance');
 
@@ -58,13 +58,11 @@ const postbackHandlers = {
 bot.on('postback', (payload, reply) => {
 	console.log('postback incoming');
 	const action = payload.postback.payload;
-	console.log(action);
-	redisConnect.get(payload.sender.id, function(err, resp) {
+	Cache.get(payload.sender.id, function(err, resp) {
 			resp = resp ? JSON.parse(resp) : [];
 			if (Array.isArray(resp)) {
 				resp.push(action);
-				console.log(JSON.stringify(resp));
-				redisConnect.set(payload.sender.id, JSON.stringify(resp));
+				Cache.set(payload.sender.id, JSON.stringify(resp));
 			}
 	});
 	bot.getProfile(payload.sender.id, (err, profile) => {

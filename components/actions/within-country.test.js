@@ -7,11 +7,9 @@ const ReviewChecker = require('../review-checker');
 
 describe('KopiBoy::Components::Actions::WithinCountry', () => {
 	const expectedComponentLocation = path.join(__dirname, './within-country.js');
-	let componentExists = false;
 	let component = null;
 	try {
 		component = require(expectedComponentLocation);
-		componentExists = true;
 	} catch(ex) { }
 	const name = 'name';
 	const image_url = 'image_url';
