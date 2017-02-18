@@ -14,6 +14,20 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         // associations can be defined here
+        
+      }, 
+      getOneWithinBounds: function(latitudeBounds, longitudeBounds) {
+        return this.find({
+					where: {
+						$and: [
+							{ latitude: { $gt: latitudeBounds.lowerLatitude } },
+							{ latitude: { $lt: latitudeBounds.upperLatitude } },
+							{ longitude: { $gt: longitudeBounds.leftLongitude } },
+							{ longitude: { $lt: longitudeBounds.rightLongitude } }
+						]
+					},
+					order: [ sequelize.fn('RAND') ]
+        })
       }
     },
 		hooks: {

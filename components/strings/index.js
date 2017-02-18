@@ -79,8 +79,13 @@ Strings.SUCCESS = {
 
 Strings.FAILURE = {
 	ERROR: [
-		'Oops, something went wrong with our systems and we\'re not quite sure. We\'re terribly sorry.'
-	]
+		'Oops, something went wrong with our systems and we\'re not quite sure. We\'re terribly sorry.', 
+		'Oops, something went wrong with my internals, and my creators have been notified so I\'ll be fixed soon. Apologies for the inconvenience.'
+	], 
+	error: function() {
+		const index = Math.floor(Math.random() * Strings.FAILURE.ERROR.length);
+		return Strings.FAILURE.ERROR[index];
+	}
 };
 
 module.exports = Strings;

@@ -1,3 +1,6 @@
+const Strings = require('../strings');
+const Analytics = require('../analytics');
+
 const UtilityActions = {
 	generateGenericTemplateType: function(elements) {
 		return {
@@ -30,6 +33,21 @@ const UtilityActions = {
 			type: 'web_url',
 			url, title
 		};
+	}, 
+	sendCafe: function(reply, cafe) {
+		reply(WithinProximityAction.generateReply(cafe), (err, info) => {
+			(callback) ? callback(err, info) : ((err, info) => {
+				(err) && UtilityActions.sendErrorMessage(reply, err);
+				console.log(info);
+			})();
+		});
+	},
+	sendErrorMessage: function(reply, err) {
+		console.error(err);
+		reply({
+			text: Strings.FAILURE.error()
+		});
+		Analytics.sendEvent("Err", err.toString(), 0);
 	}
 };
 
