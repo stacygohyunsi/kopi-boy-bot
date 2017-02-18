@@ -76,7 +76,7 @@ const WithinProximityAction = {
 			Strings.GET_DIRECTIONS
 		)));
 		buttons.push(generatePostbackButton(
-			Actions.WITHIN_COUNTRY_RANDOM_REPEAT,
+			Actions.WITHIN_PROXIMITY_RANDOM_REPEAT,
 			Strings.SHOW_ANOTHER
 		));
 
@@ -291,7 +291,29 @@ const WithinProximityAction = {
 		reply(WithinProximityAction.createReply(name), (err, info) => {
 			(callback) ? callback(err, info) : (() => { })();
 		});
-	}
+	}, 
+
+	handleRandomRepeat: (reply, profile, callback) => {
+		(typeof reply !== 'function') && (() => { throw new EvalError('Parameter `reply` is not a valid function.') })();
+		(!profile) && (() => { throw new EvalError('Expected argument `profile` was not found.') })();
+
+		const { dataValues } = res;
+		console.log(dataValues);
+		setTimeout(() => {
+			reply(WithinProximityAction.generateReply(dataValues), (err, info) => {
+				(callback) ? callback(err, info) : (() => {
+					console.log(err);
+					console.log(info);
+				})();
+			});
+		}, 500);		
+
+		// Models.places.find({ order: [ Sequelize.fn('RAND') ] }).then((res) => {
+		// 	reply(WithinProximityAction.generateReply(res.dataValues), (err, info) => {
+		// 		(callback) ? callback(err, info) : (() => { })();
+		// 	});
+		// });
+	}	
 };
 
 module.exports = WithinProximityAction;

@@ -47,7 +47,7 @@ const postbackHandlers = {
 
 	[Actions.WITHIN_COUNTRY_RANDOM]: WithinCountryActions.handleRandom,
 	[Actions.WITHIN_COUNTRY_RANDOM_REPEAT]: WithinCountryActions.handleRandomRepeat,
-
+	[Actions.WITHIN_PROXIMITY_RANDOM_REPEAT]: WithinProximityActions.handleRandomRepeat,
 	[Actions.WITHIN_PROXIMITY_RANDOM]: WithinProximityActions.handleRandom,
 	[Actions.WITHIN_200M_RANDOM]: WithinProximityActions.handle200mRandom,
 	[Actions.WITHIN_500M_RANDOM]: WithinProximityActions.handle500mRandom,
@@ -58,10 +58,12 @@ const postbackHandlers = {
 bot.on('postback', (payload, reply) => {
 	console.log('postback incoming');
 	const action = payload.postback.payload;
+	console.log(action);
 	redisConnect.get(payload.sender.id, function(err, resp) {
 			resp = resp ? JSON.parse(resp) : [];
 			if (Array.isArray(resp)) {
 				resp.push(action);
+				console.log(JSON.stringify(resp));
 				redisConnect.set(payload.sender.id, JSON.stringify(resp));
 			}
 	});

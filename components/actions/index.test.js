@@ -51,4 +51,8 @@ describe('KopiBoy::Components::Actions', () => {
 		expect(component.WITHIN_COUNTRY_RANDOM_REPEAT).to.not.be.undefined;
 	});
 
+	it('contains action to display all cafés within the country again', () => {
+		expect(component.WITHIN_PROXIMITY_RANDOM_REPEAT).to.not.be.undefined;
+	});	
+
 });
