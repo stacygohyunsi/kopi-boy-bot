@@ -30,4 +30,8 @@ Analytics.sendEvent = function(action, label, clientId, callback) {
 	);
 };
 
+Analytics.standardCallback = function(err) {
+	(err) && console.error(err);
+};
+
 module.exports = Analytics;

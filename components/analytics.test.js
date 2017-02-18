@@ -1,13 +1,14 @@
-const { expect } = require('chai');
+const chai = require('chai');
+chai.use(require('sinon-chai'));
+const { expect } = chai;
 const path = require('path');
+const sinon = require('sinon');
 
 describe('KopiBoy::Components::Analytics', () => {
 	const expectedComponentLocation = path.join(process.cwd(), '/components/analytics.js');
-	let componentExists = false;
 	let component = null;
 	try {
 		component = require(expectedComponentLocation);
-		componentExists = true;
 	} catch(ex) { }
 
 	it('is located at the right position', () => {
@@ -16,12 +17,26 @@ describe('KopiBoy::Components::Analytics', () => {
 		}).to.not.throw();
 	});
 
-	it('implements .sendEvent()', () => {
-		expect(component.sendEvent).to.not.be.undefined;
+	it('implements the correct functions', () => {
+		const expectedFunctionList = [
+			'generateFormattedData',
+			'sendEvent',
+			'standardCallback'
+		];
+		expectedFunctionList.forEach(fnName => {
+			expect(Object.keys(component)).to.contain(fnName);
+			expect(component[fnName]).to.be.a('function');
+		});
 	});
 
-	it('implements .generateFormattedData()', () => {
-		expect(component.generateFormattedData).to.not.be.undefined;
+	it('has the correct keys', () => {
+		const expectedKeysList = [
+			'GOOGLE_ANALYTICS_PROPERTY_ID',
+			'GOOGLE_ANALYTICS_URL'
+		];
+		expectedKeysList.forEach(keyName => {
+			expect(Object.keys(component)).to.contain(keyName);
+		});
 	});
 
 	describe('.sendEvent()', () => {
@@ -65,4 +80,14 @@ describe('KopiBoy::Components::Analytics', () => {
 			).to.deep.equal(expected);
 		});
 	});
+
+	describe('.standardCallback()', () => {
+		it('sends the specified error to the error console', () => {
+			sinon.stub(console, 'error');
+			component.standardCallback('expectedString');
+			expect(console.error).to.be.calledOnce;
+			expect(console.error).to.be.calledWith('expectedString');
+			console.error.restore();
+		});
+	})
 });
