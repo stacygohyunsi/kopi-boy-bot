@@ -8,7 +8,7 @@ const express = require('express');
 const path = require('path');
 const Bot = require('messenger-bot');
 
-const Cache = require('./components/cache').get();
+const Cache = require('./components/cache');
 const Actions = require('./components/actions');
 const Utterance = require('./components/utterance');
 
@@ -16,10 +16,10 @@ const CafeRandomActions = require('./components/actions/cafe-random');
 const WithinCountryActions = require('./components/actions/within-country');
 const WithinProximityActions = require('./components/actions/within-proximity');
 const OtherActions = require('./components/actions/other');
-const analytics = require('./components/analytics');
-
+const Analytics = require('./components/analytics');
 const TelegramConfig = require('./config/telegram');
 const Notify = require('./components/notify');
+const Utility = require('./components/actions/utility');
 
 const app = express();
 
@@ -44,7 +44,6 @@ const bot = new Bot(config[process.env.NODE_ENV]);
 
 const postbackHandlers = {
 	[Actions.CAFE_RANDOM]: CafeRandomActions.handle,
-
 	[Actions.WITHIN_COUNTRY_RANDOM]: WithinCountryActions.handleRandom,
 	[Actions.WITHIN_COUNTRY_RANDOM_REPEAT]: WithinCountryActions.handleRandomRepeat,
 	[Actions.WITHIN_PROXIMITY_RANDOM_REPEAT]: WithinProximityActions.handleRandomRepeat,
@@ -56,51 +55,51 @@ const postbackHandlers = {
 };
 
 bot.on('postback', (payload, reply) => {
-	console.log('postback incoming');
+	console.log('|--- bot.on("postback") ---|');
+	const senderFacebookId = payload.sender.id;
 	const action = payload.postback.payload;
-	Cache.get(payload.sender.id, function(err, resp) {
-			resp = resp ? JSON.parse(resp) : [];
-			if (Array.isArray(resp)) {
-				resp.push(action);
-				Cache.set(payload.sender.id, JSON.stringify(resp));
-			}
-	});
-	bot.getProfile(payload.sender.id, (err, profile) => {
+	Cache.setLastAction(senderFacebookId, action);
+	bot.getProfile(senderFacebookId, (err, profile) => {
+		Object.assign(profile, { sender: payload.sender });
 		const label = payload.postback.payload;
 		const handler = postbackHandlers[action];
-		const clientId = payload.sender.id;
-		Object.assign(profile, { sender: payload.sender });
 		handler ? handler(reply, profile) : OtherActions.handleUnknown();
-		analytics.sendEvent(action, label, clientId, function(err) {
-			if (err) { console.log("ERR", err) };
-		});
+		Analytics.sendEvent(action, label, senderFacebookId);
 	});
 });
 
 bot.on('message', (payload, reply) => {
-	console.log("message");
+	console.log('|--- bot.on("message") ---|');
+	const senderFacebookId = payload.sender.id;
 	const isText = (typeof payload.message.text !== 'undefined')
 	const isAttachments = (typeof payload.message.attachments !== 'undefined');
 
-	if(isText) {
-		Utterance.handleText(bot, reply, payload.sender.id);
-	} else if(isAttachments) {
-		bot.getProfile(payload.sender.id, (err, profile) => {
-			if (err) { console.log("ERR", err) };
-			const { attachments } = payload.message;
-			attachments.forEach(attachment => {
-				if(attachment.type === 'location') {
-					const { coordinates } = attachment.payload;
-					Utterance.handleLocation(reply, profile, coordinates, () => {
-						reply('It\'s coming soon!');
-					});
-				}
-			});
-		});
-	}
+	bot.getProfile(senderFacebookId, (err, profile) => {
+		Object.assign(profile, { sender: payload.sender });
+		Cache.setUser(senderFacebookId, profile.first_name);
+		if(isText) {
+			Utterance.handleText(bot, reply, payload.sender.id);
+		} else if(isAttachments) {
+			if(err) {
+				console.error(err);
+				Utility
+			} else {
+				const { attachments } = payload.message;
+				attachments.forEach(attachment => {
+					if(attachment.type === 'location') {
+						const { coordinates } = attachment.payload;
+						Utterance.handleLocation(reply, profile, coordinates, () => {
+							reply('It\'s coming soon!');
+						});
+					}
+				});
+			}
+		}
+	});
 });
 
 bot.on('error', (err) => {
+	console.log('|--- bot.on("error") ---|');
   console.log(err.message);
 });
 

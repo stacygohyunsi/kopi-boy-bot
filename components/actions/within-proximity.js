@@ -184,22 +184,23 @@ const WithinProximityAction = {
 		(!profile) && (() => { throw new EvalError('Required parameter `profile` was not found.'); })();
 
 		const name = profile.first_name;
-		reply({ text: Strings.LOCATION_REQUEST.replace(Strings.KEYS.NAME, name) }, (callback) ? callback : ((err, info) => {
-			if(err) {
-				Analytics.sendEvent(Strings.SYSTEM.error('Actions::WithinProximity::handleLocationRequest'),0,0);
-			}
+		reply({ text: Strings.LOCATION_REQUEST.replace(Strings.KEYS.NAME, name) }, (callback) ? callback : (err => {
+			(err) && Analytics.sendEvent(Strings.SYSTEM.error('Actions::WithinProximity::handleLocationRequest'),0,0);
 		}));
 	},
 
 	handle200mRandom: function(reply, profile, callback) {
+		Cache.setLastDistanceSelection(profile.sender.id, 200);
 		WithinProximityAction.handleLocationRequest(reply, profile, callback);
 	},
 
 	handle500mRandom: function(reply, profile, callback) {
+		Cache.setLastDistanceSelection(profile.sender.id, 500);
 		WithinProximityAction.handleLocationRequest(reply, profile, callback);
 	},
 
 	handle2kmRandom: function(reply, profile, callback) {
+		Cache.setLastDistanceSelection(profile.sender.id, 2048);
 		WithinProximityAction.handleLocationRequest(reply, profile, callback);
 	},
 
@@ -232,7 +233,7 @@ const WithinProximityAction = {
 		reply(WithinProximityAction.createReply(name), (err, info) => {
 			(callback) ? callback(err, info) : (() => { })();
 		});
-	}	
+	}
 };
 
 module.exports = WithinProximityAction;
