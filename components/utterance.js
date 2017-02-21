@@ -52,50 +52,38 @@ const Utterance = {
 		const longitude = coordinates.long;
 
 		Cache.setLastKnownLocation(senderFacebookId, latitude, longitude, (err, info) => {
-
-			/// TODO get distance and proceed with code
-			/// below code needs to be re-done
-			/// distance is not set inside the within-proximity distance handlers
-
-			Cache.get(profile.sender.id + ".actions", function(err, resp) {
-				if (err) {console.log("ERR", err);}
-				const actionsArray = JSON.parse(resp);
-				const locationAction = actionsArray[actionsArray.length - 1];
-
-				Cache.set(profile.sender.id + ".lastLocation", JSON.stringify(coordinates));
-				Cache.set(profile.sender.id + ".locationAction", JSON.stringify(locationAction));
-
-				const proximities = {
-					WITHIN_200M_RANDOM: 200,
-					WITHIN_500M_RANDOM: 500,
-					WITHIN_2KM_RANDOM: 2000
-				}
-				const proximity = proximities[locationAction] ? proximities[locationAction] : null;
-				let latitudeBounds;
-				let longitudeBounds;
-				if (proximity !== null) {
-					latitudeBounds = getLatitudeBounds({ latitude, longitude }, proximity);
-					longitudeBounds = getLongitudeBounds({ latitude, longitude }, proximity);
-				}
-				if (typeof latitudeBounds === 'undefined' || typeof longitudeBounds === 'undefined') {
-					sendErrorMessage(reply, new Error(`Latitude and Longitude not defined for ${profile.sender.id}`));
-				} else {
-					Models.places.getOneWithinBounds(latitudeBounds, longitudeBounds).then((res) => {
-						if(res === null) {
-							reply({	text: 'We couldn\'t find any cafes within your specified location ):' });
-							WithinProximityAction.handleRandom(reply, profile, callback);
-						} else {
-							reply({ text: Strings.SUCCESS.cafeFound(profile.first_name) });
-							sendCafe(reply, res.dataValues);
-						}
-					}).catch(err => {
-						sendErrorMessage(reply, err);
-					});
-				}
-			});
+			Utterance.calculateDistance(reply, profile, latitude, longitude);
 		});
+	}, 
+	calculateDistance: function(reply, profile, latitude, longitude) {
+		Cache.getLastDistanceSelection(profile.sender.id, (err, resp) => {
+			if (err) {console.log(err);}
+			console.log(resp);
+			var proximity = resp;				
+			let latitudeBounds;
+			let longitudeBounds;
+			if (proximity !== null) {
+				latitudeBounds = getLatitudeBounds({ latitude, longitude }, proximity);
+				longitudeBounds = getLongitudeBounds({ latitude, longitude }, proximity);
+			}
+			if (typeof latitudeBounds === 'undefined' || typeof longitudeBounds === 'undefined') {
+				sendErrorMessage(reply, new Error(`Latitude and Longitude not defined for ${profile.sender.id}`));
+			} else {
+				Models.places.getOneWithinBounds(latitudeBounds, longitudeBounds).then((res) => {
+					if(res === null) {
+						reply({	text: 'We couldn\'t find any cafes within your specified location ):' });
+						WithinProximityAction.handleRandom(reply, profile, ()=> {
 
-		
+						});
+					} else {
+						reply({ text: Strings.SUCCESS.cafeFound(profile.first_name) });
+						sendCafe(reply, res.dataValues);
+					}
+				}).catch(err => {
+					sendErrorMessage(reply, err);
+				});
+			}
+		})
 	}
 };
 
