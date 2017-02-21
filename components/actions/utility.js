@@ -1,5 +1,6 @@
 const Strings = require('../strings');
 const Analytics = require('../analytics');
+const WithinProximityAction = require('./within-proximity');
 
 const UtilityActions = {
 	generateGenericTemplateType: function(elements) {
