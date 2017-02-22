@@ -1,10 +1,9 @@
 const provider = require('redis');
 const providerConfig = require('../config/redis');
-const redisConnect = require('../config/redis-connect');
 const analytics = require('./analytics');
 const Strings = require('./strings');
 
-let client = redisConnect();
+let client = null;
 
 const Cache = {
 	KEY_LAST_ACTION: 'lastAction',
@@ -23,7 +22,7 @@ const Cache = {
 		});
 	},
 	getLastDistanceSelection: function(userId, callback) {
-		client.hget("user" + userId, Cache.KEY_LAST_DISTANCE_SELECTION, (err, result) => {
+		client.hget(userId, Cache.KEY_LAST_DISTANCE_SELECTION, (err, result) => {
 			if (err) {console.log("ERR", err)};
 			(callback) && callback(err, result);
 		});
@@ -59,7 +58,7 @@ const Cache = {
 		});
 	},
 	setLastDistanceSelection: function(userId, distance, callback) {
-		client.hmset("user" + userId, Cache.KEY_LAST_DISTANCE_SELECTION, distance, (err, result) => {
+		client.hmset(userId, Cache.KEY_LAST_DISTANCE_SELECTION, distance, (err, result) => {
 			if (err) {console.log("ERR", err)};
 			(callback) && callback(result);
 		});
