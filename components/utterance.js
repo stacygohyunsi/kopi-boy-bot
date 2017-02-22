@@ -52,10 +52,10 @@ const Utterance = {
 		const longitude = coordinates.long;
 
 		Cache.setLastKnownLocation(senderFacebookId, latitude, longitude, (err, info) => {
-			Utterance.calculateDistance(reply, profile, latitude, longitude);
+			Utterance.handleCafeWithDistance(reply, profile, latitude, longitude);
 		});
 	}, 
-	calculateDistance: function(reply, profile, latitude, longitude) {
+	handleCafeWithDistance: function(reply, profile, latitude, longitude) {
 		Cache.getLastDistanceSelection(profile.sender.id, (err, resp) => {
 			if (err) {console.log(err);}
 			console.log(resp);
