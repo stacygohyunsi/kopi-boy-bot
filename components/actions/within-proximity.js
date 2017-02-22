@@ -11,6 +11,8 @@ const ReviewChecker = require('../review-checker');
 const Utterance = require('../utterance');
 const ProximityRandomButtons = require('../buttons/proximity-random');
 
+Cache.get();
+
 const {
 	generateGenericTemplateType,
 	generateListTemplateType,
@@ -242,7 +244,7 @@ const WithinProximityAction = {
 		(!profile) && (() => { throw new EvalError('Required parameter `profile` was not found.'); })();		
 		Cache.getLastKnownLocation(profile.sender.id, (err, info) => {
 			if (err) {console.log('ERR', err);}
-			Utterance.calculateDistance(reply, profile, info.latitude, info.longitude);
+			Utterance.handleCafeWithDistance(reply, profile, info.latitude, info.longitude);
 		});
 	}
 };
