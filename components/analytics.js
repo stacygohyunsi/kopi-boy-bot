@@ -24,8 +24,8 @@ Analytics.sendEvent = function(action, label, clientId, callback) {
 	(arguments.length === 0) && (() => { throw new Error('At least `action` needs to be defined'); })();
 	request.post(
 		Analytics.generateFormattedData(action, label, clientId),
-		function(err, httpResponse, body){
-		(callback) && callback(err, httpResponse);
+		function(err, httpResponse, body) {
+			(callback) && callback(err, httpResponse);
 		}
 	);
 };
