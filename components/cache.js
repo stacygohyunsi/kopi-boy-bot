@@ -36,7 +36,7 @@ const Cache = {
 		const completed = (type) => {
 			return ((err, result) => {
 				lastKnownLocation[type] = result;
-				(--tasks === 0) && (callback) && callback(lastKnownLocation)
+				(--tasks === 0) && (callback) && callback(err, lastKnownLocation)
 			});
 		};
 		client.hget(userId, Cache.KEY_LAST_KNOWN_LATITUDE, completed('latitude'));
@@ -65,7 +65,7 @@ const Cache = {
 	},
 	setLastKnownLocation: function(userId, latitude, longitude, callback) {
 		let tasks = 2;
-		const completed = (err, result) => (--tasks === 0) && (callback) && callback(result);
+		const completed = (err, result) => (--tasks === 0) && (callback) && callback(err, result);
 		client.hset(userId, Cache.KEY_LAST_KNOWN_LATITUDE, latitude, completed);
 		client.hset(userId, Cache.KEY_LAST_KNOWN_LONGITUDE, longitude, completed);
 	},
