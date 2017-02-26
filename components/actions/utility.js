@@ -1,6 +1,5 @@
 const Strings = require('../strings');
 const Analytics = require('../analytics');
-const WithinProximityAction = require('./within-proximity');
 
 const UtilityActions = {
 	generateGenericTemplateType: function(elements) {
@@ -34,13 +33,15 @@ const UtilityActions = {
 			type: 'web_url',
 			url, title
 		};
-	}, 
-	sendCafe: function(reply, cafe) {
-		reply(WithinProximityAction.generateReply(cafe), (err, info) => {
+	},
+	sendCafe: function(reply, cafe, replyGenerator, callback) {
+		console.log(cafe);
+		reply(replyGenerator(cafe), (err, info) => {
 			(callback) ? callback(err, info) : ((err, info) => {
-				(err) && UtilityActions.sendErrorMessage(reply, err);
 				console.log(info);
-			})();
+				console.error(err);
+				(err) && UtilityActions.sendErrorMessage(reply, err);
+			});
 		});
 	},
 	sendErrorMessage: function(reply, err) {
