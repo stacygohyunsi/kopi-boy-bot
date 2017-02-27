@@ -1,7 +1,6 @@
 const Analytics = require('../analytics');
 const ProximityRandomButtons = require('../buttons/proximity-random');
 const Strings = require('../strings');
-const Cache = require('../cache');
 
 const CafeRandomActions = {
 	handle: function(reply, profile, callback) {
