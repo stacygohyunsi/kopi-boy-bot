@@ -1,14 +1,9 @@
-const Sequelize = require('sequelize');
-
 const Analytics = require('../analytics');
 const Cache = require('../cache');
 const Actions = require('./index');
-const Models = require('../../models');
 const Strings = require('../strings');
-const distance = require('../location-calculator');
 const MapOpener = require('../map-opener');
 const ReviewChecker = require('../review-checker');
-const Utterance = require('../utterance');
 const ProximityRandomButtons = require('../buttons/proximity-random');
 
 Cache.get();
@@ -172,7 +167,8 @@ const WithinProximityAction = {
 		};
 	},
 
-	generateReply: (place) => {
+	generateReply: function(place) {
+		(!place) && (() => { throw new EvalError('Required parameter `place` was not found.'); })();
 		const elements = [WithinProximityAction.createBasicInfoElement(place)];
 		(place.opening_hours) && elements.push(WithinProximityAction.createOpeningHoursElement(place));
 		elements.push(WithinProximityAction.createReviewsElement(place));
@@ -193,13 +189,13 @@ const WithinProximityAction = {
 
 	handle200mRandom: function(reply, profile, callback) {
 		Cache.setLastDistanceSelection(profile.sender.id, 200, (err, resp) => {
-			WithinProximityAction.handleLocationRequest(reply, profile, callback);	
+			WithinProximityAction.handleLocationRequest(reply, profile, callback);
 		});
 	},
 
 	handle500mRandom: function(reply, profile, callback) {
 		Cache.setLastDistanceSelection(profile.sender.id, 500, (err, resp) => {
-			WithinProximityAction.handleLocationRequest(reply, profile, callback);	
+			WithinProximityAction.handleLocationRequest(reply, profile, callback);
 		});
 	},
 
@@ -237,14 +233,6 @@ const WithinProximityAction = {
 
 		reply(WithinProximityAction.createReply(name), (err, info) => {
 			(callback) ? callback(err, info) : (() => { })();
-		});
-	}, 
-	handleRandomRepeat: function(reply, profile, callback) {
-		(!reply) && (() => { throw new EvalError('Required parameter `reply` was not found.'); })();
-		(!profile) && (() => { throw new EvalError('Required parameter `profile` was not found.'); })();		
-		Cache.getLastKnownLocation(profile.sender.id, (err, info) => {
-			if (err) {console.log('ERR', err);}
-			Utterance.handleCafeWithDistance(reply, profile, info.latitude, info.longitude);
 		});
 	}
 };
