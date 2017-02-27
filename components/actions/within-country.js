@@ -131,18 +131,6 @@ const ActionWithinCountry = {
 				});
 			}, 1500);
 		});
-	},
-
-	handleRandomRepeat: (reply, profile, callback) => {
-		(typeof reply !== 'function') && (() => { throw new EvalError('Parameter `reply` is not a valid function.') })();
-		(!profile) && (() => { throw new EvalError('Expected argument `profile` was not found.') })();
-
-		const name = profile ? profile.first_name : 'dear user';
-		Models.places.find({ order: [ Sequelize.fn('RAND') ] }).then((res) => {
-			reply(ActionWithinCountry.generateReply(res.dataValues), (err, info) => {
-				(callback) ? callback(err, info) : (() => { })();
-			});
-		});
 	}
 };
 
