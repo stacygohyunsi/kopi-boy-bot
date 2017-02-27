@@ -18,7 +18,7 @@ const Cache = {
 	},
 	getLastAction: function(userId, callback) {
 		client.hget(userId, Cache.KEY_LAST_ACTION, (err, result) => {
-			(callback) && callback(result);
+			(callback) && callback(err, result);
 		});
 	},
 	getLastDistanceSelection: function(userId, callback) {
