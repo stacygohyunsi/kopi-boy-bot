@@ -20,6 +20,9 @@ const Analytics = require('./components/analytics');
 const TelegramConfig = require('./config/telegram');
 const Notify = require('./components/notify');
 const Utility = require('./components/actions/utility');
+const {
+	handleRandomRepeat
+} = require('./components/actions/cafe-random-repeat');
 
 const app = express();
 
@@ -45,8 +48,8 @@ const bot = new Bot(config[process.env.NODE_ENV]);
 const postbackHandlers = {
 	[Actions.CAFE_RANDOM]: CafeRandomActions.handle,
 	[Actions.WITHIN_COUNTRY_RANDOM]: WithinCountryActions.handleRandom,
-	[Actions.WITHIN_COUNTRY_RANDOM_REPEAT]: WithinCountryActions.handleRandomRepeat,
-	[Actions.WITHIN_PROXIMITY_RANDOM_REPEAT]: WithinProximityActions.handleRandomRepeat,
+	[Actions.WITHIN_COUNTRY_RANDOM_REPEAT]: handleRandomRepeat,
+	[Actions.WITHIN_PROXIMITY_RANDOM_REPEAT]: handleRandomRepeat,
 	[Actions.WITHIN_PROXIMITY_RANDOM]: WithinProximityActions.handleRandom,
 	[Actions.WITHIN_200M_RANDOM]: WithinProximityActions.handle200mRandom,
 	[Actions.WITHIN_500M_RANDOM]: WithinProximityActions.handle500mRandom,
@@ -58,7 +61,9 @@ bot.on('postback', (payload, reply) => {
 	console.log('|--- bot.on("postback") ---|');
 	const senderFacebookId = payload.sender.id;
 	const action = payload.postback.payload;
-	Cache.setLastAction(senderFacebookId, action);
+	if (action === Actions.WITHIN_PROXIMITY_RANDOM || action === Actions.WITHIN_COUNTRY_RANDOM) {
+		Cache.setLastAction(senderFacebookId, action);
+	}
 	bot.getProfile(senderFacebookId, (err, profile) => {
 		Object.assign(profile, { sender: payload.sender });
 		const label = payload.postback.payload;
