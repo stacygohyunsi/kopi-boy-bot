@@ -1,10 +1,12 @@
 const Strings = require('./strings');
+const Sequelize = require('sequelize');
 // const analytics = require('./analytics');
 // const WelcomeButtons = require('./buttons/welcome');
 const CafeRandomActions = require('./actions/cafe-random');
 const Cache = require('./cache');
 const Models = require('../models');
 const WithinProximityAction = require('./actions/within-proximity');
+const ActionWithinCountry = require('./actions/within-country');
 
 const {
 	sendCafe,
@@ -52,14 +54,15 @@ const Utterance = {
 		const longitude = coordinates.long;
 
 		Cache.setLastKnownLocation(senderFacebookId, latitude, longitude, (err, info) => {
+			if (err) { console.error("err", err); }
+			console.log(info);
 			Utterance.handleCafeWithDistance(reply, profile, latitude, longitude);
 		});
-	}, 
+	},
 	handleCafeWithDistance: function(reply, profile, latitude, longitude) {
 		Cache.getLastDistanceSelection(profile.sender.id, (err, resp) => {
-			if (err) {console.log(err);}
-			console.log(resp);
-			var proximity = resp;				
+			if (err) { console.log("err", err); }
+			var proximity = resp*1;
 			let latitudeBounds;
 			let longitudeBounds;
 			if (proximity !== null) {
@@ -77,13 +80,27 @@ const Utterance = {
 						});
 					} else {
 						reply({ text: Strings.SUCCESS.cafeFound(profile.first_name) });
-						sendCafe(reply, res.dataValues);
+						sendCafe(reply, res.dataValues, WithinProximityAction.generateReply, (err, info) => {
+							if (err) { console.log("err", err); }
+							console.log(info);
+						});
 					}
 				}).catch(err => {
 					sendErrorMessage(reply, err);
 				});
 			}
 		})
+	},
+	handleCafe: function(reply, callback) {
+		Models.places.find({ order: [ Sequelize.fn('RAND') ] }).then((res) => {
+			if (res === null) {
+				reply({	text: 'We couldn\'t find any cafes within your specified location ):' });
+			} else {
+				reply(ActionWithinCountry.generateReply(res.dataValues), (err, info) => {
+					(callback) ? callback(err, info) : (() => {})();
+				});
+			}
+		});
 	}
 };
 
