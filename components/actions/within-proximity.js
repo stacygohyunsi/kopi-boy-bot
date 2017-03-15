@@ -27,10 +27,6 @@ const WithinProximityAction = {
 		// (!place.contact_number) && (() => { throw new EvalError('Expected property `contact_number` is not defined.' )})();
 
 		const buttons = [];
-		(place.website_url) && (buttons.push(generateWebUrlButton(
-			place.website_url,
-			Strings.VIEW_WEBSITE
-		)));
 		(place.latitude && place.longitude) && (buttons.push(generateWebUrlButton(
 			MapOpener.getUrl(place.latitude, place.longitude).locationFallback,
 			Strings.GET_DIRECTIONS
@@ -39,15 +35,19 @@ const WithinProximityAction = {
 			Actions.WITHIN_PROXIMITY_RANDOM_REPEAT,
 			Strings.SHOW_ANOTHER
 		));
+		buttons.push(generatePostbackButton(
+			Actions.WITHIN_NEVERMIND,
+			Strings.WITHIN_NEVERMIND
+		));
 
 		return {
 			title: place.name,
 			image_url: place.image_url ? place.image_url : null,
 			subtitle: place.address,
-			default_action: {
+			default_action: place.website_url ? {
 				type: 'web_url',
 				url: place.website_url
-			},
+			} : undefined,
 			buttons
 		};
 	},
@@ -56,6 +56,10 @@ const WithinProximityAction = {
 		(!place) && (() => { throw new EvalError('Required parameter `place` could not be found.') })();
 
 		const buttons = [];
+		(place.website_url) && (buttons.push(generateWebUrlButton(
+			place.website_url,
+			Strings.VIEW_WEBSITE
+		)));
 		(place.contact_number) && (buttons.push({
 			type: 'phone_number',
 			payload: place.contact_number,

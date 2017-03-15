@@ -7,15 +7,16 @@ const Cache = require('./cache');
 const Models = require('../models');
 const WithinProximityAction = require('./actions/within-proximity');
 const ActionWithinCountry = require('./actions/within-country');
+const GooglePlaces = require('./actions/google-places');
 
 const {
 	sendCafe,
 	sendErrorMessage
 } = require('./actions/utility');
-const {
-	getLatitudeBounds,
-	getLongitudeBounds
-} = require('./location-calculator');
+// const {
+// 	getLatitudeBounds,
+// 	getLongitudeBounds
+// } = require('./location-calculator');
 
 const Utterance = {
 	handleText: function(bot, reply, senderMessengerId) {
@@ -63,31 +64,34 @@ const Utterance = {
 		Cache.getLastDistanceSelection(profile.sender.id, (err, resp) => {
 			if (err) { console.log("err", err); }
 			var proximity = resp*1;
-			let latitudeBounds;
-			let longitudeBounds;
+			// let latitudeBounds;
+			// let longitudeBounds;
 			if (proximity !== null) {
-				latitudeBounds = getLatitudeBounds({ latitude, longitude }, proximity);
-				longitudeBounds = getLongitudeBounds({ latitude, longitude }, proximity);
-			}
-			if (typeof latitudeBounds === 'undefined' || typeof longitudeBounds === 'undefined') {
-				sendErrorMessage(reply, new Error(`Latitude and Longitude not defined for ${profile.sender.id}`));
-			} else {
-				Models.places.getOneWithinBounds(latitudeBounds, longitudeBounds).then((res) => {
-					if(res === null) {
+				// latitudeBounds = getLatitudeBounds({ latitude, longitude }, proximity);
+				// longitudeBounds = getLongitudeBounds({ latitude, longitude }, proximity);
+			// }
+			// if (typeof latitudeBounds === 'undefined' || typeof longitudeBounds === 'undefined') {
+			// 	sendErrorMessage(reply, new Error(`Latitude and Longitude not defined for ${profile.sender.id}`));
+			// } else {
+
+				GooglePlaces.getPlace(latitude, longitude, proximity, function(place) {
+					if(place === null || typeof place === 'undefined') {
 						reply({	text: 'We couldn\'t find any cafes within your specified location ):' });
 						WithinProximityAction.handleRandom(reply, profile, ()=> {
 
 						});
 					} else {
 						reply({ text: Strings.SUCCESS.cafeFound(profile.first_name) });
-						sendCafe(reply, res.dataValues, WithinProximityAction.generateReply, (err, info) => {
+						sendCafe(reply, place, WithinProximityAction.generateReply, (err, info) => {
 							if (err) { console.log("err", err); }
 							console.log(info);
 						});
 					}
-				}).catch(err => {
-					sendErrorMessage(reply, err);
 				});
+				// Models.places.getOneWithinBounds(latitudeBounds, longitudeBounds).then((res) => {
+				// }).catch(err => {
+				// 	sendErrorMessage(reply, err);
+				// });
 			}
 		})
 	},
@@ -97,6 +101,7 @@ const Utterance = {
 				reply({	text: 'We couldn\'t find any cafes within your specified location ):' });
 			} else {
 				reply(ActionWithinCountry.generateReply(res.dataValues), (err, info) => {
+					if (err) { console.log("err", err); }
 					(callback) ? callback(err, info) : (() => {})();
 				});
 			}

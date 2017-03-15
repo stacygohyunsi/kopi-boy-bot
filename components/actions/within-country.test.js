@@ -42,9 +42,9 @@ describe('KopiBoy::Components::Actions::WithinCountry', () => {
 		expect(component.handleRandom).to.not.be.undefined;
 	});
 
-	it('implements .handleRandomRepeat()', () => {
-		expect(component.handleRandomRepeat).to.not.be.undefined;
-	});
+	// it('implements .handleRandomRepeat()', () => {
+	// 	expect(component.handleRandomRepeat).to.not.be.undefined;
+	// });
 
 	it('implements .createReviewWebsitesButtons()', () => {
 		expect(component.createReviewWebsitesButtons).to.not.be.undefined;
@@ -63,9 +63,9 @@ describe('KopiBoy::Components::Actions::WithinCountry', () => {
 			expect(observed.image_url).to.equal(image_url);
 			expect(observed.subtitle).to.equal(address);
 			expect(observed.default_action.type).to.equal('web_url');
-			expect(observed.default_action.url).to.equal(website_url);
-			expect(observed.buttons[0].url).to.equal(website_url);
-			expect(observed.buttons[1].payload).to.equal(Actions.WITHIN_COUNTRY_RANDOM_REPEAT);
+			expect(observed.default_action.url).to.equal('website_url');
+			expect(observed.buttons[0].url).to.equal(undefined);
+			expect(observed.buttons[1].payload).to.equal(Actions.WITHIN_NEVERMIND);
 		});
 		it('fails when the property `name` is not available', () => {
 			expect(() => {
@@ -165,50 +165,50 @@ describe('KopiBoy::Components::Actions::WithinCountry', () => {
 		});
 	});
 
-	describe('.handleRandomRepeat()', () => {
-		const replySpy = sinon.spy();
-		const replyMock = (payload, callback) => {
-			replySpy(payload);
-			(callback) && callback('err', 'info');
-		};
-		const callback = sinon.spy();
-		const profile = { name: 'profile.name' };
+	// describe('.handleRandomRepeat()', () => {
+	// 	const replySpy = sinon.spy();
+	// 	const replyMock = (payload, callback) => {
+	// 		replySpy(payload);
+	// 		(callback) && callback('err', 'info');
+	// 	};
+	// 	const callback = sinon.spy();
+	// 	const profile = { name: 'profile.name' };
 
-		it('takes in two arguments, `reply` and `profile` and `callback`', () => {
-			expect(() => {
-				component.handleRandomRepeat(() => {}, profile, callback);
-			}).to.not.throw();
-		});
+	// 	it('takes in two arguments, `reply` and `profile` and `callback`', () => {
+	// 		expect(() => {
+	// 			component.handleRandomRepeat(() => {}, profile, callback);
+	// 		}).to.not.throw();
+	// 	});
 
-		it('throws an error if `reply` is not found`', () => {
-			expect(() => {
-				component.handleRandomRepeat(null, profile);
-			}).to.throw(EvalError);
-		});
+	// 	it('throws an error if `reply` is not found`', () => {
+	// 		expect(() => {
+	// 			component.handleRandomRepeat(null, profile);
+	// 		}).to.throw(EvalError);
+	// 	});
 
-		it('throws an error if `profile` is not found`', () => {
-			expect(() => {
-				component.handleRandomRepeat(replyMock, null);
-			}).to.throw(EvalError);
-		});
+	// 	it('throws an error if `profile` is not found`', () => {
+	// 		expect(() => {
+	// 			component.handleRandomRepeat(replyMock, null);
+	// 		}).to.throw(EvalError);
+	// 	});
 
-		it('calls callback after it is done processing', (done) => {
-			component.handleRandomRepeat(replyMock, profile, (err, info) => {
-				expect(err).to.equal('err');
-				expect(info).to.equal('info');
-				done();
-			});
-		});
+	// 	it('calls callback after it is done processing', (done) => {
+	// 		component.handleRandomRepeat(replyMock, profile, (err, info) => {
+	// 			expect(err).to.equal('err');
+	// 			expect(info).to.equal('info');
+	// 			done();
+	// 		});
+	// 	});
 
-		it('calls the supplied `reply` once', (done) => {
-			const preCallReplySpyCallCount  = replySpy.callCount;
-			component.handleRandomRepeat(replyMock, profile, (err, info) => {
-				const postCallReplySpyCallCount  = replySpy.callCount;
-				expect(postCallReplySpyCallCount - preCallReplySpyCallCount).to.equal(1);
-				done();
-			});
-		});
-	});
+	// 	it('calls the supplied `reply` once', (done) => {
+	// 		const preCallReplySpyCallCount  = replySpy.callCount;
+	// 		component.handleRandomRepeat(replyMock, profile, (err, info) => {
+	// 			const postCallReplySpyCallCount  = replySpy.callCount;
+	// 			expect(postCallReplySpyCallCount - preCallReplySpyCallCount).to.equal(1);
+	// 			done();
+	// 		});
+	// 	});
+	// });
 
 	describe('.createReviewWebsitesButtons()', () => {
 		it('throws an error if no arguments are supplied', () => {

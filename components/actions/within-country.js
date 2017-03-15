@@ -24,10 +24,6 @@ const ActionWithinCountry = {
 		// (!place.contact_number) && (() => { throw new EvalError('Expected property `contact_number` is not defined.' )})();
 
 		const buttons = [];
-		(place.website_url) && (buttons.push(generateWebUrlButton(
-			place.website_url,
-			Strings.VIEW_WEBSITE
-		)));
 		(place.latitude && place.longitude) && (buttons.push(generateWebUrlButton(
 			MapOpener.getUrl(place.latitude, place.longitude).locationFallback,
 			Strings.GET_DIRECTIONS
@@ -35,6 +31,10 @@ const ActionWithinCountry = {
 		buttons.push(generatePostbackButton(
 			Actions.WITHIN_COUNTRY_RANDOM_REPEAT,
 			Strings.SHOW_ANOTHER
+		));
+		buttons.push(generatePostbackButton(
+			Actions.WITHIN_NEVERMIND,
+			Strings.WITHIN_NEVERMIND
 		));
 
 		return {
@@ -51,6 +51,10 @@ const ActionWithinCountry = {
 
 	createOpeningHoursElement: (place) => {
 		const buttons = [];
+		(place.website_url) && (buttons.push(generateWebUrlButton(
+			place.website_url,
+			Strings.VIEW_WEBSITE
+		)));
 		(place.contact_number) && (buttons.push({
 			type: 'phone_number',
 			payload: place.contact_number,
