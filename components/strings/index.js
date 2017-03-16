@@ -22,7 +22,7 @@ Strings.CAFE_ADD = 'I found a Café!';
 Strings.CHECKOUT_BURPPLE_REVIEWS = 'Burpple';
 Strings.CHECKOUT_HUNGRYGOWHERE_REVIEWS = 'HungryGoWhere';
 Strings.CHECKOUT_YELP_REVIEWS = 'Yelp';
-Strings.LOCATION_REQUEST = `Awesome, ${Strings.KEYS.NAME}, one more thing, can send me your location/a location you wanna check out?`;
+Strings.LOCATION_REQUEST = `Awesome, ${Strings.KEYS.NAME}, can use the location button below to send me where you are?\n\n(like don't type ah use the button kay - if you on desktop maybe don't have)`;
 Strings.LABEL_OPENING_HOURS = 'Opening Hours';
 Strings.LABEL_OPENING_HOURS_UNAVAILABLE = 'Unavailable. Call/email them for more information!';
 Strings.LABEL_REVIEWS = 'Get a second opinion';
@@ -62,8 +62,10 @@ Strings.SYSTEM = {
 
 Strings.SUCCESS = {
 	CAFE_FOUND: [
-		`Awesome possum, ${Strings.KEYS.NAME}, we've found you a kopi place we think you'll love:`,
-		`Great work, ${Strings.KEYS.NAME}, it was a challenge but we found you a kopi place that sounds great for a day like today:`
+		`Swee la, ${Strings.KEYS.NAME}, check out this one...`,
+		`Steady pom pi pi, ${Strings.KEYS.NAME}, how about this one...`,
+		`Nah, ${Strings.KEYS.NAME}, don't say bojio...`,
+		`Don't share with other people ah, ${Strings.KEYS.NAME}, see this one...`
 	],
 	cafeFound: (nameOfUser) => Strings.SUCCESS.CAFE_FOUND[
 		Math.floor(Math.random() * Strings.SUCCESS.CAFE_FOUND.length - 0.001)
