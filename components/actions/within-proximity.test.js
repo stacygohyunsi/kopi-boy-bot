@@ -437,7 +437,8 @@ describe('KopiBoy::Components::Actions::WithinProximity', () => {
 		it('calls `reply` with the right parameters', () => {
 			component.handleLocationRequest(reply, profile);
 			expect(reply).to.have.been.calledWith({
-				text: Strings.LOCATION_REQUEST.replace(Strings.KEYS.NAME, profile.first_name)
+				text: Strings.LOCATION_REQUEST.replace(Strings.KEYS.NAME, profile.first_name), 
+				quick_replies:[{ "content_type":"location" }]
 			})
 		});
 	});
