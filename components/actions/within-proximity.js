@@ -186,7 +186,9 @@ const WithinProximityAction = {
 		(!profile) && (() => { throw new EvalError('Required parameter `profile` was not found.'); })();
 
 		const name = profile.first_name;
-		reply({ text: Strings.LOCATION_REQUEST.replace(Strings.KEYS.NAME, name) }, (callback) ? callback : (err => {
+		reply({ text: Strings.LOCATION_REQUEST.replace(Strings.KEYS.NAME, name), "quick_replies":[{
+        "content_type":"location",
+      }] }, (callback) ? callback : (err => {
 			(err) && Analytics.sendEvent(Strings.SYSTEM.error('Actions::WithinProximity::handleLocationRequest'),0,0);
 		}));
 	},
