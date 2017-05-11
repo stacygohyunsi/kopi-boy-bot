@@ -1,9 +1,4 @@
 require('newrelic');
-// const apiAiConfig = require('./api.ai.config');
-// const http = require('http');
-// const path = require("path");
-// const superagent = require('superagent');
-// const moment = require('moment');
 const express = require('express');
 const path = require('path');
 const Bot = require('messenger-bot');
@@ -20,6 +15,7 @@ const Analytics = require('./components/analytics');
 const TelegramConfig = require('./config/telegram');
 const Notify = require('./components/notify');
 const Utility = require('./components/actions/utility');
+
 const {
 	handleRandomRepeat
 } = require('./components/actions/cafe-random-repeat');
@@ -40,8 +36,6 @@ const config = {
     app_secret: process.env.facebook_app_secret
   },
 };
-
-// const firebaseDbRef = require('./components/firebase');
 
 const bot = new Bot(config[process.env.NODE_ENV]);
 
@@ -114,17 +108,6 @@ app.use("/_coverage", express.static(path.resolve('./coverage/lcov-report')));
 if (process.env.NODE_ENV === "development") {
 	app.use("/", require("./config/details.js"));
 }
-
-/** ADMIN INTERFACE */
-// app.use("/bower_components",express.static("bower_components")); // Shared libraries
-// app.use("/resources",express.static("resources")); // Shared libraries
-
-/** API */
-// app.use("/api", require("./api"));
-// app.use("/",express.static("display"));
-// app.get(['/','/*', '/**'], function(req, res) {
-//   res.sendFile(path.join(__dirname, '/display/index.html'));
-// });
 
 (TelegramConfig.notificationBotToken && TelegramConfig.chatId) && (() => {
 	const message = `Good day, commanders. KopiBoy has just started in \`${process.env.NODE_ENV}\` environment.`;

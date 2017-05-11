@@ -1,7 +1,7 @@
 {
   "name": "bot-kopiboy",
   "version": "1.0.0",
-  "description": "A bot which allows advanced ordering from Messenger",
+  "description": "A bot which allows you to see the cafes around you from Messenger",
   "main": "server.js",
   "engines": {
     "node": "=6.9.4"
@@ -40,7 +40,6 @@
     "csvtojson": "^1.1.3",
     "eslint": "^3.15.0",
     "express": "^4.14.0",
-    "firebase": "^3.6.3",
     "haversine": "^1.0.2",
     "istanbul": "^0.4.5",
     "messenger-bot": "^2.4.0",

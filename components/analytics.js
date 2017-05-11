@@ -2,7 +2,7 @@ const request = require("request");
 
 const Analytics = {};
 Analytics.GOOGLE_ANALYTICS_URL = 'http://www.google-analytics.com/collect';
-Analytics.GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-74732860-10';
+Analytics.GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-XXXXXXX-XX';
 
 Analytics.generateFormattedData = function(action, label, clientId) {
 	(arguments.length === 0) && (() => { throw new Error('At least `action` needs to be defined'); })();
